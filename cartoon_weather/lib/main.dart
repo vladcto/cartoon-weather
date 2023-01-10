@@ -1,4 +1,5 @@
 import 'package:cartoon_weather/main_page_separator.dart';
+import 'package:cartoon_weather/small_weather_card.dart';
 import 'package:flutter/material.dart';
 import 'main_weather_card.dart';
 
@@ -20,8 +21,8 @@ class HomePage extends StatelessWidget {
     ),
     textTheme: TextTheme(
         labelLarge: const TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w800,
+          fontSize: 23,
+          fontWeight: FontWeight.w700,
           color: Colors.black,
         ),
         labelMedium: TextStyle(
@@ -29,11 +30,19 @@ class HomePage extends StatelessWidget {
           fontWeight: FontWeight.w900,
           foreground: Paint()
             ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.2
+            ..strokeWidth = 1.3
             ..strokeJoin = StrokeJoin.round
             ..color = Color.fromARGB(255, 30, 30, 30),
         )),
   );
+
+  static const List<Widget> smallBroadcastsTest = [
+    SmallWeatherCard("12 Sep", "21/17 C"),
+    SmallWeatherCard("13 Sep", "20/16 C"),
+    SmallWeatherCard("14 Sep", "17/14 C"),
+    SmallWeatherCard("15 Sep", "15/10 C"),
+    SmallWeatherCard("16 Sep", "18/16 C"),
+  ];
 
   const HomePage({super.key});
 
@@ -55,16 +64,31 @@ class HomePage extends StatelessWidget {
         ),
         elevation: 8,
       ),
-      body: Container(
-        margin: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            _buildLocationPicker(context),
-            const MainWeatherCard(),
-            const MainPageSeparator("Hello"),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: Column(
+              children: [
+                _buildLocationPicker(context),
+                const MainWeatherCard(),
+                const MainPageSeparator("Next Days"),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 156,
+            child: ListView.separated(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              clipBehavior: Clip.none,
+              itemCount: smallBroadcastsTest.length,
+              itemBuilder: (context, index) => smallBroadcastsTest[index],
+              separatorBuilder: (context, index) => const SizedBox(width: 16),
+              scrollDirection: Axis.horizontal,
+            ),
+          )
+        ],
       ),
     );
   }

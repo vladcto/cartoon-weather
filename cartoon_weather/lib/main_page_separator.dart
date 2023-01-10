@@ -24,14 +24,14 @@ class MainPageSeparator extends StatelessWidget {
   Widget buildSeparatorLine(BuildContext context) {
     return Flexible(
       child: Container(
-        height: 6,
-        margin: const EdgeInsets.symmetric(horizontal: 8),
+        height: 5,
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(10000),
           border: Border.all(
             color: Colors.black,
-            width: 2,
+            width: 1.5,
             strokeAlign: BorderSide.strokeAlignOutside,
           ),
         ),
