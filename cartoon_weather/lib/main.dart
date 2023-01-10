@@ -114,11 +114,14 @@ class HomePage extends StatelessWidget {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
-              child: Text(
-                "Saint-Petersburg",
-                overflow: TextOverflow.visible,
-                style: nowTheme.textTheme.labelLarge,
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Center(
+                child: Text(
+                  "Saint-Petersburg",
+                  overflow: TextOverflow.visible,
+                  style: nowTheme.textTheme.labelLarge,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ),
