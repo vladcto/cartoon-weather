@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/detail_page.dart';
 import 'package:cartoon_weather/main_page_separator.dart';
 import 'package:cartoon_weather/small_weather_card.dart';
 import 'package:flutter/material.dart';
@@ -5,10 +6,12 @@ import 'main_weather_card.dart';
 
 void main() {
   runApp(MaterialApp(
+    routes: {
+      "/": (context) => const HomePage(),
+      "/detail_report": (_) => const DetailPage(),
+    },
+    initialRoute: "/",
     theme: HomePage.lightTheme,
-    home: const Scaffold(
-      body: HomePage(),
-    ),
   ));
 }
 
@@ -87,7 +90,11 @@ class HomePage extends StatelessWidget {
               separatorBuilder: (context, index) => const SizedBox(width: 16),
               scrollDirection: Axis.horizontal,
             ),
-          )
+          ),
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: MainPageSeparator("Rain"),
+          ),
         ],
       ),
     );
