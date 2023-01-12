@@ -3,6 +3,7 @@ import 'package:cartoon_weather/main_page_separator.dart';
 import 'package:cartoon_weather/small_weather_card.dart';
 import 'package:flutter/material.dart';
 import 'main_weather_card.dart';
+import 'package:charts_painter/chart.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -92,9 +93,20 @@ class HomePage extends StatelessWidget {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(8),
             child: MainPageSeparator("Rain"),
           ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 48,
+                left: 48,
+                bottom: 32,
+              ),
+              child: _buildWeatherChart(context),
+            ),
+          ),
+          _buildBottomBar(context),
         ],
       ),
     );
@@ -133,6 +145,136 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildWeatherChart(BuildContext context) {
+    return Chart(
+      state: ChartState<void>(
+        data: ChartData(
+          [
+            [
+              ChartItem(1),
+              ChartItem(2),
+              ChartItem(8),
+              ChartItem(45),
+              ChartItem(95),
+              ChartItem(60),
+              ChartItem(35),
+              ChartItem(2),
+              ChartItem(0),
+              ChartItem(0),
+              ChartItem(1),
+              ChartItem(4),
+            ],
+          ],
+        ),
+        itemOptions: BarItemOptions(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 4,
+          ),
+          barItemBuilder: (data) => BarItem(
+            color: Theme.of(context).colorScheme.primary,
+            radius: BorderRadius.circular(4),
+            border: const BorderSide(
+              color: Colors.black,
+              width: 1.5,
+            ),
+          ),
+        ),
+        foregroundDecorations: [
+          HorizontalAxisDecoration(
+            showValues: true,
+            showTopValue: true,
+            axisValue: (value) => "$value %",
+            legendPosition: HorizontalLegendPosition.start,
+            legendFontStyle: const TextStyle(
+              color: Colors.black,
+              fontSize: 10,
+            ),
+            axisStep: 20,
+            dashArray: [8, 2],
+          ),
+          WidgetDecoration(
+            widgetDecorationBuilder:
+                (context, chartState, itemWidth, verticalMultiplier) {
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned(
+                    left: 4,
+                    right: 0,
+                    bottom: -8,
+                    child: Container(
+                      height: 2,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Positioned(
+                    left: -8,
+                    top: 0,
+                    bottom: 0,
+                    child: Container(
+                      width: 2,
+                      color: Colors.black,
+                    ),
+                  )
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomBar(BuildContext context) {
+    return SizedBox(
+      height: 48,
+      child: Positioned(
+        child: Container(
+          height: 156,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              color: Colors.black,
+              width: 2,
+            ),
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(24),
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                offset: Offset(0, -6),
+                blurRadius: 6,
+              ),
+            ],
+          ),
+          child: Stack(
+            alignment: Alignment.topCenter,
+            fit: StackFit.expand,
+            children: [
+              Positioned(
+                top: 16,
+                child: Container(
+                  width: 128,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondary,
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(10000),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
