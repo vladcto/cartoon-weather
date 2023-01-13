@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/bottom_bar.dart';
 import 'package:cartoon_weather/detail_page.dart';
 import 'package:cartoon_weather/main_page_separator.dart';
 import 'package:cartoon_weather/small_weather_card.dart';
@@ -106,16 +107,21 @@ class HomePage extends StatelessWidget {
               child: MainPageSeparator("Rain"),
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  right: 48,
-                  left: 48,
-                  bottom: 32,
-                ),
-                child: _buildWeatherChart(context),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      right: 48,
+                      left: 48,
+                      bottom: 32 + 44,
+                    ),
+                    child: _buildWeatherChart(context),
+                  ),
+                  const BottomBar(),
+                ],
               ),
             ),
-            _buildBottomBar(context),
           ],
         ),
       ),
@@ -244,54 +250,6 @@ class HomePage extends StatelessWidget {
             },
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildBottomBar(BuildContext context) {
-    return SizedBox(
-      height: 48,
-      child: Container(
-        height: 156,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.black,
-            width: 2,
-          ),
-          borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(24),
-          ),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              offset: Offset(0, -6),
-              blurRadius: 6,
-            ),
-          ],
-        ),
-        child: Stack(
-          alignment: Alignment.topCenter,
-          fit: StackFit.expand,
-          children: [
-            Positioned(
-              top: 16,
-              child: Container(
-                width: 128,
-                height: 16,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 2,
-                  ),
-                  borderRadius: BorderRadius.circular(10000),
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
