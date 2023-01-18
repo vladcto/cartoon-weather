@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/theme_images.dart';
 import 'package:flutter/material.dart';
 
 class SmallWeatherCard extends StatelessWidget {
@@ -6,6 +7,7 @@ class SmallWeatherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeImages themeImages = Theme.of(context).extension<ThemeImages>()!;
     return SizedBox(
       width: 112,
       child: Column(
@@ -80,6 +82,7 @@ class SmallWeatherCard extends StatelessWidget {
             width: double.infinity,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
+              image: themeImages.backgroundPrimaryImage,
               borderRadius: BorderRadius.circular(100),
               border: Border.all(
                 color: Colors.black,

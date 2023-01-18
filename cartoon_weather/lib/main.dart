@@ -2,6 +2,7 @@ import 'package:cartoon_weather/bottom_bar.dart';
 import 'package:cartoon_weather/detail_page.dart';
 import 'package:cartoon_weather/main_page_separator.dart';
 import 'package:cartoon_weather/small_weather_card.dart';
+import 'package:cartoon_weather/theme_images.dart';
 import 'package:flutter/material.dart';
 import 'main_weather_card.dart';
 import 'package:charts_painter/chart.dart';
@@ -19,12 +20,12 @@ void main() {
 
 class HomePage extends StatelessWidget {
   static ThemeData lightTheme = ThemeData(
-    colorScheme: const ColorScheme.light(
-      primary: Color.fromARGB(255, 82, 222, 154),
-      onPrimary: Colors.black,
-      secondary: Color.fromARGB(255, 255, 217, 80),
-    ),
-    textTheme: TextTheme(
+      colorScheme: const ColorScheme.light(
+        primary: Color.fromARGB(255, 82, 222, 154),
+        onPrimary: Colors.black,
+        secondary: Color.fromARGB(255, 255, 217, 80),
+      ),
+      textTheme: TextTheme(
         labelLarge: const TextStyle(
           fontSize: 23,
           fontWeight: FontWeight.w700,
@@ -38,8 +39,11 @@ class HomePage extends StatelessWidget {
             ..strokeWidth = 1.3
             ..strokeJoin = StrokeJoin.round
             ..color = Color.fromARGB(255, 30, 30, 30),
-        )),
-  );
+        ),
+      ),
+      extensions: const [
+        ThemeImages.basic,
+      ]);
 
   static const List<Widget> smallBroadcastsTest = [
     SmallWeatherCard("12 Sep", "21/17 C"),
@@ -53,6 +57,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeImages themeImages = Theme.of(context).extension<ThemeImages>()!;
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -73,12 +78,7 @@ class HomePage extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: const AssetImage("assets/images/background.jpg"),
-                fit: BoxFit.fill,
-                colorFilter: ColorFilter.matrix(blackWhiteColorMatrix),
-                opacity: 0.15,
-              ),
+              image: themeImages.backgroundMenuImage,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,

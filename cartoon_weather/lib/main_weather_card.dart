@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/theme_images.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 
@@ -6,6 +7,7 @@ class MainWeatherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeImages themeImages = Theme.of(context).extension<ThemeImages>()!;
     return SizedBox(
       height: 200,
       child: GestureDetector(
@@ -71,6 +73,7 @@ class MainWeatherCard extends StatelessWidget {
                 height: double.infinity,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary,
+                  image: themeImages.backgroundPrimaryImage,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(0),

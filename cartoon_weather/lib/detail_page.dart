@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/theme_images.dart';
 import 'package:flutter/material.dart';
 
 class DetailPage extends StatelessWidget {
@@ -5,7 +6,9 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeImages themeImages = Theme.of(context).extension<ThemeImages>()!;
     var curTheme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -57,6 +60,7 @@ class DetailPage extends StatelessWidget {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: curTheme.colorScheme.primary,
+                        image: themeImages.backgroundPrimaryImage,
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(32),
                         ),
