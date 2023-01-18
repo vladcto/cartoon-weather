@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/bottom_bar.dart';
 import 'package:cartoon_weather/detail_page.dart';
 import 'package:cartoon_weather/main_page_separator.dart';
 import 'package:cartoon_weather/small_weather_card.dart';
@@ -68,56 +69,63 @@ class HomePage extends StatelessWidget {
         ),
         elevation: 8,
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/background.jpg"),
-            fit: BoxFit.fill,
-            colorFilter: ColorFilter.matrix(blackWhiteColorMatrix),
-            opacity: 0.15,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              child: Column(
-                children: [
-                  _buildLocationPicker(context),
-                  const MainWeatherCard(),
-                  const MainPageSeparator("Next Days"),
-                ],
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: const AssetImage("assets/images/background.jpg"),
+                fit: BoxFit.fill,
+                colorFilter: ColorFilter.matrix(blackWhiteColorMatrix),
+                opacity: 0.15,
               ),
             ),
-            SizedBox(
-              height: 156,
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                clipBehavior: Clip.none,
-                itemCount: smallBroadcastsTest.length,
-                itemBuilder: (context, index) => smallBroadcastsTest[index],
-                separatorBuilder: (context, index) => const SizedBox(width: 16),
-                scrollDirection: Axis.horizontal,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8),
-              child: MainPageSeparator("Rain"),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  right: 48,
-                  left: 48,
-                  bottom: 32,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  child: Column(
+                    children: [
+                      _buildLocationPicker(context),
+                      const MainWeatherCard(),
+                      const MainPageSeparator("Next Days"),
+                    ],
+                  ),
                 ),
-                child: _buildWeatherChart(context),
-              ),
+                SizedBox(
+                  height: 156,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    clipBehavior: Clip.none,
+                    itemCount: smallBroadcastsTest.length,
+                    itemBuilder: (context, index) => smallBroadcastsTest[index],
+                    separatorBuilder: (context, index) => const SizedBox(width: 16),
+                    scrollDirection: Axis.horizontal,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: MainPageSeparator("Rain"),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      right: 48,
+                      left: 48,
+                      bottom: 64,
+                      top: 0,
+                    ),
+                    child: _buildWeatherChart(context),
+                  ),
+                ),
+              ],
             ),
-            _buildBottomBar(context),
-          ],
-        ),
+          ),
+          const BottomBar(
+            child: Center(child: Text("Bottom Bar Container")),
+          ),
+        ],
       ),
     );
   }
@@ -134,7 +142,6 @@ class HomePage extends StatelessWidget {
   Widget _buildLocationPicker(BuildContext context) {
     var nowTheme = Theme.of(context);
     return SizedBox(
-      height: 36,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -170,6 +177,7 @@ class HomePage extends StatelessWidget {
 
   Widget _buildWeatherChart(BuildContext context) {
     return Chart(
+      height: 15,
       state: ChartState<void>(
         data: ChartData(
           [
@@ -244,54 +252,6 @@ class HomePage extends StatelessWidget {
             },
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildBottomBar(BuildContext context) {
-    return SizedBox(
-      height: 48,
-      child: Container(
-        height: 156,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.black,
-            width: 2,
-          ),
-          borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(24),
-          ),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              offset: Offset(0, -6),
-              blurRadius: 6,
-            ),
-          ],
-        ),
-        child: Stack(
-          alignment: Alignment.topCenter,
-          fit: StackFit.expand,
-          children: [
-            Positioned(
-              top: 16,
-              child: Container(
-                width: 128,
-                height: 16,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 2,
-                  ),
-                  borderRadius: BorderRadius.circular(10000),
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
