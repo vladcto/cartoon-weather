@@ -122,7 +122,9 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          const BottomBar(),
+          const BottomBar(
+            child: Center(child: Text("Bottom Bar Container")),
+          ),
         ],
       ),
     );

@@ -2,8 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatefulWidget {
-  const BottomBar({Key? key}) : super(key: key);
-
+  final Widget child;
+  const BottomBar({required this.child, Key? key}) : super(key: key);
   @override
   _BottomBarState createState() => _BottomBarState();
 }
@@ -76,6 +76,13 @@ class _BottomBarState extends State<BottomBar> {
                         ),
                       ),
                     ),
+                  ),
+                  Positioned(
+                    top: sliderSize,
+                    bottom: 0,
+                    right: 0,
+                    left: 0,
+                    child: widget.child,
                   ),
                 ],
               ),
