@@ -14,8 +14,13 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     const double barHeight = 256;
+    const double barStroke = 2;
+    const double sliderHeight = 16;
+    const double topSliderMargin = 16;
+    const double sliderSize = sliderHeight + topSliderMargin * 2;
+
     return Positioned(
-      bottom: -_bottom - barHeight + 46,
+      bottom: _bottom - barHeight + sliderSize,
       right: 0,
       left: 0,
       child: SizedBox(
@@ -32,7 +37,7 @@ class _BottomBarState extends State<BottomBar> {
                 color: Colors.white,
                 border: Border.all(
                   color: Colors.black,
-                  width: 2,
+                  width: barStroke,
                 ),
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(24),
@@ -50,16 +55,17 @@ class _BottomBarState extends State<BottomBar> {
                 fit: StackFit.expand,
                 children: [
                   Positioned(
-                    top: 16,
+                    top: topSliderMargin,
                     child: GestureDetector(
                       onPanUpdate: (details) {
-                        _bottom += details.delta.dy;
-                        _bottom = max(-barHeight + 48, min(0, _bottom));
+                        _bottom -= details.delta.dy;
+                        _bottom =
+                            min(barHeight - sliderSize - barStroke, max(0, _bottom));
                         setState(() {});
                       },
                       child: Container(
                         width: 128,
-                        height: 16,
+                        height: sliderHeight,
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.secondary,
                           border: Border.all(
