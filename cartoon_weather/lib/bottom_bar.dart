@@ -9,21 +9,23 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
-  double _top = 0;
+  double _bottom = 0;
 
   @override
   Widget build(BuildContext context) {
-    const double barHeight = 200;
-    return SizedBox(
-      height: barHeight,
-      width: double.infinity,
-      child: Stack(
-        clipBehavior: Clip.none,
-        fit: StackFit.expand,
-        children: [
-          Positioned(
-            top: _top + barHeight - 36,
-            child: Container(
+    const double barHeight = 256;
+    return Positioned(
+      bottom: -_bottom - barHeight + 46,
+      right: 0,
+      left: 0,
+      child: SizedBox(
+        height: barHeight,
+        width: double.infinity,
+        child: Stack(
+          clipBehavior: Clip.none,
+          fit: StackFit.expand,
+          children: [
+            Container(
               height: barHeight,
               width: 400,
               decoration: BoxDecoration(
@@ -51,8 +53,8 @@ class _BottomBarState extends State<BottomBar> {
                     top: 16,
                     child: GestureDetector(
                       onPanUpdate: (details) {
-                        _top += details.delta.dy;
-                        _top = max(-barHeight + 46, min(0, _top));
+                        _bottom += details.delta.dy;
+                        _bottom = max(-barHeight + 48, min(0, _bottom));
                         setState(() {});
                       },
                       child: Container(
@@ -72,8 +74,8 @@ class _BottomBarState extends State<BottomBar> {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

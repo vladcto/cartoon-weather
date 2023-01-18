@@ -69,61 +69,61 @@ class HomePage extends StatelessWidget {
         ),
         elevation: 8,
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/background.jpg"),
-            fit: BoxFit.fill,
-            colorFilter: ColorFilter.matrix(blackWhiteColorMatrix),
-            opacity: 0.15,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              child: Column(
-                children: [
-                  _buildLocationPicker(context),
-                  const MainWeatherCard(),
-                  const MainPageSeparator("Next Days"),
-                ],
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: const AssetImage("assets/images/background.jpg"),
+                fit: BoxFit.fill,
+                colorFilter: ColorFilter.matrix(blackWhiteColorMatrix),
+                opacity: 0.15,
               ),
             ),
-            SizedBox(
-              height: 156,
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                clipBehavior: Clip.none,
-                itemCount: smallBroadcastsTest.length,
-                itemBuilder: (context, index) => smallBroadcastsTest[index],
-                separatorBuilder: (context, index) => const SizedBox(width: 16),
-                scrollDirection: Axis.horizontal,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8),
-              child: MainPageSeparator("Rain"),
-            ),
-            Expanded(
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Padding(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  child: Column(
+                    children: [
+                      _buildLocationPicker(context),
+                      const MainWeatherCard(),
+                      const MainPageSeparator("Next Days"),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 156,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    clipBehavior: Clip.none,
+                    itemCount: smallBroadcastsTest.length,
+                    itemBuilder: (context, index) => smallBroadcastsTest[index],
+                    separatorBuilder: (context, index) => const SizedBox(width: 16),
+                    scrollDirection: Axis.horizontal,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: MainPageSeparator("Rain"),
+                ),
+                Expanded(
+                  child: Padding(
                     padding: const EdgeInsets.only(
                       right: 48,
                       left: 48,
-                      bottom: 32 + 44,
+                      bottom: 64,
+                      top: 0,
                     ),
                     child: _buildWeatherChart(context),
                   ),
-                  const BottomBar(),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          const BottomBar(),
+        ],
       ),
     );
   }
@@ -140,7 +140,6 @@ class HomePage extends StatelessWidget {
   Widget _buildLocationPicker(BuildContext context) {
     var nowTheme = Theme.of(context);
     return SizedBox(
-      height: 36,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -176,6 +175,7 @@ class HomePage extends StatelessWidget {
 
   Widget _buildWeatherChart(BuildContext context) {
     return Chart(
+      height: 15,
       state: ChartState<void>(
         data: ChartData(
           [
