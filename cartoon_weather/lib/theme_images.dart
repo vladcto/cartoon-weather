@@ -31,7 +31,7 @@ class ThemeImages extends ThemeExtension<ThemeImages> {
 
   @override
   ThemeExtension<ThemeImages> lerp(
-      covariant ThemeExtension<ThemeImages>? other, double t) {
+      covariant ThemeExtension<ThemeImages>? other, double t) { 
     // TODO: implement lerp
     throw UnimplementedError();
   }
