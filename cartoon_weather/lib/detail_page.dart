@@ -62,8 +62,11 @@ class DetailPage extends StatelessWidget {
                             _buildSunriseWidget(Icons.wb_sunny, "12:36 PM", true),
                             const SizedBox(width: 8),
                             Expanded(
-                              child: CustomPaint(
-                                painter: ArrowPainer(),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 16),
+                                child: CustomPaint(
+                                  painter: ArrowPainer(),
+                                ),
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -188,6 +191,13 @@ class DetailPage extends StatelessWidget {
                 iconData,
                 color: Colors.black,
                 size: 40,
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withOpacity(0.2),
+                    offset: const Offset(0, 4),
+                    blurRadius: 8,
+                  )
+                ],
               ),
               Text(
                 sunrise ? "sunrise" : "sunset",
@@ -214,15 +224,21 @@ class ArrowPainer extends CustomPainter {
       ..strokeWidth = 4
       ..strokeCap = StrokeCap.round;
 
-    canvas.drawLine(Offset(0, height / 2), Offset(widgth, height / 2), paint);
     canvas.drawLine(
-        Offset(widgth, height / 2),
-        Offset(widgth * arrowWidthPerc, height / 2 + height * arrowHeightPerc),
-        paint);
+      Offset(0, height / 2),
+      Offset(widgth, height / 2),
+      paint,
+    );
     canvas.drawLine(
-        Offset(widgth, height / 2),
-        Offset(widgth * arrowWidthPerc, height / 2 - height * arrowHeightPerc),
-        paint);
+      Offset(widgth, height / 2),
+      Offset(widgth * arrowWidthPerc, height / 2 + height * arrowHeightPerc),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(widgth, height / 2),
+      Offset(widgth * arrowWidthPerc, height / 2 - height * arrowHeightPerc),
+      paint,
+    );
   }
 
   @override
