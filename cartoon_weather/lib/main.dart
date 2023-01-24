@@ -130,15 +130,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  List<double> get blackWhiteColorMatrix {
-    const double exposure = 150;
-    List<double> R = [0.21, 0.71, 0.06, 0, exposure];
-    List<double> G = [0.21, 0.71, 0.06, 0, exposure];
-    List<double> B = [0.21, 0.71, 0.06, 0, exposure];
-    List<double> A = [0, 0, 0, 1, 0];
-    return [...R, ...G, ...B, ...A];
-  }
-
   Widget _buildLocationPicker(BuildContext context) {
     var nowTheme = Theme.of(context);
     return SizedBox(

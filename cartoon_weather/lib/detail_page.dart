@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/temp_day_card.dart';
 import 'package:cartoon_weather/theme_images.dart';
 import 'package:flutter/material.dart';
 
@@ -47,6 +48,7 @@ class DetailPage extends StatelessWidget {
                   ),
                 ),
                 child: SingleChildScrollView(
+                  //main content
                   child: Column(
                     children: [
                       const SizedBox(
@@ -72,6 +74,23 @@ class DetailPage extends StatelessWidget {
                             const SizedBox(width: 8),
                             _buildSunriseWidget(Icons.dark_mode, "06:18 AM", false),
                             const SizedBox(width: 32),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 196,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: const [
+                            SizedBox(width: 16),
+                            TempDayCard("Morning"),
+                            SizedBox(width: 16),
+                            TempDayCard("Day"),
+                            SizedBox(width: 16),
+                            TempDayCard("Evening"),
+                            SizedBox(width: 16),
+                            TempDayCard("Night"),
+                            SizedBox(width: 16),
                           ],
                         ),
                       )
