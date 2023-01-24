@@ -28,12 +28,14 @@ class HomePage extends StatelessWidget {
       textTheme: TextTheme(
         labelLarge: const TextStyle(
           fontSize: 23,
+          fontFamily: "Inter",
           fontWeight: FontWeight.w700,
           color: Colors.black,
         ),
         labelMedium: TextStyle(
           fontSize: 22,
           fontWeight: FontWeight.w900,
+          fontFamily: "Inter",
           foreground: Paint()
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1.3

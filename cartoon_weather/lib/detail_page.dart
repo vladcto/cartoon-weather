@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/line_info_card.dart';
 import 'package:cartoon_weather/temp_day_card.dart';
 import 'package:cartoon_weather/theme_images.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +94,26 @@ class DetailPage extends StatelessWidget {
                             SizedBox(width: 16),
                           ],
                         ),
-                      )
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: LineInfoCard(
+                          text: "Mainly Cloudy",
+                          subtext: "rain%",
+                          icon: Icons.ramen_dining,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 148,
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: LineInfoCard(
+                            text: "124 lbs",
+                            subtext: "pressure",
+                            icon: Icons.scale_rounded,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
