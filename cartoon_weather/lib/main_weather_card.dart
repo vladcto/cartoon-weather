@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/custom_app_icons_icons.dart';
 import 'package:cartoon_weather/theme_images.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
@@ -41,17 +42,17 @@ class MainWeatherCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: const [
                             CardInfoDisplay(
-                              Icons.thermostat_outlined,
+                              CustomAppIcons.thermometer,
                               "21/18 C",
                               subText: "temperature",
                             ),
                             CardInfoDisplay(
-                              Icons.wind_power_outlined,
+                              CustomAppIcons.wind,
                               "4 m/s",
                               subText: "wind speed",
                             ),
                             CardInfoDisplay(
-                              Icons.scale_rounded,
+                              CustomAppIcons.pressure,
                               "142 lbs",
                               subText: "pressure",
                             ),
@@ -131,8 +132,9 @@ class CardInfoDisplay extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Icon(icon),
+            Icon(icon, size: 32),
             Text(
               mainText,
               style: Theme.of(context).textTheme.labelMedium,

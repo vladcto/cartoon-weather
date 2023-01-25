@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/custom_app_icons_icons.dart';
 import 'package:cartoon_weather/line_info_card.dart';
 import 'package:cartoon_weather/temp_day_card.dart';
 import 'package:cartoon_weather/theme_images.dart';
@@ -34,26 +35,27 @@ class DetailPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Stack(
+          fit: StackFit.expand,
           children: [
-            Hero(
-              tag: "main_card/deprecated",
-              child: Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: curTheme.colorScheme.secondary,
-                  borderRadius: BorderRadius.circular(32),
-                  border: Border.all(
-                    color: Colors.black,
-                    width: cardBorderWidth,
+            Positioned.fill(
+              child: Hero(
+                tag: "main_card/deprecated",
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: curTheme.colorScheme.secondary,
+                    borderRadius: BorderRadius.circular(32),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: cardBorderWidth,
+                    ),
                   ),
-                ),
-                child: SingleChildScrollView(
-                  //main content
+                  // * main content
                   child: Column(
                     children: [
                       const SizedBox(
-                        height: headerHeight + 8,
+                        height: headerHeight,
                       ),
                       SizedBox(
                         height: 64,
@@ -62,7 +64,7 @@ class DetailPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const SizedBox(width: 32),
-                            _buildSunriseWidget(Icons.wb_sunny, "12:36 PM", true),
+                            _buildSunriseWidget("12:36 PM", true),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Padding(
@@ -73,11 +75,12 @@ class DetailPage extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 8),
-                            _buildSunriseWidget(Icons.dark_mode, "06:18 AM", false),
+                            _buildSunriseWidget("06:18 AM", false),
                             const SizedBox(width: 32),
                           ],
                         ),
                       ),
+                      // List of temp cards
                       SizedBox(
                         height: 196,
                         child: ListView(
@@ -95,22 +98,51 @@ class DetailPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: LineInfoCard(
-                          text: "Mainly Cloudy",
-                          subtext: "rain%",
-                          icon: Icons.ramen_dining,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 148,
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: LineInfoCard(
-                            text: "124 lbs",
-                            subtext: "pressure",
-                            icon: Icons.scale_rounded,
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                          child: Column(
+                            children: [
+                              Flexible(
+                                flex: 2,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: const [
+                                          LineInfoCard(
+                                              text: "1",
+                                              subtext: "2",
+                                              icon: CustomAppIcons.rain),
+                                          LineInfoCard(
+                                              text: "1",
+                                              subtext: "2",
+                                              icon: CustomAppIcons.rain),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(16),
+                                        child: Container(
+                                          width: double.infinity,
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Flexible(
+                                child: LineInfoCard(
+                                  text: "Hello",
+                                  subtext: "SubHello",
+                                  icon: CustomAppIcons.cloudy,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -119,53 +151,56 @@ class DetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: headerHeight,
-              child: Stack(
-                children: [
-                  Hero(
-                    tag: "main_card/green",
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(cardBorderWidth),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 4,
-                        horizontal: 32,
-                      ),
-                      height: double.infinity,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: curTheme.colorScheme.primary,
-                        image: themeImages.backgroundPrimaryImage,
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(32 - cardBorderWidth),
+            Positioned(
+              top: 0,
+              right: 0,
+              left: 0,
+              child: SizedBox(
+                height: headerHeight,
+                child: Stack(
+                  children: [
+                    Hero(
+                      tag: "main_card/green",
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        margin: const EdgeInsets.all(cardBorderWidth),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                          horizontal: 32,
                         ),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black54,
-                            offset: Offset(0, 4),
-                            spreadRadius: 1,
-                            blurRadius: 4,
+                        decoration: BoxDecoration(
+                          color: curTheme.colorScheme.primary,
+                          image: themeImages.backgroundPrimaryImage,
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(32 - cardBorderWidth),
                           ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.sunny, size: 84, color: Colors.black),
-                          const SizedBox(height: 4),
-                          Text(
-                            "Sunny",
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium!
-                                .copyWith(fontSize: 22),
-                          ),
-                        ],
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black54,
+                              offset: Offset(0, 4),
+                              spreadRadius: 1,
+                              blurRadius: 4,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.sunny, size: 84, color: Colors.black),
+                            const SizedBox(height: 4),
+                            Text(
+                              "Sunny",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(fontSize: 22),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Positioned(
@@ -206,7 +241,7 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSunriseWidget(IconData iconData, String text, bool sunrise) {
+  Widget _buildSunriseWidget(String text, bool sunrise) {
     return SizedBox(
       width: 96,
       height: 64,
@@ -227,7 +262,7 @@ class DetailPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                iconData,
+                sunrise ? CustomAppIcons.sunrise : CustomAppIcons.sunset,
                 color: Colors.black,
                 size: 40,
                 shadows: [

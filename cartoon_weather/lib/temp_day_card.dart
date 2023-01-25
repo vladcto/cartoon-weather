@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/custom_app_icons_icons.dart';
 import 'package:flutter/material.dart';
 
 class TempDayCard extends StatelessWidget {
@@ -57,11 +58,11 @@ class TempDayCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                _buildIconLabel("21 C", Icons.device_thermostat_outlined, context),
+                _buildIconLabel("21 C", CustomAppIcons.thermometer, context),
                 const SizedBox(height: 8),
                 const Text("feels like"),
                 const SizedBox(height: 4),
-                _buildIconLabel("17 C", Icons.thermostat_outlined, context),
+                _buildIconLabel("17 C", CustomAppIcons.thermometer, context),
               ],
             ),
           )
