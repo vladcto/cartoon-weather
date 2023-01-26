@@ -115,13 +115,13 @@ class DetailPage extends StatelessWidget {
                                             MainAxisAlignment.spaceEvenly,
                                         children: const [
                                           LineInfoCard(
-                                              text: "1",
-                                              subtext: "2",
+                                              text: "45%",
+                                              subtext: "rain %",
                                               icon: CustomAppIcons.rain),
                                           LineInfoCard(
-                                              text: "1",
-                                              subtext: "2",
-                                              icon: CustomAppIcons.rain),
+                                              text: "123 lbs",
+                                              subtext: "pressure",
+                                              icon: CustomAppIcons.pressure),
                                         ],
                                       ),
                                     ),
@@ -134,8 +134,8 @@ class DetailPage extends StatelessWidget {
                               ),
                               const Flexible(
                                 child: LineInfoCard(
-                                  text: "Hello",
-                                  subtext: "SubHello",
+                                  text: "Mainly Cloudy",
+                                  subtext: "clouds",
                                   icon: CustomAppIcons.cloudy,
                                 ),
                               ),

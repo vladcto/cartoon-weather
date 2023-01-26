@@ -29,7 +29,7 @@ class LineInfoCard extends StatelessWidget {
             boxShadow: const [
               BoxShadow(
                 color: Colors.black26,
-                offset: Offset(0, 4),
+                offset: Offset(0, 6),
                 blurRadius: 4,
               )
             ],
