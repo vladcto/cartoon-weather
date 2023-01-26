@@ -3,6 +3,7 @@ import 'package:cartoon_weather/line_info_card.dart';
 import 'package:cartoon_weather/temp_day_card.dart';
 import 'package:cartoon_weather/theme_images.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class DetailPage extends StatelessWidget {
   static const double cardBorderWidth = 4;
@@ -13,7 +14,7 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeImages themeImages = Theme.of(context).extension<ThemeImages>()!;
-    var curTheme = Theme.of(context);
+    var theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +45,7 @@ class DetailPage extends StatelessWidget {
                   height: double.infinity,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: curTheme.colorScheme.secondary,
+                    color: theme.colorScheme.secondary,
                     borderRadius: BorderRadius.circular(32),
                     border: Border.all(
                       color: Colors.black,
@@ -98,6 +99,7 @@ class DetailPage extends StatelessWidget {
                           ],
                         ),
                       ),
+                      // ? - Должен быть способ сделать это поменьше
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
@@ -124,18 +126,13 @@ class DetailPage extends StatelessWidget {
                                       ),
                                     ),
                                     Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsets.all(16),
-                                        child: Container(
-                                          width: double.infinity,
-                                          color: Colors.green,
-                                        ),
-                                      ),
+                                      child:
+                                          _buildWindRoseWidget("12 m/s", 134, theme),
                                     ),
                                   ],
                                 ),
                               ),
-                              Flexible(
+                              const Flexible(
                                 child: LineInfoCard(
                                   text: "Hello",
                                   subtext: "SubHello",
@@ -169,7 +166,7 @@ class DetailPage extends StatelessWidget {
                           horizontal: 32,
                         ),
                         decoration: BoxDecoration(
-                          color: curTheme.colorScheme.primary,
+                          color: theme.colorScheme.primary,
                           image: themeImages.backgroundPrimaryImage,
                           borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(32 - cardBorderWidth),
@@ -278,6 +275,92 @@ class DetailPage extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Card that display wind speed and direction in compas-like style
+  Widget _buildWindRoseWidget(String speed, double direction, ThemeData theme) {
+    const double strokeWeatherCardWidth = 2;
+
+    double N = cos(pi / 180 * direction);
+    double E = sin(pi / 180 * direction);
+    String ns = N.abs() >= (0.5) ? (N.sign == 1 ? "N" : "S") : "";
+    String ew = E.abs() >= (0.5) ? (E.sign == 1 ? "E" : "W") : "";
+    int directionAngle = direction.round();
+    String directionForm = "$ns$ew, $directionAngle";
+
+    return Container(
+      height: double.infinity,
+      margin: const EdgeInsets.fromLTRB(
+          strokeWeatherCardWidth + 16, 8, strokeWeatherCardWidth + 16, 24),
+      clipBehavior: Clip.hardEdge,
+      width: 128,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+            color: Colors.black,
+            width: strokeWeatherCardWidth,
+            strokeAlign: BorderSide.strokeAlignOutside),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            offset: Offset(0, 4),
+            blurRadius: 2,
+          )
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          // * Header
+          Container(
+            height: 32,
+            width: double.infinity,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary,
+              border: const Border(
+                bottom:
+                    BorderSide(color: Colors.black, width: strokeWeatherCardWidth),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(CustomAppIcons.wind),
+                Text(
+                  "Wind",
+                  style: theme.textTheme.labelLarge!.copyWith(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+          // * Body
+          Expanded(
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset("assets/images/wind_rose.png"),
+                Center(
+                  child: Text(
+                    speed,
+                    style:
+                        const TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(4, 0, 4, 4),
+            child: Text(
+              directionForm,
+              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
+            ),
           ),
         ],
       ),
