@@ -1,4 +1,4 @@
-import 'package:cartoon_weather/custom_app_icons_icons.dart';
+import 'package:cartoon_weather/themes/custom_app_icons.dart';
 import 'package:flutter/material.dart';
 
 class TempDayCard extends StatelessWidget {

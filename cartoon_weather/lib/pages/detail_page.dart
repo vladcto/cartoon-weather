@@ -1,7 +1,7 @@
-import 'package:cartoon_weather/custom_app_icons_icons.dart';
-import 'package:cartoon_weather/line_info_card.dart';
-import 'package:cartoon_weather/temp_day_card.dart';
-import 'package:cartoon_weather/theme_images.dart';
+import 'package:cartoon_weather/themes/custom_app_icons.dart';
+import 'package:cartoon_weather/widgets/line_info_card.dart';
+import 'package:cartoon_weather/widgets/temp_day_card.dart';
+import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 

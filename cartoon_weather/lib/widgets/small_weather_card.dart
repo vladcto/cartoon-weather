@@ -1,4 +1,4 @@
-import 'package:cartoon_weather/theme_images.dart';
+import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
 
 class SmallWeatherCard extends StatelessWidget {
