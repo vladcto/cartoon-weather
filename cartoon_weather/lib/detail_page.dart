@@ -127,7 +127,7 @@ class DetailPage extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child:
-                                          _buildWindRoseWidget("12 m/s", 134, theme),
+                                          _buildWindRoseWidget("12 m/s", 312, theme),
                                     ),
                                   ],
                                 ),
@@ -287,10 +287,10 @@ class DetailPage extends StatelessWidget {
 
     double N = cos(pi / 180 * direction);
     double E = sin(pi / 180 * direction);
-    String ns = N.abs() >= (0.5) ? (N.sign == 1 ? "N" : "S") : "";
-    String ew = E.abs() >= (0.5) ? (E.sign == 1 ? "E" : "W") : "";
+    String ns = N.abs() >= (.38) ? (N.sign == 1 ? "N" : "S") : "";
+    String ew = E.abs() >= (.38) ? (E.sign == 1 ? "E" : "W") : "";
     int directionAngle = direction.round();
-    String directionForm = "$ns$ew, $directionAngle";
+    String directionForm = "$ns$ew, $directionAngle°";
 
     return Container(
       height: double.infinity,
@@ -308,7 +308,7 @@ class DetailPage extends StatelessWidget {
         boxShadow: const [
           BoxShadow(
             color: Colors.black26,
-            offset: Offset(0, 4),
+            offset: Offset(0, 6),
             blurRadius: 2,
           )
         ],
@@ -345,6 +345,9 @@ class DetailPage extends StatelessWidget {
               fit: StackFit.expand,
               children: [
                 Image.asset("assets/images/wind_rose.png"),
+                Transform.rotate(
+                    angle: direction * pi / 180,
+                    child: Image.asset("assets/images/wind_rose_arrow.png")),
                 Center(
                   child: Text(
                     speed,
