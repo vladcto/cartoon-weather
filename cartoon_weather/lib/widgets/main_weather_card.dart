@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/pages/detail_page.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
 import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class MainWeatherCard extends StatelessWidget {
       height: 200,
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed("/detail_report");
+          Navigator.of(context).pushNamed(DetailPage.routeName);
         },
         child: Stack(
           alignment: Alignment.centerLeft,
