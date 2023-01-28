@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
 import 'detail_page.dart';
 import 'main_page.dart';
@@ -32,24 +33,29 @@ class HomePage extends StatelessWidget {
         ),
         elevation: 8,
       ),
-      body: Navigator(
-        initialRoute: MainPage.routeName,
-        onGenerateRoute: (settings) {
-          late Widget page;
-          switch (settings.name) {
-            case MainPage.routeName:
-              page = const MainPage();
-              break;
-            case DetailPage.routeName:
-              page = const DetailPage();
-              break;
-            default:
-              throw Exception("Route $settings didnt exsists.");
-          }
-          return MaterialPageRoute(
-            builder: (context) => page,
-          );
-        },
+      body: Container(
+        decoration: BoxDecoration(
+          image: Theme.of(context).extension<ThemeImages>()!.backgroundMenuImage,
+        ),
+        child: Navigator(
+          initialRoute: MainPage.routeName,
+          onGenerateRoute: (settings) {
+            late Widget page;
+            switch (settings.name) {
+              case MainPage.routeName:
+                page = const MainPage();
+                break;
+              case DetailPage.routeName:
+                page = const DetailPage();
+                break;
+              default:
+                throw Exception("Route $settings didnt exsists.");
+            }
+            return MaterialPageRoute(
+              builder: (context) => page,
+            );
+          },
+        ),
       ),
     );
   }
