@@ -1,20 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cartoon_weather/models/temperature_weather.dart';
+import 'package:cartoon_weather/models/weather_forecast.dart';
+import 'package:cartoon_weather/models/weather_temperature.dart';
 import 'package:cartoon_weather/models/weather_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  // Weather Model tests: encode -> decode equality
   WeatherModel weatherModel = const WeatherModel(
       time: 12,
-      sunrise: 12,
-      sunset: 12,
-      dailyWeather: TemperatureWeather(
-        temp: 296.76,
-        tempFeelsLike: 296.98,
-        tempMax: 297.87,
-        tempMin: 296.76,
+      temp: WeatherTemperature(
+        average: 296.76,
+        feelsLike: 296.98,
+        max: 297.87,
+        min: 296.76,
       ),
       pressure: 12,
       windSpeed: 12,
@@ -23,18 +23,16 @@ void main() {
       rainPropability: null,
       weatherModel: "Rain");
 
+  // Weather Model tests: decode equality test
   String jsonApiExample =
       File("test/assets/json_tests/weather_api_response.json").readAsStringSync();
-
   WeatherModel jsonModelExample = const WeatherModel(
       time: 1661871600,
-      sunrise: 1661834187,
-      sunset: 1661882248,
-      dailyWeather: TemperatureWeather(
-        temp: 296.76,
-        tempFeelsLike: 296.98,
-        tempMax: 297.87,
-        tempMin: 296.76,
+      temp: WeatherTemperature(
+        average: 296.76,
+        feelsLike: 296.98,
+        max: 297.87,
+        min: 296.76,
       ),
       pressure: 1015,
       windSpeed: 0.62,
@@ -43,17 +41,39 @@ void main() {
       rainPropability: [0.32],
       weatherModel: "Rain");
 
+  // Weather forecast: encode -> decode equality
+  String weatherForecastJson =
+      File("test/assets/json_tests/weather_api_response_full.json")
+          .readAsStringSync();
+  WeatherForecast weatherForecast =
+      WeatherForecast.fromApiJson(jsonDecode(weatherForecastJson));
+
   group(
-    "Encode and decode test:",
+    "Json Encode and decode test:",
     () {
-      test(
-        "encode -> decode equality",
-        () => expect(WeatherModel.fromJson(weatherModel.toJson()), weatherModel),
+      group(
+        "Weather Model tests:",
+        () {
+          test(
+            "encode -> decode equality",
+            () => expect(WeatherModel.fromJson(weatherModel.toJson()), weatherModel),
+          );
+          test(
+            "decode equality",
+            () => expect(
+                WeatherModel.fromApiJson(jsonDecode(jsonApiExample)["list"][0]),
+                jsonModelExample),
+          );
+        },
       );
-      test(
-        "decode equality",
-        () => expect(
-            WeatherModel.fromApiJson(jsonDecode(jsonApiExample)), jsonModelExample),
+      group(
+        "Weather forecast:",
+        () {
+          test(
+              "encode -> decode equality",
+              () => expect(WeatherForecast.fromJson(weatherForecast.toJson()),
+                  weatherForecast));
+        },
       );
     },
   );

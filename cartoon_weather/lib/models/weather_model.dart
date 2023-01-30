@@ -1,10 +1,10 @@
-import 'dart:convert';
+import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'temperature_weather.dart';
+import 'weather_temperature.dart';
 
 part 'weather_model.g.dart';
 
@@ -12,9 +12,7 @@ part 'weather_model.g.dart';
 @immutable
 class WeatherModel extends Equatable {
   final int time;
-  final int sunrise;
-  final int sunset;
-  final TemperatureWeather dailyWeather;
+  final WeatherTemperature temp;
   final int pressure;
   final double windSpeed;
   final int windDegrees;
@@ -24,9 +22,7 @@ class WeatherModel extends Equatable {
 
   const WeatherModel(
       {required this.time,
-      required this.sunrise,
-      required this.sunset,
-      required this.dailyWeather,
+      required this.temp,
       required this.pressure,
       required this.windSpeed,
       required this.windDegrees,
@@ -40,55 +36,42 @@ class WeatherModel extends Equatable {
 
   factory WeatherModel.fromApiJson(Map<String, dynamic> jsonApi) {
     final int time;
-    final int sunrise;
-    final int sunset;
-    final TemperatureWeather dailyWeather;
+    final WeatherTemperature temp;
     final int pressure;
     final double windSpeed;
     final int windDegrees;
     final int cloudy;
     final List<double>? rainPropability;
     final String weatherModel;
-    // list object json
+
+    time = jsonApi["dt"];
+    // main object json
     {
-      List<dynamic> lists = (jsonApi["list"]);
-      Map<String, dynamic> list = lists[0];
-      time = list["dt"];
-      // main object json
-      {
-        Map<String, dynamic> main = list["main"];
-        pressure = main["pressure"];
-        dailyWeather = TemperatureWeather.fromJson(main);
-      }
-      // weather object json
-      {
-        Map<String, dynamic> weather = list["weather"][0];
-        weatherModel = weather["main"];
-      }
-      // wind object json
-      {
-        Map<String, dynamic> wind = list["wind"];
-        windSpeed = wind["speed"];
-        windDegrees = wind["deg"];
-      }
-      // clouds object json
-      {
-        Map<String, dynamic> clouds = list["clouds"];
-        cloudy = clouds["all"];
-      }
-      rainPropability = [list["pop"]];
+      Map<String, dynamic> main = jsonApi["main"];
+      pressure = main["pressure"];
+      temp = WeatherTemperature.fromJson(main);
     }
-    // city object json
+    // weather object json
     {
-      Map<String, dynamic> city = jsonApi["city"];
-      sunrise = city["sunrise"];
-      sunset = city["sunset"];
+      Map<String, dynamic> weather = jsonApi["weather"][0];
+      weatherModel = weather["main"];
     }
+    // wind object json
+    {
+      Map<String, dynamic> wind = jsonApi["wind"];
+      windSpeed = (wind["speed"] as num).toDouble();
+      windDegrees = wind["deg"];
+    }
+    // clouds object json
+    {
+      Map<String, dynamic> clouds = jsonApi["clouds"];
+      cloudy = clouds["all"];
+    }
+    rainPropability = [(jsonApi["pop"] as num).toDouble()];
+
     return WeatherModel(
         time: time,
-        sunrise: sunrise,
-        sunset: sunset,
-        dailyWeather: dailyWeather,
+        temp: temp,
         pressure: pressure,
         windSpeed: windSpeed,
         windDegrees: windDegrees,
@@ -97,12 +80,22 @@ class WeatherModel extends Equatable {
         weatherModel: weatherModel);
   }
 
+  WeatherModel merge(WeatherModel other) {
+    return WeatherModel(
+        time: time,
+        temp: temp.merge(other.temp),
+        pressure: (pressure + other.pressure) ~/ 2,
+        windSpeed: (windSpeed + other.windDegrees) / 2,
+        windDegrees: (windDegrees + other.windDegrees) ~/ 2,
+        cloudy: (cloudy + other.cloudy) ~/ 2,
+        rainPropability: [...?rainPropability, ...?other.rainPropability],
+        weatherModel: weatherModel);
+  }
+
   @override
   List<Object?> get props => [
         time,
-        sunrise,
-        sunset,
-        dailyWeather,
+        temp,
         pressure,
         windSpeed,
         windDegrees,

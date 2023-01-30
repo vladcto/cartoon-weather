@@ -8,10 +8,7 @@ part of 'weather_model.dart';
 
 WeatherModel _$WeatherModelFromJson(Map<String, dynamic> json) => WeatherModel(
       time: json['time'] as int,
-      sunrise: json['sunrise'] as int,
-      sunset: json['sunset'] as int,
-      dailyWeather: TemperatureWeather.fromJson(
-          json['dailyWeather'] as Map<String, dynamic>),
+      temp: WeatherTemperature.fromJson(json['temp'] as Map<String, dynamic>),
       pressure: json['pressure'] as int,
       windSpeed: (json['windSpeed'] as num).toDouble(),
       windDegrees: json['windDegrees'] as int,
@@ -25,9 +22,7 @@ WeatherModel _$WeatherModelFromJson(Map<String, dynamic> json) => WeatherModel(
 Map<String, dynamic> _$WeatherModelToJson(WeatherModel instance) =>
     <String, dynamic>{
       'time': instance.time,
-      'sunrise': instance.sunrise,
-      'sunset': instance.sunset,
-      'dailyWeather': instance.dailyWeather.toJson(),
+      'temp': instance.temp.toJson(),
       'pressure': instance.pressure,
       'windSpeed': instance.windSpeed,
       'windDegrees': instance.windDegrees,
