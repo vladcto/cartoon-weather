@@ -1,33 +1,22 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'temperature_weather.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class TemperatureWeather extends Equatable {
-  double morning;
-  double morningFeelsLike;
-  double day;
-  double dayFeelsLike;
-  double evening;
-  double eveningFeelsLike;
-  double night;
-  double nightFeelsLike;
-  double min;
-  double max;
+  final double temp;
+  @JsonKey(name: 'feels_like')
+  final double tempFeelsLike;
+  final double tempMax;
+  final double tempMin;
 
-  TemperatureWeather(
-      this.morning,
-      this.morningFeelsLike,
-      this.day,
-      this.dayFeelsLike,
-      this.evening,
-      this.eveningFeelsLike,
-      this.night,
-      this.nightFeelsLike,
-      this.min,
-      this.max);
+  const TemperatureWeather({
+    required this.temp,
+    required this.tempFeelsLike,
+    required this.tempMax,
+    required this.tempMin,
+  });
 
   factory TemperatureWeather.fromJson(Map<String, dynamic> json) =>
       _$TemperatureWeatherFromJson(json);
@@ -35,15 +24,9 @@ class TemperatureWeather extends Equatable {
 
   @override
   List<Object?> get props => [
-        morning,
-        morningFeelsLike,
-        day,
-        dayFeelsLike,
-        evening,
-        eveningFeelsLike,
-        night,
-        nightFeelsLike,
-        min,
-        max
+        temp,
+        tempFeelsLike,
+        tempMax,
+        tempMin,
       ];
 }

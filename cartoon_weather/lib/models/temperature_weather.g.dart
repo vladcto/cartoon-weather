@@ -8,28 +8,16 @@ part of 'temperature_weather.dart';
 
 TemperatureWeather _$TemperatureWeatherFromJson(Map<String, dynamic> json) =>
     TemperatureWeather(
-      (json['morning'] as num).toDouble(),
-      (json['morningFeelsLike'] as num).toDouble(),
-      (json['day'] as num).toDouble(),
-      (json['dayFeelsLike'] as num).toDouble(),
-      (json['evening'] as num).toDouble(),
-      (json['eveningFeelsLike'] as num).toDouble(),
-      (json['night'] as num).toDouble(),
-      (json['nightFeelsLike'] as num).toDouble(),
-      (json['min'] as num).toDouble(),
-      (json['max'] as num).toDouble(),
+      temp: (json['temp'] as num).toDouble(),
+      tempFeelsLike: (json['feels_like'] as num).toDouble(),
+      tempMax: (json['temp_max'] as num).toDouble(),
+      tempMin: (json['temp_min'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$TemperatureWeatherToJson(TemperatureWeather instance) =>
     <String, dynamic>{
-      'morning': instance.morning,
-      'morningFeelsLike': instance.morningFeelsLike,
-      'day': instance.day,
-      'dayFeelsLike': instance.dayFeelsLike,
-      'evening': instance.evening,
-      'eveningFeelsLike': instance.eveningFeelsLike,
-      'night': instance.night,
-      'nightFeelsLike': instance.nightFeelsLike,
-      'min': instance.min,
-      'max': instance.max,
+      'temp': instance.temp,
+      'feels_like': instance.tempFeelsLike,
+      'temp_max': instance.tempMax,
+      'temp_min': instance.tempMin,
     };

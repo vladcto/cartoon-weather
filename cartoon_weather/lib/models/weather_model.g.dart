@@ -7,19 +7,19 @@ part of 'weather_model.dart';
 // **************************************************************************
 
 WeatherModel _$WeatherModelFromJson(Map<String, dynamic> json) => WeatherModel(
-      (json['time'] as num).toDouble(),
-      (json['sunrise'] as num).toDouble(),
-      (json['sunset'] as num).toDouble(),
-      TemperatureWeather.fromJson(json['dailyWeather'] as Map<String, dynamic>),
-      (json['pressure'] as num).toDouble(),
-      (json['humidity'] as num).toDouble(),
-      (json['windSpeed'] as num).toDouble(),
-      (json['windDegrees'] as num).toDouble(),
-      (json['cloudy'] as num).toDouble(),
-      (json['rainPropability'] as List<dynamic>?)
+      time: json['time'] as int,
+      sunrise: json['sunrise'] as int,
+      sunset: json['sunset'] as int,
+      dailyWeather: TemperatureWeather.fromJson(
+          json['dailyWeather'] as Map<String, dynamic>),
+      pressure: json['pressure'] as int,
+      windSpeed: (json['windSpeed'] as num).toDouble(),
+      windDegrees: json['windDegrees'] as int,
+      cloudy: json['cloudy'] as int,
+      rainPropability: (json['rainPropability'] as List<dynamic>?)
           ?.map((e) => (e as num).toDouble())
           .toList(),
-      json['weatherMode'] as String,
+      weatherModel: json['weatherModel'] as String,
     );
 
 Map<String, dynamic> _$WeatherModelToJson(WeatherModel instance) =>
@@ -29,10 +29,9 @@ Map<String, dynamic> _$WeatherModelToJson(WeatherModel instance) =>
       'sunset': instance.sunset,
       'dailyWeather': instance.dailyWeather.toJson(),
       'pressure': instance.pressure,
-      'humidity': instance.humidity,
       'windSpeed': instance.windSpeed,
       'windDegrees': instance.windDegrees,
       'cloudy': instance.cloudy,
       'rainPropability': instance.rainPropability,
-      'weatherMode': instance.weatherMode,
+      'weatherModel': instance.weatherModel,
     };

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -9,34 +11,91 @@ part 'weather_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class WeatherModel extends Equatable {
-  final double time;
-  final double sunrise;
-  final double sunset;
+  final int time;
+  final int sunrise;
+  final int sunset;
   final TemperatureWeather dailyWeather;
-  final double pressure;
-  final double humidity;
+  final int pressure;
   final double windSpeed;
-  final double windDegrees;
-  final double cloudy;
+  final int windDegrees;
+  final int cloudy;
   final List<double>? rainPropability;
-  final String weatherMode;
+  final String weatherModel;
 
   const WeatherModel(
-      this.time,
-      this.sunrise,
-      this.sunset,
-      this.dailyWeather,
-      this.pressure,
-      this.humidity,
-      this.windSpeed,
-      this.windDegrees,
-      this.cloudy,
-      this.rainPropability,
-      this.weatherMode);
+      {required this.time,
+      required this.sunrise,
+      required this.sunset,
+      required this.dailyWeather,
+      required this.pressure,
+      required this.windSpeed,
+      required this.windDegrees,
+      required this.cloudy,
+      required this.rainPropability,
+      required this.weatherModel});
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) =>
       _$WeatherModelFromJson(json);
   Map<String, dynamic> toJson() => _$WeatherModelToJson(this);
+
+  factory WeatherModel.fromApiJson(Map<String, dynamic> jsonApi) {
+    final int time;
+    final int sunrise;
+    final int sunset;
+    final TemperatureWeather dailyWeather;
+    final int pressure;
+    final double windSpeed;
+    final int windDegrees;
+    final int cloudy;
+    final List<double>? rainPropability;
+    final String weatherModel;
+    // list object json
+    {
+      List<dynamic> lists = (jsonApi["list"]);
+      Map<String, dynamic> list = lists[0];
+      time = list["dt"];
+      // main object json
+      {
+        Map<String, dynamic> main = list["main"];
+        pressure = main["pressure"];
+        dailyWeather = TemperatureWeather.fromJson(main);
+      }
+      // weather object json
+      {
+        Map<String, dynamic> weather = list["weather"][0];
+        weatherModel = weather["main"];
+      }
+      // wind object json
+      {
+        Map<String, dynamic> wind = list["wind"];
+        windSpeed = wind["speed"];
+        windDegrees = wind["deg"];
+      }
+      // clouds object json
+      {
+        Map<String, dynamic> clouds = list["clouds"];
+        cloudy = clouds["all"];
+      }
+      rainPropability = [list["pop"]];
+    }
+    // city object json
+    {
+      Map<String, dynamic> city = jsonApi["city"];
+      sunrise = city["sunrise"];
+      sunset = city["sunset"];
+    }
+    return WeatherModel(
+        time: time,
+        sunrise: sunrise,
+        sunset: sunset,
+        dailyWeather: dailyWeather,
+        pressure: pressure,
+        windSpeed: windSpeed,
+        windDegrees: windDegrees,
+        cloudy: cloudy,
+        rainPropability: rainPropability,
+        weatherModel: weatherModel);
+  }
 
   @override
   List<Object?> get props => [
@@ -45,11 +104,10 @@ class WeatherModel extends Equatable {
         sunset,
         dailyWeather,
         pressure,
-        humidity,
         windSpeed,
         windDegrees,
         cloudy,
         rainPropability,
-        weatherMode
+        weatherModel
       ];
 }
