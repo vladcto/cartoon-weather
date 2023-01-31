@@ -14,11 +14,14 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
-  charts_painter: 3.0.0
-  shared_preferences: ^2.0.17
   json_annotation: ^4.8.0
   equatable: ^2.0.5
+  http: ^0.13.5
+  flutter_native_splash: ^2.2.17
+  cupertino_icons: ^1.0.2
+  charts_painter: ^3.0.0
+  shared_preferences: ^2.0.17
+  flutter_riverpod: ^2.1.3
 
 dev_dependencies:
   flutter_test:
