@@ -1,5 +1,7 @@
+import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:charts_painter/chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../themes/theme_images.dart';
 import '../widgets/bottom_bar.dart';
 import '../widgets/main_page_separator.dart';
@@ -36,7 +38,13 @@ class MainPage extends StatelessWidget {
                 child: Column(
                   children: [
                     _buildLocationPicker(context),
-                    const MainWeatherCard(),
+                    Consumer(
+                      builder:
+                          (BuildContext context, WidgetRef ref, Widget? child) =>
+                              MainWeatherCard(
+                        ref.watch(forecastProvider).dailyForecast[0],
+                      ),
+                    ),
                     const MainPageSeparator("Next Days"),
                   ],
                 ),

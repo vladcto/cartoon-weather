@@ -1,5 +1,8 @@
+import 'package:cartoon_weather/models/weather_daily_forecast.dart';
+import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'detail_page.dart';
 import 'main_page.dart';
 
@@ -46,7 +49,7 @@ class HomePage extends StatelessWidget {
                 page = const MainPage();
                 break;
               case DetailPage.routeName:
-                page = const DetailPage();
+                page = DetailPage(settings.arguments as WeatherDailyForecast);
                 break;
               default:
                 throw Exception("Route $settings didnt exsists.");

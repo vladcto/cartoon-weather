@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/models/weather_daily_forecast.dart';
 import 'package:cartoon_weather/pages/detail_page.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
 import 'package:cartoon_weather/themes/theme_images.dart';
@@ -5,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 
 class MainWeatherCard extends StatelessWidget {
-  const MainWeatherCard({super.key});
+  final WeatherDailyForecast dailyForecast;
+  const MainWeatherCard(this.dailyForecast, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,8 @@ class MainWeatherCard extends StatelessWidget {
       height: 200,
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed(DetailPage.routeName);
+          Navigator.of(context)
+              .pushNamed(DetailPage.routeName, arguments: dailyForecast);
         },
         child: Stack(
           alignment: Alignment.centerLeft,
@@ -37,24 +40,24 @@ class MainWeatherCard extends StatelessWidget {
                   Expanded(
                     child: Center(
                       child: Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         width: 150,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
+                          children: [
                             CardInfoDisplay(
                               CustomAppIcons.thermometer,
-                              "21/18 C",
+                              "${dailyForecast.day.temp.min.toInt()}/${dailyForecast.day.temp.max.toInt()} C",
                               subText: "temperature",
                             ),
                             CardInfoDisplay(
                               CustomAppIcons.wind,
-                              "4 m/s",
+                              "${dailyForecast.day.windSpeed} m/s",
                               subText: "wind speed",
                             ),
                             CardInfoDisplay(
                               CustomAppIcons.pressure,
-                              "142 lbs",
+                              "${dailyForecast.day.pressure} lbs",
                               subText: "pressure",
                             ),
                           ],
@@ -104,7 +107,7 @@ class MainWeatherCard extends StatelessWidget {
                     const Icon(Icons.sunny, size: 84, color: Colors.black),
                     const SizedBox(height: 4),
                     Text(
-                      "Sunny",
+                      dailyForecast.day.weatherModel,
                       style: Theme.of(context)
                           .textTheme
                           .labelMedium!

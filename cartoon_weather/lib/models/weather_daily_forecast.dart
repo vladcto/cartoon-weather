@@ -29,6 +29,44 @@ class WeatherDailyForecast extends Equatable {
         evening = models[4].merge(models[5]),
         night = models[6].merge(models[7]);
 
+  double get rainPropability {
+    double rainPropSum =
+        morning.rainPropability!.reduce((value, element) => value + element) +
+            day.rainPropability!.reduce((value, element) => value + element) +
+            evening.rainPropability!.reduce((value, element) => value + element) +
+            night.rainPropability!.reduce((value, element) => value + element);
+    return rainPropSum /
+        (morning.rainPropability!.length +
+            day.rainPropability!.length +
+            evening.rainPropability!.length +
+            night.rainPropability!.length);
+  }
+
+  int get pressure {
+    return (morning.pressure + day.pressure + evening.pressure + night.pressure) ~/
+        4;
+  }
+
+  int get windDegrees {
+    return (morning.windDegrees +
+            day.windDegrees +
+            evening.windDegrees +
+            night.windDegrees) ~/
+        4;
+  }
+
+  double get windSpeed {
+    return (morning.windSpeed +
+            day.windSpeed +
+            evening.windSpeed +
+            night.windSpeed) /
+        4;
+  }
+
+  String get weatherModel {
+    return day.weatherModel;
+  }
+
   @override
   List<Object?> get props => [sunrise, sunset, morning, day, evening, night];
 }

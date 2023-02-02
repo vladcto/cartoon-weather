@@ -85,7 +85,7 @@ class WeatherModel extends Equatable {
         time: time,
         temp: temp.merge(other.temp),
         pressure: (pressure + other.pressure) ~/ 2,
-        windSpeed: (windSpeed + other.windDegrees) / 2,
+        windSpeed: (windSpeed + other.windSpeed) / 2,
         windDegrees: (windDegrees + other.windDegrees) ~/ 2,
         cloudy: (cloudy + other.cloudy) ~/ 2,
         rainPropability: [...?rainPropability, ...?other.rainPropability],

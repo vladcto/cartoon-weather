@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/models/weather_daily_forecast.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
 import 'package:cartoon_weather/widgets/line_info_card.dart';
 import 'package:cartoon_weather/widgets/temp_day_card.dart';
@@ -10,12 +11,26 @@ class DetailPage extends StatelessWidget {
   static const double cardBorderWidth = 4;
   static const double headerHeight = 148;
 
-  const DetailPage({Key? key}) : super(key: key);
+  final WeatherDailyForecast forecast;
+
+  const DetailPage(this.forecast, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ThemeImages themeImages = Theme.of(context).extension<ThemeImages>()!;
+    final ThemeImages themeImages = Theme.of(context).extension<ThemeImages>()!;
     var theme = Theme.of(context);
+
+    final String sunriseTime, sunsetTime;
+    // Convert sunrise time to string.
+    {
+      DateTime time = DateTime.fromMillisecondsSinceEpoch(forecast.sunrise);
+      sunriseTime = "${time.hour}:${time.minute}";
+    }
+    // Convert sunset time to string.
+    {
+      DateTime time = DateTime.fromMillisecondsSinceEpoch(forecast.sunset);
+      sunsetTime = "${time.hour}:${time.minute}";
+    }
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -49,7 +64,7 @@ class DetailPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           const SizedBox(width: 32),
-                          _buildSunriseWidget("12:36 PM", true),
+                          _buildSunriseWidget(sunriseTime, true),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Padding(
@@ -60,7 +75,7 @@ class DetailPage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          _buildSunriseWidget("06:18 AM", false),
+                          _buildSunriseWidget(sunsetTime, false),
                           const SizedBox(width: 32),
                         ],
                       ),
@@ -70,16 +85,16 @@ class DetailPage extends StatelessWidget {
                       height: 196,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: const [
-                          SizedBox(width: 16),
-                          TempDayCard("Morning"),
-                          SizedBox(width: 16),
-                          TempDayCard("Day"),
-                          SizedBox(width: 16),
-                          TempDayCard("Evening"),
-                          SizedBox(width: 16),
-                          TempDayCard("Night"),
-                          SizedBox(width: 16),
+                        children: [
+                          const SizedBox(width: 16),
+                          TempDayCard("Morning", temperature: forecast.morning.temp),
+                          const SizedBox(width: 16),
+                          TempDayCard("Day", temperature: forecast.day.temp),
+                          const SizedBox(width: 16),
+                          TempDayCard("Evening", temperature: forecast.evening.temp),
+                          const SizedBox(width: 16),
+                          TempDayCard("Night", temperature: forecast.night.temp),
+                          const SizedBox(width: 16),
                         ],
                       ),
                     ),
@@ -97,21 +112,24 @@ class DetailPage extends StatelessWidget {
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
-                                      children: const [
+                                      children: [
                                         LineInfoCard(
-                                            text: "45%",
+                                            text:
+                                                "${forecast.rainPropability.toInt()}%",
                                             subtext: "rain %",
                                             icon: CustomAppIcons.rain),
                                         LineInfoCard(
-                                            text: "123 lbs",
+                                            text: "${forecast.pressure} lbs",
                                             subtext: "pressure",
                                             icon: CustomAppIcons.pressure),
                                       ],
                                     ),
                                   ),
                                   Expanded(
-                                    child:
-                                        _buildWindRoseWidget("12 m/s", 312, theme),
+                                    child: _buildWindRoseWidget(
+                                        "${forecast.windSpeed.toStringAsFixed(1)} m/s",
+                                        forecast.windDegrees,
+                                        theme),
                                   ),
                                 ],
                               ),
@@ -170,7 +188,7 @@ class DetailPage extends StatelessWidget {
                           const Icon(Icons.sunny, size: 84, color: Colors.black),
                           const SizedBox(height: 4),
                           Text(
-                            "Sunny",
+                            forecast.weatherModel,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
@@ -266,7 +284,7 @@ class DetailPage extends StatelessWidget {
   }
 
   // Card that display wind speed and direction in compas-like style
-  Widget _buildWindRoseWidget(String speed, double direction, ThemeData theme) {
+  Widget _buildWindRoseWidget(String speed, int direction, ThemeData theme) {
     const double strokeWeatherCardWidth = 2;
 
     double N = cos(pi / 180 * direction);

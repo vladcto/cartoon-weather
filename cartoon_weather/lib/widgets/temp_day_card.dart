@@ -1,9 +1,12 @@
+import 'package:cartoon_weather/models/weather_temperature.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
 import 'package:flutter/material.dart';
 
 class TempDayCard extends StatelessWidget {
   final String headerText;
-  const TempDayCard(this.headerText, {Key? key}) : super(key: key);
+  final WeatherTemperature temperature;
+  const TempDayCard(this.headerText, {required this.temperature, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +61,14 @@ class TempDayCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                _buildIconLabel("21 C", CustomAppIcons.thermometer, context),
+                // average temp
+                _buildIconLabel(temperature.average.toInt().toString(),
+                    CustomAppIcons.thermometer, context),
                 const SizedBox(height: 8),
                 const Text("feels like"),
                 const SizedBox(height: 4),
-                _buildIconLabel("17 C", CustomAppIcons.thermometer, context),
+                _buildIconLabel(temperature.feelsLike.toInt().toString(),
+                    CustomAppIcons.thermometer, context),
               ],
             ),
           )
