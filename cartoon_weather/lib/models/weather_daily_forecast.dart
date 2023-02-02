@@ -29,7 +29,7 @@ class WeatherDailyForecast extends Equatable {
         evening = models[4].merge(models[5]),
         night = models[6].merge(models[7]);
 
-  double get rainPropability {
+  double get rainPropabilityAverage {
     double rainPropSum =
         morning.rainPropability!.reduce((value, element) => value + element) +
             day.rainPropability!.reduce((value, element) => value + element) +
@@ -40,6 +40,15 @@ class WeatherDailyForecast extends Equatable {
             day.rainPropability!.length +
             evening.rainPropability!.length +
             night.rainPropability!.length);
+  }
+
+  List<double> get rainPropabilitys {
+    return [
+      ...day.rainPropability!,
+      ...morning.rainPropability!,
+      ...evening.rainPropability!,
+      ...night.rainPropability!
+    ];
   }
 
   int get pressure {

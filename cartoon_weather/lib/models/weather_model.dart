@@ -44,7 +44,7 @@ class WeatherModel extends Equatable {
     final List<double>? rainPropability;
     final String weatherModel;
 
-    time = jsonApi["dt"];
+    time = jsonApi["dt"] * 1000;
     // main object json
     {
       Map<String, dynamic> main = jsonApi["main"];

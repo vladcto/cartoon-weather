@@ -11,14 +11,6 @@ import '../widgets/small_weather_card.dart';
 class MainPage extends StatelessWidget {
   static const String routeName = "main";
 
-  static const List<Widget> smallBroadcastsTest = [
-    SmallWeatherCard("12 Sep", "21/17 C"),
-    SmallWeatherCard("13 Sep", "20/16 C"),
-    SmallWeatherCard("14 Sep", "17/14 C"),
-    SmallWeatherCard("15 Sep", "15/10 C"),
-    SmallWeatherCard("16 Sep", "18/16 C"),
-  ];
-
   const MainPage({Key? key}) : super(key: key);
 
   @override
@@ -51,13 +43,22 @@ class MainPage extends StatelessWidget {
               ),
               SizedBox(
                 height: 156,
-                child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  clipBehavior: Clip.none,
-                  itemCount: smallBroadcastsTest.length,
-                  itemBuilder: (context, index) => smallBroadcastsTest[index],
-                  separatorBuilder: (context, index) => const SizedBox(width: 16),
-                  scrollDirection: Axis.horizontal,
+                child: Consumer(
+                  builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                    List forecasts =
+                        ref.watch(forecastProvider).dailyForecast.sublist(1);
+                    return ListView.separated(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                      clipBehavior: Clip.none,
+                      itemCount: forecasts.length,
+                      itemBuilder: (context, index) =>
+                          SmallWeatherCard(forecasts[index]),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(width: 16),
+                      scrollDirection: Axis.horizontal,
+                    );
+                  },
                 ),
               ),
               const Padding(
@@ -66,14 +67,21 @@ class MainPage extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    right: 48,
-                    left: 48,
-                    bottom: 64,
-                    top: 0,
-                  ),
-                  child: _buildWeatherChart(context),
-                ),
+                    padding: const EdgeInsets.only(
+                      right: 48,
+                      left: 48,
+                      bottom: 64,
+                      top: 0,
+                    ),
+                    child: Consumer(
+                      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                        List<double> rains = ref
+                            .watch(forecastProvider)
+                            .dailyForecast[0]
+                            .rainPropabilitys;
+                        return _buildWeatherChart(context, rains);
+                      },
+                    )),
               ),
             ],
           ),
@@ -121,26 +129,13 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  Widget _buildWeatherChart(BuildContext context) {
+  Widget _buildWeatherChart(BuildContext context, List<double> rains) {
     return Chart(
       height: 15,
       state: ChartState<void>(
         data: ChartData(
           [
-            [
-              ChartItem(1),
-              ChartItem(2),
-              ChartItem(8),
-              ChartItem(45),
-              ChartItem(95),
-              ChartItem(60),
-              ChartItem(35),
-              ChartItem(2),
-              ChartItem(0),
-              ChartItem(0),
-              ChartItem(1),
-              ChartItem(4),
-            ],
+            rains.map((e) => ChartItem(e * 100)).toList(),
           ],
         ),
         itemOptions: BarItemOptions(

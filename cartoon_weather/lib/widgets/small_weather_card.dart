@@ -1,78 +1,88 @@
+import 'package:cartoon_weather/models/weather_daily_forecast.dart';
+import 'package:cartoon_weather/pages/detail_page.dart';
 import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
 
 class SmallWeatherCard extends StatelessWidget {
-  final String textDat, textTemp;
-  const SmallWeatherCard(this.textDat, this.textTemp, {Key? key}) : super(key: key);
+  final WeatherDailyForecast forecast;
+  const SmallWeatherCard(this.forecast, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ThemeImages themeImages = Theme.of(context).extension<ThemeImages>()!;
+    final ThemeImages themeImages = Theme.of(context).extension<ThemeImages>()!;
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(forecast.day.time);
+
     return SizedBox(
       width: 112,
       child: Column(
         children: [
+          // * Main content
           Expanded(
-            child: Stack(
-              clipBehavior: Clip.none,
-              alignment: AlignmentDirectional.bottomCenter,
-              children: [
-                Container(
-                  width: double.maxFinite,
-                  height: double.maxFinite,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-                Container(
-                  width: double.maxFinite,
-                  height: 28,
-                  decoration: BoxDecoration(
-                    color: Colors.yellow,
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 2,
-                      strokeAlign: BorderSide.strokeAlignOutside,
-                    ),
-                    borderRadius: BorderRadius.circular(4),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(0, -8),
-                        blurStyle: BlurStyle.normal,
-                        blurRadius: 12,
+            child: GestureDetector(
+              onTap: () => Navigator.of(context)
+                  .pushNamed(DetailPage.routeName, arguments: forecast),
+              child: Stack(
+                clipBehavior: Clip.none,
+                alignment: AlignmentDirectional.bottomCenter,
+                children: [
+                  Container(
+                    width: double.maxFinite,
+                    height: double.maxFinite,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 1,
                       ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      textDat,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.labelLarge,
+                      borderRadius: BorderRadius.circular(4),
                     ),
                   ),
-                ),
-                const Positioned(
-                  bottom: 32,
-                  child: Icon(
-                    Icons.cloud_circle_outlined,
-                    color: Colors.black,
-                    size: 98,
-                    shadows: [
-                      Shadow(
-                        color: Colors.black12,
-                        offset: Offset(4, 4),
-                        blurRadius: 6,
+                  Container(
+                    width: double.maxFinite,
+                    height: 28,
+                    decoration: BoxDecoration(
+                      color: Colors.yellow,
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2,
+                        strokeAlign: BorderSide.strokeAlignOutside,
                       ),
-                    ],
+                      borderRadius: BorderRadius.circular(4),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, -8),
+                          blurStyle: BlurStyle.normal,
+                          blurRadius: 12,
+                        ),
+                      ],
+                    ),
+                    // Date
+                    child: Center(
+                      child: Text(
+                        "${time.month}:${time.day}",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.labelLarge,
+                      ),
+                    ),
                   ),
-                )
-              ],
+                  const Positioned(
+                    bottom: 32,
+                    child: Icon(
+                      Icons.cloud_circle_outlined,
+                      color: Colors.black,
+                      size: 98,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black12,
+                          offset: Offset(4, 4),
+                          blurRadius: 6,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 8),
@@ -89,9 +99,10 @@ class SmallWeatherCard extends StatelessWidget {
                 width: 2,
               ),
             ),
+            // Temp
             child: Center(
               child: Text(
-                textTemp,
+                "${forecast.evening.temp.max.toInt()}/${forecast.night.temp.min.toInt()} C",
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
                       fontSize: 19,
                     ),

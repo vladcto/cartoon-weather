@@ -115,7 +115,7 @@ class DetailPage extends StatelessWidget {
                                       children: [
                                         LineInfoCard(
                                             text:
-                                                "${forecast.rainPropability.toInt()}%",
+                                                "${forecast.rainPropabilityAverage.toInt()}%",
                                             subtext: "rain %",
                                             icon: CustomAppIcons.rain),
                                         LineInfoCard(

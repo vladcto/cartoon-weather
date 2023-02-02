@@ -21,8 +21,8 @@ class WeatherForecast extends Equatable {
     // city json object
     {
       Map<String, dynamic> city = json["city"];
-      sunrise = city["sunrise"];
-      sunset = city["sunset"];
+      sunrise = city["sunrise"] * 1000;
+      sunset = city["sunset"] * 1000;
     }
     // list json object
     {

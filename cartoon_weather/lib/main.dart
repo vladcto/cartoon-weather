@@ -18,7 +18,6 @@ void main() async {
       "http://api.openweathermap.org/data/2.5/forecast?lat=59.937500&lon=30.308611&appid=a7444ccaae8c1c644ca456ddd17cda66&units=metric"));
   WeatherForecast forecast =
       WeatherForecast.fromApiJson(jsonDecode(apiResponse.body));
-
   FlutterNativeSplash.remove();
 
   runApp(
