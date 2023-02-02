@@ -27,7 +27,7 @@ void main() {
   String jsonApiExample =
       File("test/assets/json_tests/weather_api_response.json").readAsStringSync();
   WeatherModel jsonModelExample = const WeatherModel(
-      time: 1661871600,
+      time: 1661871600 * 1000,
       temp: WeatherTemperature(
         average: 296.76,
         feelsLike: 296.98,
