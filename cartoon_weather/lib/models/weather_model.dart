@@ -1,16 +1,20 @@
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show immutable;
 import 'package:json_annotation/json_annotation.dart';
-
+import 'package:logging/logging.dart' as logger;
 import 'weather_temperature.dart';
 
 part 'weather_model.g.dart';
 
+enum WeatherType { sunny, cloudy, rain, thunderstorm, foggy, drizzle, snow }
+
 @JsonSerializable(explicitToJson: true)
 @immutable
 class WeatherModel extends Equatable {
+  static final log = logger.Logger("WeatherModel");
+
   final int time;
   final WeatherTemperature temp;
   final int pressure;
@@ -18,7 +22,7 @@ class WeatherModel extends Equatable {
   final int windDegrees;
   final int cloudy;
   final List<double>? rainPropability;
-  final String weatherModel;
+  final WeatherType weatherType;
 
   const WeatherModel(
       {required this.time,
@@ -28,7 +32,7 @@ class WeatherModel extends Equatable {
       required this.windDegrees,
       required this.cloudy,
       required this.rainPropability,
-      required this.weatherModel});
+      required this.weatherType});
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) =>
       _$WeatherModelFromJson(json);
@@ -42,7 +46,7 @@ class WeatherModel extends Equatable {
     final int windDegrees;
     final int cloudy;
     final List<double>? rainPropability;
-    final String weatherModel;
+    final WeatherType weatherType;
 
     time = jsonApi["dt"] * 1000;
     // main object json
@@ -54,7 +58,32 @@ class WeatherModel extends Equatable {
     // weather object json
     {
       Map<String, dynamic> weather = jsonApi["weather"][0];
-      weatherModel = weather["main"];
+      switch (weather["main"]) {
+        case "Thunderstorm":
+          weatherType = WeatherType.thunderstorm;
+          break;
+        case "Drizzle":
+          weatherType = WeatherType.drizzle;
+          break;
+        case "Rain":
+          weatherType = WeatherType.rain;
+          break;
+        case "Snow":
+          weatherType = WeatherType.snow;
+          break;
+        case "Atmosphere":
+          weatherType = WeatherType.foggy;
+          break;
+        case "Clear":
+          weatherType = WeatherType.sunny;
+          break;
+        case "Clouds":
+          weatherType = WeatherType.cloudy;
+          break;
+        default:
+          log.warning("Unknown weather type: ${weather["main"]}");
+          weatherType = WeatherType.sunny;
+      }
     }
     // wind object json
     {
@@ -77,7 +106,7 @@ class WeatherModel extends Equatable {
         windDegrees: windDegrees,
         cloudy: cloudy,
         rainPropability: rainPropability,
-        weatherModel: weatherModel);
+        weatherType: weatherType);
   }
 
   WeatherModel merge(WeatherModel other) {
@@ -89,7 +118,7 @@ class WeatherModel extends Equatable {
         windDegrees: (windDegrees + other.windDegrees) ~/ 2,
         cloudy: (cloudy + other.cloudy) ~/ 2,
         rainPropability: [...?rainPropability, ...?other.rainPropability],
-        weatherModel: weatherModel);
+        weatherType: weatherType);
   }
 
   @override
@@ -101,6 +130,6 @@ class WeatherModel extends Equatable {
         windDegrees,
         cloudy,
         rainPropability,
-        weatherModel
+        weatherType
       ];
 }

@@ -16,7 +16,7 @@ WeatherModel _$WeatherModelFromJson(Map<String, dynamic> json) => WeatherModel(
       rainPropability: (json['rainPropability'] as List<dynamic>?)
           ?.map((e) => (e as num).toDouble())
           .toList(),
-      weatherModel: json['weatherModel'] as String,
+      weatherType: $enumDecode(_$WeatherTypeEnumMap, json['weatherType']),
     );
 
 Map<String, dynamic> _$WeatherModelToJson(WeatherModel instance) =>
@@ -28,5 +28,15 @@ Map<String, dynamic> _$WeatherModelToJson(WeatherModel instance) =>
       'windDegrees': instance.windDegrees,
       'cloudy': instance.cloudy,
       'rainPropability': instance.rainPropability,
-      'weatherModel': instance.weatherModel,
+      'weatherType': _$WeatherTypeEnumMap[instance.weatherType]!,
     };
+
+const _$WeatherTypeEnumMap = {
+  WeatherType.sunny: 'sunny',
+  WeatherType.cloudy: 'cloudy',
+  WeatherType.rain: 'rain',
+  WeatherType.thunderstorm: 'thunderstorm',
+  WeatherType.foggy: 'foggy',
+  WeatherType.drizzle: 'drizzle',
+  WeatherType.snow: 'snow',
+};

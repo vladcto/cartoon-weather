@@ -72,8 +72,8 @@ class WeatherDailyForecast extends Equatable {
         4;
   }
 
-  String get weatherModel {
-    return day.weatherModel;
+  WeatherType get weatherType {
+    return day.weatherType;
   }
 
   @override

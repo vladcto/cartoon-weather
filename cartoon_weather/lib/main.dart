@@ -13,7 +13,6 @@ import 'package:http/http.dart' as http;
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
   var apiResponse = await http.get(Uri.parse(
       "http://api.openweathermap.org/data/2.5/forecast?lat=59.937500&lon=30.308611&appid=a7444ccaae8c1c644ca456ddd17cda66&units=metric"));
   WeatherForecast forecast =

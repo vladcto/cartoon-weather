@@ -21,7 +21,7 @@ void main() {
       windDegrees: 12,
       cloudy: 12,
       rainPropability: null,
-      weatherModel: "Rain");
+      weatherType: WeatherType.rain);
 
   // Weather Model tests: decode equality test
   String jsonApiExample =
@@ -39,7 +39,7 @@ void main() {
       windDegrees: 349,
       cloudy: 100,
       rainPropability: [0.32],
-      weatherModel: "Rain");
+      weatherType: WeatherType.rain);
 
   // Weather forecast: encode -> decode equality
   String weatherForecastJson =

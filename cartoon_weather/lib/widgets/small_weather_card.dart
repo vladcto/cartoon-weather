@@ -2,6 +2,7 @@ import 'package:cartoon_weather/models/weather_daily_forecast.dart';
 import 'package:cartoon_weather/pages/detail_page.dart';
 import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
+import 'package:cartoon_weather/helpers/open_weather_helper.dart' as weatherHelper;
 
 class SmallWeatherCard extends StatelessWidget {
   final WeatherDailyForecast forecast;
@@ -21,6 +22,7 @@ class SmallWeatherCard extends StatelessWidget {
             child: GestureDetector(
               onTap: () => Navigator.of(context)
                   .pushNamed(DetailPage.routeName, arguments: forecast),
+              // main card
               child: Stack(
                 clipBehavior: Clip.none,
                 alignment: AlignmentDirectional.bottomCenter,
@@ -66,13 +68,13 @@ class SmallWeatherCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Positioned(
+                  Positioned(
                     bottom: 32,
                     child: Icon(
-                      Icons.cloud_circle_outlined,
+                      weatherHelper.getWeatherIcon(forecast.weatherType),
                       color: Colors.black,
                       size: 98,
-                      shadows: [
+                      shadows: const [
                         Shadow(
                           color: Colors.black12,
                           offset: Offset(4, 4),

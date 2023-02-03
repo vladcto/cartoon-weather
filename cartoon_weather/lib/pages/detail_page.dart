@@ -4,6 +4,7 @@ import 'package:cartoon_weather/widgets/line_info_card.dart';
 import 'package:cartoon_weather/widgets/temp_day_card.dart';
 import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
+import 'package:cartoon_weather/helpers/open_weather_helper.dart' as weather_helper;
 import 'dart:math';
 
 class DetailPage extends StatelessWidget {
@@ -185,10 +186,14 @@ class DetailPage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.sunny, size: 84, color: Colors.black),
+                          Icon(
+                            weather_helper.getWeatherIcon(forecast.weatherType),
+                            size: 84,
+                            color: Colors.black,
+                          ),
                           const SizedBox(height: 4),
                           Text(
-                            forecast.weatherModel,
+                            weather_helper.getWeatherName(forecast.weatherType),
                             style: Theme.of(context)
                                 .textTheme
                                 .labelMedium!

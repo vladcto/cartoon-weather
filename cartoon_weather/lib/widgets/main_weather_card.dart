@@ -3,7 +3,7 @@ import 'package:cartoon_weather/pages/detail_page.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
 import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as developer;
+import "package:cartoon_weather/helpers/open_weather_helper.dart" as weather_helper;
 
 class MainWeatherCard extends StatelessWidget {
   final WeatherDailyForecast dailyForecast;
@@ -38,6 +38,7 @@ class MainWeatherCard extends StatelessWidget {
                     width: 164,
                   ),
                   Expanded(
+                    // * lists content
                     child: Center(
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -100,14 +101,19 @@ class MainWeatherCard extends StatelessWidget {
                     )
                   ],
                 ),
+                // * green content
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.sunny, size: 84, color: Colors.black),
+                    Icon(
+                      weather_helper.getWeatherIcon(dailyForecast.weatherType),
+                      size: 84,
+                      color: Colors.black,
+                    ),
                     const SizedBox(height: 4),
                     Text(
-                      dailyForecast.day.weatherModel,
+                      weather_helper.getWeatherName(dailyForecast.weatherType),
                       style: Theme.of(context)
                           .textTheme
                           .labelMedium!
