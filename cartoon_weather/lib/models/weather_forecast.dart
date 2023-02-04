@@ -27,14 +27,39 @@ class WeatherForecast extends Equatable {
     // list json object
     {
       List list = json["list"];
-      // create 5 one-day forecast
-      for (int i = 0; i < 5; i++) {
-        // take 8 3-hours forecast to create 1 day forecast
-        List<WeatherModel> models = [
-          for (var j = i * 8; j < (i + 1) * 8; j++) WeatherModel.fromApiJson(list[j])
-        ];
-        dailyForecast
-            .add(WeatherDailyForecast.fromWeatherList(sunrise, sunset, models));
+      // create one-day forecast from 40 periods
+      // Forecast can be not full, so we create a part of forecast
+      List<WeatherModel?> models = List.filled(4, null);
+      for (int i = 0; i < 40; i++) {
+        // take 8 3-hours forecast to create 1 day forecast (if can)
+        WeatherModel model = WeatherModel.fromApiJson(list[i]);
+        int modelHour = DateTime.fromMillisecondsSinceEpoch(model.time).hour;
+        models[modelHour ~/ 6] = models[modelHour ~/ 6]?.merge(model) ?? model;
+        // Completed one day forecast
+        if (modelHour == 21) {
+          dailyForecast.add(
+            WeatherDailyForecast.fromPeriods(
+                sunrise: sunrise,
+                sunset: sunset,
+                morning: models[0],
+                day: models[1],
+                evening: models[2],
+                night: models[3]),
+          );
+          models = List.filled(4, null);
+        }
+      }
+      // remain not added forecast(not full)
+      if (models[0] != null) {
+        dailyForecast.add(
+          WeatherDailyForecast.fromPeriods(
+              sunrise: sunrise,
+              sunset: sunset,
+              morning: models[0],
+              day: models[1],
+              evening: models[2],
+              night: models[3]),
+        );
       }
     }
 

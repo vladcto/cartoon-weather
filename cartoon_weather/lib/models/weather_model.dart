@@ -10,6 +10,8 @@ part 'weather_model.g.dart';
 
 enum WeatherType { sunny, cloudy, rain, thunderstorm, foggy, drizzle, snow }
 
+enum DayPeriod { morning, day, evening, night }
+
 @JsonSerializable(explicitToJson: true)
 @immutable
 class WeatherModel extends Equatable {
@@ -119,6 +121,21 @@ class WeatherModel extends Equatable {
         cloudy: (cloudy + other.cloudy) ~/ 2,
         rainPropability: [...rainPropability, ...other.rainPropability],
         weatherType: weatherType);
+  }
+
+  DayPeriod get dayPeriod {
+    switch (DateTime.fromMillisecondsSinceEpoch(time).hour ~/ 6) {
+      case 0:
+        return DayPeriod.morning;
+      case 1:
+        return DayPeriod.day;
+      case 2:
+        return DayPeriod.evening;
+      case 3:
+        return DayPeriod.night;
+      default:
+        throw UnimplementedError();
+    }
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:cartoon_weather/models/weather_daily_forecast.dart';
+import 'package:cartoon_weather/models/weather_model.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
 import 'package:cartoon_weather/widgets/line_info_card.dart';
 import 'package:cartoon_weather/widgets/temp_day_card.dart';
@@ -10,7 +11,7 @@ import 'dart:math';
 class DetailPage extends StatelessWidget {
   static const String routeName = "details";
   static const double cardBorderWidth = 4;
-  static const double headerHeight = 148;
+  static const double headerHeight = 124;
 
   final WeatherDailyForecast forecast;
 
@@ -22,16 +23,21 @@ class DetailPage extends StatelessWidget {
     var theme = Theme.of(context);
 
     final String sunriseTime, sunsetTime;
-    // Convert sunrise time to string.
     {
+      // Convert sunrise time to string.
       DateTime time = DateTime.fromMillisecondsSinceEpoch(forecast.sunrise);
       sunriseTime = "${time.hour}:${time.minute}";
-    }
-    // Convert sunset time to string.
-    {
-      DateTime time = DateTime.fromMillisecondsSinceEpoch(forecast.sunset);
+      // Convert sunset time to string.
+      time = DateTime.fromMillisecondsSinceEpoch(forecast.sunset);
       sunsetTime = "${time.hour}:${time.minute}";
     }
+
+    List<WeatherModel> daysPeriods = [
+      forecast.morning,
+      forecast.day,
+      forecast.evening,
+      forecast.night
+    ].whereType<WeatherModel>().toList();
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -82,29 +88,32 @@ class DetailPage extends StatelessWidget {
                       ),
                     ),
                     // List of temp cards
-                    SizedBox(
-                      height: 196,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          // ! Если сделать нормальное создание периодов погоды
-                          // ! Здесь будет NullException
-                          const SizedBox(width: 16),
-                          TempDayCard("Morning",
-                              temperature: forecast.morning!.temp),
-                          const SizedBox(width: 16),
-                          TempDayCard("Day", temperature: forecast.day!.temp),
-                          const SizedBox(width: 16),
-                          TempDayCard("Evening",
-                              temperature: forecast.evening!.temp),
-                          const SizedBox(width: 16),
-                          TempDayCard("Night", temperature: forecast.night!.temp),
-                          const SizedBox(width: 16),
-                        ],
+                    Flexible(
+                      flex: 2,
+                      child: SizedBox(
+                        height: 196,
+                        child: ListView.separated(
+                          itemCount: daysPeriods.length + 2,
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (_, __) => const SizedBox(width: 16),
+                          itemBuilder: (_, index) {
+                            if (index == 0 || index == daysPeriods.length + 1) {
+                              return const SizedBox(width: 4);
+                            }
+                            String name = daysPeriods[index - 1]
+                                    .dayPeriod
+                                    .name[0]
+                                    .toUpperCase() +
+                                daysPeriods[index - 1].dayPeriod.name.substring(1);
+                            return TempDayCard(name,
+                                temperature: daysPeriods[index - 1].temp);
+                          },
+                        ),
                       ),
                     ),
                     // ? - Должен быть способ сделать это поменьше
-                    Expanded(
+                    Flexible(
+                      flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                         child: Column(
@@ -169,7 +178,6 @@ class DetailPage extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       margin: const EdgeInsets.all(cardBorderWidth),
                       padding: const EdgeInsets.symmetric(
-                        vertical: 4,
                         horizontal: 32,
                       ),
                       decoration: BoxDecoration(
@@ -212,7 +220,7 @@ class DetailPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 144,
+            top: headerHeight - 4,
             left: 0,
             right: 0,
             child: Container(height: 2, color: Colors.black),

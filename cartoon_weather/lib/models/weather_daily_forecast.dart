@@ -33,6 +33,14 @@ class WeatherDailyForecast extends Equatable {
         evening = models[4].merge(models[5]),
         night = models[6].merge(models[7]);
 
+  const WeatherDailyForecast.fromPeriods(
+      {required this.sunrise,
+      required this.sunset,
+      this.morning,
+      this.day,
+      this.evening,
+      this.night});
+
   double get rainPropabilityAverage {
     return rainPropabilitys
         .reduce((value, element) => value + element / rainPropabilitys.length);
@@ -79,6 +87,7 @@ class WeatherDailyForecast extends Equatable {
     return evening?.weatherType ?? morning?.weatherType ?? night!.weatherType;
   }
 
+  /// Temperature from all day periods
   WeatherTemperature get averageTemp {
     double max = [
       (morning?.temp.max ?? double.negativeInfinity),
