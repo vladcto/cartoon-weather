@@ -11,10 +11,18 @@ WeatherDailyForecast _$WeatherDailyForecastFromJson(
     WeatherDailyForecast(
       json['sunrise'] as int,
       json['sunset'] as int,
-      WeatherModel.fromJson(json['morning'] as Map<String, dynamic>),
-      WeatherModel.fromJson(json['day'] as Map<String, dynamic>),
-      WeatherModel.fromJson(json['evening'] as Map<String, dynamic>),
-      WeatherModel.fromJson(json['night'] as Map<String, dynamic>),
+      json['morning'] == null
+          ? null
+          : WeatherModel.fromJson(json['morning'] as Map<String, dynamic>),
+      json['day'] == null
+          ? null
+          : WeatherModel.fromJson(json['day'] as Map<String, dynamic>),
+      json['evening'] == null
+          ? null
+          : WeatherModel.fromJson(json['evening'] as Map<String, dynamic>),
+      json['night'] == null
+          ? null
+          : WeatherModel.fromJson(json['night'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$WeatherDailyForecastToJson(
@@ -22,8 +30,8 @@ Map<String, dynamic> _$WeatherDailyForecastToJson(
     <String, dynamic>{
       'sunrise': instance.sunrise,
       'sunset': instance.sunset,
-      'morning': instance.morning.toJson(),
-      'day': instance.day.toJson(),
-      'evening': instance.evening.toJson(),
-      'night': instance.night.toJson(),
+      'morning': instance.morning?.toJson(),
+      'day': instance.day?.toJson(),
+      'evening': instance.evening?.toJson(),
+      'night': instance.night?.toJson(),
     };

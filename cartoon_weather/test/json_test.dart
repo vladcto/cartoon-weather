@@ -20,7 +20,7 @@ void main() {
       windSpeed: 12,
       windDegrees: 12,
       cloudy: 12,
-      rainPropability: null,
+      rainPropability: [],
       weatherType: WeatherType.rain);
 
   // Weather Model tests: decode equality test

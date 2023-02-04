@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/models/weather_daily_forecast.dart';
 import 'package:cartoon_weather/models/weather_model.dart';
 import 'package:cartoon_weather/themes/weather_icons_icons.dart';
 import 'package:flutter/material.dart';
@@ -38,4 +39,29 @@ String getWeatherName(WeatherType type) {
     case WeatherType.thunderstorm:
       return "Thunderstorm";
   }
+}
+
+String getForecastDate(WeatherDailyForecast forecast) {
+  const List months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+
+  DateTime time = DateTime.fromMillisecondsSinceEpoch(forecast.firstPeriodTime);
+  return "${months[time.month - 1]} ${time.day}";
+}
+
+String createRequest(
+    {required double lon, required double lat, required String apiKey}) {
+  return "http://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&appid=$apiKey&units=metric";
 }

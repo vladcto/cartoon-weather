@@ -87,14 +87,18 @@ class DetailPage extends StatelessWidget {
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
+                          // ! Если сделать нормальное создание периодов погоды
+                          // ! Здесь будет NullException
                           const SizedBox(width: 16),
-                          TempDayCard("Morning", temperature: forecast.morning.temp),
+                          TempDayCard("Morning",
+                              temperature: forecast.morning!.temp),
                           const SizedBox(width: 16),
-                          TempDayCard("Day", temperature: forecast.day.temp),
+                          TempDayCard("Day", temperature: forecast.day!.temp),
                           const SizedBox(width: 16),
-                          TempDayCard("Evening", temperature: forecast.evening.temp),
+                          TempDayCard("Evening",
+                              temperature: forecast.evening!.temp),
                           const SizedBox(width: 16),
-                          TempDayCard("Night", temperature: forecast.night.temp),
+                          TempDayCard("Night", temperature: forecast.night!.temp),
                           const SizedBox(width: 16),
                         ],
                       ),

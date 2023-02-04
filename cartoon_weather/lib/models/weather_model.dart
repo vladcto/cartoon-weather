@@ -21,7 +21,7 @@ class WeatherModel extends Equatable {
   final double windSpeed;
   final int windDegrees;
   final int cloudy;
-  final List<double>? rainPropability;
+  final List<double> rainPropability;
   final WeatherType weatherType;
 
   const WeatherModel(
@@ -117,7 +117,7 @@ class WeatherModel extends Equatable {
         windSpeed: (windSpeed + other.windSpeed) / 2,
         windDegrees: (windDegrees + other.windDegrees) ~/ 2,
         cloudy: (cloudy + other.cloudy) ~/ 2,
-        rainPropability: [...?rainPropability, ...?other.rainPropability],
+        rainPropability: [...rainPropability, ...other.rainPropability],
         weatherType: weatherType);
   }
 

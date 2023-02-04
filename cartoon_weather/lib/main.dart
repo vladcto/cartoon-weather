@@ -9,12 +9,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'pages/home_page.dart';
 import 'themes/main_theme.dart';
 import 'package:http/http.dart' as http;
+import 'package:cartoon_weather/helpers/open_weather_helper.dart' as weather_helper;
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  var apiResponse = await http.get(Uri.parse(
-      "http://api.openweathermap.org/data/2.5/forecast?lat=59.937500&lon=30.308611&appid=a7444ccaae8c1c644ca456ddd17cda66&units=metric"));
+  var apiResponse = await http.get(Uri.parse(weather_helper.createRequest(
+    lon: 30.308611,
+    lat: 59.937500,
+    apiKey: "a7444ccaae8c1c644ca456ddd17cda66",
+  )));
   WeatherForecast forecast =
       WeatherForecast.fromApiJson(jsonDecode(apiResponse.body));
   FlutterNativeSplash.remove();

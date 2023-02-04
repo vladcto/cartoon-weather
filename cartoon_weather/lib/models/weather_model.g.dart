@@ -13,8 +13,8 @@ WeatherModel _$WeatherModelFromJson(Map<String, dynamic> json) => WeatherModel(
       windSpeed: (json['windSpeed'] as num).toDouble(),
       windDegrees: json['windDegrees'] as int,
       cloudy: json['cloudy'] as int,
-      rainPropability: (json['rainPropability'] as List<dynamic>?)
-          ?.map((e) => (e as num).toDouble())
+      rainPropability: (json['rainPropability'] as List<dynamic>)
+          .map((e) => (e as num).toDouble())
           .toList(),
       weatherType: $enumDecode(_$WeatherTypeEnumMap, json['weatherType']),
     );

@@ -48,17 +48,17 @@ class MainWeatherCard extends StatelessWidget {
                           children: [
                             CardInfoDisplay(
                               CustomAppIcons.thermometer,
-                              "${dailyForecast.day.temp.min.toInt()}/${dailyForecast.day.temp.max.toInt()} C",
+                              "${dailyForecast.averageTemp.min.toInt()}/${dailyForecast.averageTemp.max.toInt()} C",
                               subText: "temperature",
                             ),
                             CardInfoDisplay(
                               CustomAppIcons.wind,
-                              "${dailyForecast.day.windSpeed} m/s",
+                              "${dailyForecast.windSpeed.toStringAsFixed(1)} m/s",
                               subText: "wind speed",
                             ),
                             CardInfoDisplay(
                               CustomAppIcons.pressure,
-                              "${dailyForecast.day.pressure} lbs",
+                              "${dailyForecast.pressure} lbs",
                               subText: "pressure",
                             ),
                           ],

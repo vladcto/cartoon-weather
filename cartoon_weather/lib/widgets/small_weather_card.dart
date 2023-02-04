@@ -2,7 +2,7 @@ import 'package:cartoon_weather/models/weather_daily_forecast.dart';
 import 'package:cartoon_weather/pages/detail_page.dart';
 import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
-import 'package:cartoon_weather/helpers/open_weather_helper.dart' as weatherHelper;
+import 'package:cartoon_weather/helpers/open_weather_helper.dart' as weather_helper;
 
 class SmallWeatherCard extends StatelessWidget {
   final WeatherDailyForecast forecast;
@@ -11,7 +11,6 @@ class SmallWeatherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeImages themeImages = Theme.of(context).extension<ThemeImages>()!;
-    DateTime time = DateTime.fromMillisecondsSinceEpoch(forecast.day.time);
 
     return SizedBox(
       width: 112,
@@ -62,7 +61,7 @@ class SmallWeatherCard extends StatelessWidget {
                     // Date
                     child: Center(
                       child: Text(
-                        "${time.month}:${time.day}",
+                        weather_helper.getForecastDate(forecast),
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
@@ -71,7 +70,7 @@ class SmallWeatherCard extends StatelessWidget {
                   Positioned(
                     bottom: 32,
                     child: Icon(
-                      weatherHelper.getWeatherIcon(forecast.weatherType),
+                      weather_helper.getWeatherIcon(forecast.weatherType),
                       color: Colors.black,
                       size: 98,
                       shadows: const [
@@ -104,7 +103,7 @@ class SmallWeatherCard extends StatelessWidget {
             // Temp
             child: Center(
               child: Text(
-                "${forecast.evening.temp.max.toInt()}/${forecast.night.temp.min.toInt()} C",
+                "${forecast.averageTemp.max.toInt()}/${forecast.averageTemp.min.toInt()} C",
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
                       fontSize: 19,
                     ),
