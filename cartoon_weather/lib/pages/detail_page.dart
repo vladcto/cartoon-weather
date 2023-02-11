@@ -75,11 +75,8 @@ class DetailPage extends StatelessWidget {
                         _buildSunriseWidget(sunriseTime, true),
                         const SizedBox(width: 8),
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
-                            child: CustomPaint(
-                              painter: ArrowPainer(),
-                            ),
+                          child: CustomPaint(
+                            painter: ArrowPainer(),
                           ),
                         ),
                         const SizedBox(width: 8),
