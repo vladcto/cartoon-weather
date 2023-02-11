@@ -15,7 +15,7 @@ enum DayPeriod { morning, day, evening, night }
 @JsonSerializable(explicitToJson: true)
 @immutable
 class WeatherModel extends Equatable {
-  static final log = logger.Logger("WeatherModel");
+  static final _log = logger.Logger("WeatherModel");
 
   final int time;
   final WeatherTemperature temp;
@@ -83,7 +83,7 @@ class WeatherModel extends Equatable {
           weatherType = WeatherType.cloudy;
           break;
         default:
-          log.warning("Unknown weather type: ${weather["main"]}");
+          _log.warning("Unknown weather type: ${weather["main"]}");
           weatherType = WeatherType.sunny;
       }
     }
