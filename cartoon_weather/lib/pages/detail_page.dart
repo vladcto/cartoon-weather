@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:cartoon_weather/helpers/open_weather_helper.dart' as weather_helper;
 import 'dart:math';
 
+import '../widgets/stroke_text.dart';
+
 class DetailPage extends StatelessWidget {
   static const String routeName = "details";
   static const double cardBorderWidth = 4;
@@ -45,122 +47,119 @@ class DetailPage extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Positioned.fill(
-            child: Hero(
-              tag: "main_card/deprecated",
-              child: Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.secondary,
-                  borderRadius: BorderRadius.circular(32),
-                  border: Border.all(
-                    color: Colors.black,
-                    width: cardBorderWidth,
-                  ),
+            child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.secondary,
+                borderRadius: BorderRadius.circular(32),
+                border: Border.all(
+                  color: Colors.black,
+                  width: cardBorderWidth,
                 ),
-                // * main content
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: headerHeight,
-                    ),
-                    SizedBox(
-                      height: 64,
-                      width: double.infinity,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const SizedBox(width: 32),
-                          _buildSunriseWidget(sunriseTime, true),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: CustomPaint(
-                                painter: ArrowPainer(),
-                              ),
+              ),
+              // * main content.
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: headerHeight,
+                  ),
+                  SizedBox(
+                    height: 64,
+                    width: double.infinity,
+                    // sunrise widgets
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(width: 32),
+                        _buildSunriseWidget(sunriseTime, true),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: CustomPaint(
+                              painter: ArrowPainer(),
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          _buildSunriseWidget(sunsetTime, false),
-                          const SizedBox(width: 32),
+                        ),
+                        const SizedBox(width: 8),
+                        _buildSunriseWidget(sunsetTime, false),
+                        const SizedBox(width: 32),
+                      ],
+                    ),
+                  ),
+                  // List of temp cards
+                  Flexible(
+                    flex: 2,
+                    child: SizedBox(
+                      height: 196,
+                      child: ListView.separated(
+                        itemCount: daysPeriods.length + 2,
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (_, __) => const SizedBox(width: 16),
+                        itemBuilder: (_, index) {
+                          if (index == 0 || index == daysPeriods.length + 1) {
+                            return const SizedBox(width: 4);
+                          }
+                          String name = daysPeriods[index - 1]
+                                  .dayPeriod
+                                  .name[0]
+                                  .toUpperCase() +
+                              daysPeriods[index - 1].dayPeriod.name.substring(1);
+                          return TempDayCard(name,
+                              temperature: daysPeriods[index - 1].temp);
+                        },
+                      ),
+                    ),
+                  ),
+                  // ? - Должен быть способ сделать это поменьше
+                  Flexible(
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                      child: Column(
+                        children: [
+                          Flexible(
+                            flex: 2,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      LineInfoCard(
+                                          text:
+                                              "${forecast.rainPropabilityAverage * 100 ~/ 1}%",
+                                          subtext: "rain %",
+                                          icon: CustomAppIcons.rain),
+                                      LineInfoCard(
+                                          text: "${forecast.pressure} lbs",
+                                          subtext: "pressure",
+                                          icon: CustomAppIcons.pressure),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: _buildWindRoseWidget(
+                                      "${forecast.windSpeed.toStringAsFixed(1)} m/s",
+                                      forecast.windDegrees,
+                                      theme),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Flexible(
+                            child: LineInfoCard(
+                              text: "Mainly Cloudy",
+                              subtext: "clouds",
+                              icon: CustomAppIcons.cloudy,
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    // List of temp cards
-                    Flexible(
-                      flex: 2,
-                      child: SizedBox(
-                        height: 196,
-                        child: ListView.separated(
-                          itemCount: daysPeriods.length + 2,
-                          scrollDirection: Axis.horizontal,
-                          separatorBuilder: (_, __) => const SizedBox(width: 16),
-                          itemBuilder: (_, index) {
-                            if (index == 0 || index == daysPeriods.length + 1) {
-                              return const SizedBox(width: 4);
-                            }
-                            String name = daysPeriods[index - 1]
-                                    .dayPeriod
-                                    .name[0]
-                                    .toUpperCase() +
-                                daysPeriods[index - 1].dayPeriod.name.substring(1);
-                            return TempDayCard(name,
-                                temperature: daysPeriods[index - 1].temp);
-                          },
-                        ),
-                      ),
-                    ),
-                    // ? - Должен быть способ сделать это поменьше
-                    Flexible(
-                      flex: 3,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        child: Column(
-                          children: [
-                            Flexible(
-                              flex: 2,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        LineInfoCard(
-                                            text:
-                                                "${forecast.rainPropabilityAverage * 100 ~/ 1}%",
-                                            subtext: "rain %",
-                                            icon: CustomAppIcons.rain),
-                                        LineInfoCard(
-                                            text: "${forecast.pressure} lbs",
-                                            subtext: "pressure",
-                                            icon: CustomAppIcons.pressure),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: _buildWindRoseWidget(
-                                        "${forecast.windSpeed.toStringAsFixed(1)} m/s",
-                                        forecast.windDegrees,
-                                        theme),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Flexible(
-                              child: LineInfoCard(
-                                text: "Mainly Cloudy",
-                                subtext: "clouds",
-                                icon: CustomAppIcons.cloudy,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -168,51 +167,48 @@ class DetailPage extends StatelessWidget {
             top: 0,
             right: 0,
             left: 0,
+            // * top green card
             child: SizedBox(
               height: headerHeight,
               child: Stack(
                 children: [
-                  Hero(
-                    tag: "main_card/green",
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(cardBorderWidth),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    margin: const EdgeInsets.all(cardBorderWidth),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary,
+                      image: themeImages.backgroundPrimaryImage,
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(32 - cardBorderWidth),
                       ),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primary,
-                        image: themeImages.backgroundPrimaryImage,
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(32 - cardBorderWidth),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black54,
+                          offset: Offset(0, 4),
+                          spreadRadius: 1,
+                          blurRadius: 4,
                         ),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black54,
-                            offset: Offset(0, 4),
-                            spreadRadius: 1,
-                            blurRadius: 4,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            weather_helper.getWeatherIcon(forecast.weatherType),
-                            size: 84,
-                            color: Colors.black,
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            weather_helper.getWeatherName(forecast.weatherType),
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium!
-                                .copyWith(fontSize: 22),
-                          ),
-                        ],
-                      ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          weather_helper.getWeatherIcon(forecast.weatherType),
+                          size: 80,
+                          color: Colors.black,
+                        ),
+                        StrokeText(
+                          text: weather_helper.getWeatherName(forecast.weatherType),
+                          style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                                fontSize: 22,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

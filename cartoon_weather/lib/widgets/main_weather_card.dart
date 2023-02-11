@@ -2,6 +2,7 @@ import 'package:cartoon_weather/models/weather_daily_forecast.dart';
 import 'package:cartoon_weather/pages/detail_page.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
 import 'package:cartoon_weather/themes/theme_images.dart';
+import 'package:cartoon_weather/widgets/stroke_text.dart';
 import 'package:flutter/material.dart';
 import "package:cartoon_weather/helpers/open_weather_helper.dart" as weather_helper;
 
@@ -12,6 +13,8 @@ class MainWeatherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeImages themeImages = Theme.of(context).extension<ThemeImages>()!;
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return SizedBox(
       height: 200,
       child: GestureDetector(
@@ -112,12 +115,12 @@ class MainWeatherCard extends StatelessWidget {
                       color: Colors.black,
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      weather_helper.getWeatherName(dailyForecast.weatherType),
+                    StrokeText(
+                      text: weather_helper.getWeatherName(dailyForecast.weatherType),
                       style: Theme.of(context)
                           .textTheme
                           .labelMedium!
-                          .copyWith(fontSize: 22),
+                          .copyWith(color: colorScheme.primary),
                     ),
                   ],
                 ),
@@ -145,9 +148,14 @@ class CardInfoDisplay extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Icon(icon, size: 32),
-            Text(
-              mainText,
-              style: Theme.of(context).textTheme.labelMedium,
+            const SizedBox(width: 4),
+            StrokeText(
+              text: mainText,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelMedium!
+                  .copyWith(color: Theme.of(context).colorScheme.secondary),
+              strokeWidth: 3.5,
             ),
           ],
         ),

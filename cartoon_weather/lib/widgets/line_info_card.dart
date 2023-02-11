@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/widgets/stroke_text.dart';
 import 'package:flutter/material.dart';
 
 class LineInfoCard extends StatelessWidget {
@@ -10,6 +11,7 @@ class LineInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -58,19 +60,21 @@ class LineInfoCard extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 18,
+          height: 20,
           width: double.infinity,
           child: Center(
-            child: Text(
-              subtext,
+            child: StrokeText(
+              text: subtext,
               style: theme.textTheme.labelMedium!.copyWith(
                 fontSize: 16,
                 letterSpacing: 1,
                 wordSpacing: 2,
+                color: theme.colorScheme.secondary,
               ),
+              strokeWidth: 2,
             ),
           ),
-        )
+        ),
       ],
     );
   }

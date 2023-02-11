@@ -1,5 +1,6 @@
 import 'package:cartoon_weather/models/weather_temperature.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
+import 'package:cartoon_weather/widgets/stroke_text.dart';
 import 'package:flutter/material.dart';
 
 class TempDayCard extends StatelessWidget {
@@ -86,9 +87,10 @@ class TempDayCard extends StatelessWidget {
           icon,
           size: 32,
         ),
-        Text(
-          text,
-          style: textStyle,
+        StrokeText(
+          text: text,
+          style: textStyle!.copyWith(color: Colors.white),
+          strokeWidth: 3,
         ),
       ],
     );

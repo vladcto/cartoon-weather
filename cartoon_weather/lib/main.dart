@@ -1,9 +1,6 @@
 import 'dart:convert';
 
-import 'package:cartoon_weather/models/weather_daily_forecast.dart';
 import 'package:cartoon_weather/models/weather_forecast.dart';
-import 'package:cartoon_weather/models/weather_model.dart';
-import 'package:cartoon_weather/models/weather_temperature.dart';
 import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:cartoon_weather/providers/weather_forecast_state_notifier.dart';
 import 'package:flutter/material.dart';

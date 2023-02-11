@@ -11,8 +11,8 @@ class MainTheme {
       onPrimary: Colors.black,
       secondary: Color.fromARGB(255, 255, 217, 80),
     ),
-    textTheme: TextTheme(
-      labelLarge: const TextStyle(
+    textTheme: const TextTheme(
+      labelLarge: TextStyle(
         fontSize: 23,
         fontFamily: "Inter",
         fontWeight: FontWeight.w700,
@@ -22,11 +22,7 @@ class MainTheme {
         fontSize: 22,
         fontWeight: FontWeight.w900,
         fontFamily: "Inter",
-        foreground: Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.3
-          ..strokeJoin = StrokeJoin.round
-          ..color = Color.fromARGB(255, 30, 30, 30),
+        color: Colors.red,
       ),
     ),
     extensions: const [
