@@ -86,8 +86,15 @@ class MainPage extends StatelessWidget {
             ],
           ),
         ),
-        const BottomBar(
-          child: Center(child: Text("Bottom Bar Container")),
+        BottomBar(
+          child: Center(
+            child: Consumer(
+              builder: (context, ref, child) => ElevatedButton(
+                onPressed: () => ref.watch(themeProvider.notifier).changeTheme(),
+                child: const Text("Hello"),
+              ),
+            ),
+          ),
         ),
       ],
     );
