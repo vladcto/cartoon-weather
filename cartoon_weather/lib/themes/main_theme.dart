@@ -34,7 +34,7 @@ abstract class MainTheme {
   );
 
   static ThemeData darkTheme = ThemeData(
-    colorScheme: const ColorScheme.light(
+    colorScheme: const ColorScheme.dark(
       primary: Color.fromRGBO(193, 213, 216, 1),
       onPrimary: Colors.black,
       secondary: Color.fromRGBO(237, 164, 55, 1),

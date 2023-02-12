@@ -66,23 +66,23 @@ class MainPage extends StatelessWidget {
                 child: MainPageSeparator("Rain"),
               ),
               Expanded(
-                child: Padding(
-                    padding: const EdgeInsets.only(
-                      right: 48,
-                      left: 48,
-                      bottom: 64,
-                      top: 0,
-                    ),
-                    child: Consumer(
-                      builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                        List<double> rains = ref
-                            .watch(forecastProvider)
-                            .dailyForecast[0]
-                            .rainPropabilitys;
-                        return _buildWeatherChart(context, rains);
-                      },
-                    )),
-              ),
+                  child: Padding(
+                      padding: const EdgeInsets.only(
+                        right: 48,
+                        left: 48,
+                        bottom: 64,
+                        top: 0,
+                      ),
+                      child: Consumer(
+                        builder:
+                            (BuildContext context, WidgetRef ref, Widget? child) {
+                          List<double> rains = ref
+                              .watch(forecastProvider)
+                              .dailyForecast[0]
+                              .rainPropabilitys;
+                          return _buildWeatherChart(context, rains);
+                        },
+                      ))),
             ],
           ),
         ),
@@ -90,7 +90,10 @@ class MainPage extends StatelessWidget {
           child: Center(
             child: Consumer(
               builder: (context, ref, child) => ElevatedButton(
-                onPressed: () => ref.watch(themeProvider.notifier).changeTheme(),
+                onPressed: () {
+                  var themeState = ref.watch(themeProvider.notifier);
+                  themeState.changeTheme(!themeState.isLight);
+                },
                 child: const Text("Hello"),
               ),
             ),
