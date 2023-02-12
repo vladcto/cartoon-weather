@@ -5,7 +5,7 @@ class BottomBar extends StatefulWidget {
   final Widget child;
   const BottomBar({required this.child, Key? key}) : super(key: key);
   @override
-  _BottomBarState createState() => _BottomBarState();
+  State<BottomBar> createState() => _BottomBarState();
 }
 
 class _BottomBarState extends State<BottomBar> {
@@ -50,7 +50,6 @@ class _BottomBarState extends State<BottomBar> {
           ),
           child: Stack(
             alignment: Alignment.topCenter,
-            fit: StackFit.expand,
             children: [
               Positioned(
                 top: topSliderMargin,
@@ -75,11 +74,8 @@ class _BottomBarState extends State<BottomBar> {
                   ),
                 ),
               ),
-              Positioned(
-                top: sliderSize,
-                bottom: 0,
-                right: 0,
-                left: 0,
+              Padding(
+                padding: const EdgeInsets.only(top: sliderSize),
                 child: widget.child,
               ),
             ],

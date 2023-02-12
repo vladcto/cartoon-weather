@@ -1,4 +1,7 @@
 import 'package:cartoon_weather/providers/main_providers.dart';
+import 'package:cartoon_weather/themes/custom_app_icons.dart';
+import 'package:cartoon_weather/themes/weather_icons_icons.dart';
+import 'package:cartoon_weather/widgets/custom_switch.dart';
 import 'package:charts_painter/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -87,15 +90,26 @@ class MainPage extends StatelessWidget {
           ),
         ),
         BottomBar(
-          child: Center(
-            child: Consumer(
-              builder: (context, ref, child) => ElevatedButton(
-                onPressed: () {
-                  var themeState = ref.watch(themeProvider.notifier);
-                  themeState.changeTheme(!themeState.isLight);
-                },
-                child: const Text("Hello"),
-              ),
+          child: SizedBox.expand(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Theme: ",
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                Consumer(
+                    builder: (context, ref, child) => CustomSwitch(
+                          onChanged: (active) {
+                            ref.watch(themeProvider.notifier).changeTheme(active);
+                          },
+                          height: 35,
+                          width: 70,
+                          activeChild: const Icon(WeatherIcons.sunny),
+                          inactiveChild: const Icon(CustomAppIcons.sunset),
+                        )),
+              ],
             ),
           ),
         ),
