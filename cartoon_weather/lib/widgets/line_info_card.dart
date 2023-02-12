@@ -21,7 +21,7 @@ class LineInfoCard extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: Colors.black,
@@ -45,7 +45,7 @@ class LineInfoCard extends StatelessWidget {
                 color: theme.colorScheme.primary,
                 child: FittedBox(
                   fit: BoxFit.contain,
-                  child: Icon(icon),
+                  child: Icon(icon, color: Theme.of(context).colorScheme.onPrimary),
                 ),
               ),
               Expanded(

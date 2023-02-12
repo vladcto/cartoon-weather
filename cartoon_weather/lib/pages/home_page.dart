@@ -35,6 +35,7 @@ class HomePage extends StatelessWidget {
           bottom: BorderSide(width: 2),
         ),
         elevation: 8,
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Container(
         decoration: BoxDecoration(

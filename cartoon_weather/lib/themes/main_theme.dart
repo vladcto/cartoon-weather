@@ -13,6 +13,7 @@ abstract class MainTheme {
       primary: Color.fromARGB(255, 82, 222, 154),
       onPrimary: Colors.black,
       secondary: Color.fromARGB(255, 255, 217, 80),
+      surface: Color.fromRGBO(246, 246, 246, 1),
     ),
     textTheme: const TextTheme(
       labelLarge: TextStyle(
@@ -38,6 +39,11 @@ abstract class MainTheme {
       primary: Color.fromRGBO(193, 213, 216, 1),
       onPrimary: Colors.black,
       secondary: Color.fromRGBO(237, 164, 55, 1),
+      onSecondary: Colors.black,
+      surface: Color.fromRGBO(234, 234, 234, 1),
+      onSurface: Colors.black,
+      background: Color.fromRGBO(234, 234, 234, 1),
+      onBackground: Colors.black,
     ),
     textTheme: const TextTheme(
       labelLarge: TextStyle(
@@ -62,11 +68,7 @@ abstract class MainTheme {
     var prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(themeKey)) {
       // there is a selected theme
-      if (prefs.getString(themeKey) == lightThemeKey) {
-        return lightTheme;
-      } else {
-        return darkTheme;
-      }
+      return prefs.getString(themeKey) == lightThemeKey ? lightTheme : darkTheme;
     } else {
       // not selected theme
       prefs.setString(themeKey, lightThemeKey);

@@ -72,7 +72,7 @@ class DetailPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const SizedBox(width: 32),
-                        _buildSunriseWidget(sunriseTime, true),
+                        _buildSunriseWidget(sunriseTime, true, theme),
                         const SizedBox(width: 8),
                         Expanded(
                           child: CustomPaint(
@@ -80,7 +80,7 @@ class DetailPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        _buildSunriseWidget(sunsetTime, false),
+                        _buildSunriseWidget(sunsetTime, false, theme),
                         const SizedBox(width: 32),
                       ],
                     ),
@@ -250,7 +250,7 @@ class DetailPage extends StatelessWidget {
     ;
   }
 
-  Widget _buildSunriseWidget(String text, bool sunrise) {
+  Widget _buildSunriseWidget(String text, bool sunrise, ThemeData theme) {
     return SizedBox(
       width: 96,
       height: 64,
@@ -262,7 +262,10 @@ class DetailPage extends StatelessWidget {
             width: 48,
             child: Text(
               text,
-              style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+              style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 14,
+                  color: theme.colorScheme.onPrimary),
               textAlign: TextAlign.center,
             ),
           ),
@@ -284,7 +287,10 @@ class DetailPage extends StatelessWidget {
               ),
               Text(
                 sunrise ? "sunrise" : "sunset",
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: theme.colorScheme.onPrimary),
               ),
             ],
           ),
@@ -311,7 +317,7 @@ class DetailPage extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       width: 128,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
             color: Colors.black,
@@ -343,7 +349,7 @@ class DetailPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(CustomAppIcons.wind),
+                Icon(CustomAppIcons.wind, color: theme.colorScheme.onPrimary),
                 Text(
                   "Wind",
                   style: theme.textTheme.labelLarge!.copyWith(fontSize: 14),
@@ -363,8 +369,10 @@ class DetailPage extends StatelessWidget {
                 Center(
                   child: Text(
                     speed,
-                    style:
-                        const TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w900,
+                        color: theme.colorScheme.onPrimary),
                   ),
                 ),
               ],
@@ -374,7 +382,10 @@ class DetailPage extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(4, 0, 4, 4),
             child: Text(
               directionForm,
-              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
+              style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 12,
+                  color: theme.colorScheme.onPrimary),
             ),
           ),
         ],

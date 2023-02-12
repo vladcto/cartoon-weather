@@ -19,6 +19,8 @@ class _BottomBarState extends State<BottomBar> {
     const double topSliderMargin = 16;
     const double sliderSize = sliderHeight + topSliderMargin * 2;
 
+    var theme = Theme.of(context);
+
     return Positioned(
       bottom: _bottom - barHeight + sliderSize,
       right: 0,
@@ -30,7 +32,7 @@ class _BottomBarState extends State<BottomBar> {
           height: barHeight,
           width: 400,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: theme.colorScheme.surface,
             border: Border.all(
               color: Colors.black,
               width: barStroke,
