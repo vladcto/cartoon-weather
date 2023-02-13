@@ -19,6 +19,8 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeImages themeImages = Theme.of(context).extension<ThemeImages>()!;
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Stack(
       children: [
         Container(
@@ -100,15 +102,24 @@ class MainPage extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
                 Consumer(
-                    builder: (context, ref, child) => CustomSwitch(
-                          onChanged: (active) {
-                            ref.watch(themeProvider.notifier).changeTheme(active);
-                          },
-                          height: 35,
-                          width: 70,
-                          activeChild: const Icon(WeatherIcons.sunny),
-                          inactiveChild: const Icon(CustomAppIcons.sunset),
-                        )),
+                  builder: (context, ref, child) => CustomSwitch(
+                    onChanged: (active) {
+                      ref.watch(themeProvider.notifier).changeTheme(active);
+                    },
+                    height: 35,
+                    width: 70,
+                    activeColor: colorScheme.secondary,
+                    inactiveColor: colorScheme.secondary,
+                    activeChild: Icon(
+                      WeatherIcons.sunny,
+                      color: colorScheme.onPrimary,
+                    ),
+                    inactiveChild: Icon(
+                      CustomAppIcons.sunset,
+                      color: colorScheme.onPrimary,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

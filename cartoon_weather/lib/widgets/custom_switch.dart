@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class CustomSwitch extends StatefulWidget {
   final bool startValue;
@@ -30,7 +31,11 @@ class CustomSwitch extends StatefulWidget {
 
 class _CustomSwitchState extends State<CustomSwitch>
     with SingleTickerProviderStateMixin {
+  static const double startScale = .1;
+  static const double endScale = 1.0;
+
   late Animation _circleAnimation;
+  late Animation _rotateActiveAnimation;
   late AnimationController _animationController;
   bool value = false;
 
@@ -45,6 +50,9 @@ class _CustomSwitchState extends State<CustomSwitch>
             begin: Alignment.centerRight, end: Alignment.centerLeft)
         .animate(
             CurvedAnimation(parent: _animationController, curve: Curves.easeInOut));
+    _rotateActiveAnimation = Tween<double>(begin: startScale, end: endScale).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -54,8 +62,8 @@ class _CustomSwitchState extends State<CustomSwitch>
       builder: (context, child) {
         return GestureDetector(
           onTap: () {
-            value ? _animationController.reverse() : _animationController.forward();
             value = !value;
+            value ? _animationController.forward() : _animationController.reverse();
             value ? widget.onChanged(true) : widget.onChanged(false);
           },
           child: Container(
@@ -67,28 +75,52 @@ class _CustomSwitchState extends State<CustomSwitch>
                     _animationController.value)),
             child: Stack(
               children: [
-                Positioned(right: 4, top: 0, bottom: 0, child: widget.activeChild),
-                Positioned(left: 4, top: 0, bottom: 0, child: widget.inactiveChild),
                 Positioned(
-                    top: 4,
-                    right: 4,
-                    bottom: 4,
-                    left: 4,
-                    child: Align(
-                        alignment: _circleAnimation.value,
-                        child: AspectRatio(
-                            aspectRatio: 1,
-                            child: Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle, color: Colors.white),
-                            )))),
+                  right: 4,
+                  top: 0,
+                  bottom: 0,
+                  child: Transform.scale(
+                      scale: _rotateActiveAnimation.value,
+                      child: widget.activeChild),
+                ),
+                Positioned(
+                  left: 4,
+                  top: 0,
+                  bottom: 0,
+                  child: Transform.scale(
+                      scale: (startScale + endScale) - _rotateActiveAnimation.value,
+                      child: widget.inactiveChild),
+                ),
+                // slider
+                Positioned(
+                  top: 4,
+                  right: 4,
+                  bottom: 4,
+                  left: 4,
+                  child: Align(
+                    alignment: _circleAnimation.value,
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController.dispose();
   }
 }
