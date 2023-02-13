@@ -30,12 +30,12 @@ class SmallWeatherCard extends StatelessWidget {
                     width: double.maxFinite,
                     height: double.maxFinite,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.surface,
                       border: Border.all(
                         color: Colors.black,
                         width: 1,
                       ),
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(6),
                     ),
                   ),
                   Container(

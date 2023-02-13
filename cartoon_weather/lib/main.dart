@@ -3,6 +3,7 @@ import 'dart:developer' show log;
 
 import 'package:cartoon_weather/models/weather_forecast.dart';
 import 'package:cartoon_weather/providers/main_providers.dart';
+import 'package:cartoon_weather/providers/main_theme_state_notifier.dart';
 import 'package:cartoon_weather/providers/weather_forecast_state_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -24,6 +25,7 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   WeatherForecast forecast = await getCurrentForecast();
+  var theme = await MainTheme.getTheme();
   FlutterNativeSplash.remove();
 
   runApp(
@@ -31,10 +33,13 @@ void main() async {
       overrides: [
         forecastProvider
             .overrideWith((ref) => WeatherForecastStateNotifier(forecast)),
+        themeProvider.overrideWith((ref) => MainThemeStateNotifier(theme)),
       ],
-      child: MaterialApp(
-        theme: MainTheme.lightTheme,
-        home: const HomePage(),
+      child: Consumer(
+        builder: (context, ref, child) => MaterialApp(
+          theme: ref.watch(themeProvider),
+          home: const HomePage(),
+        ),
       ),
     ),
   );

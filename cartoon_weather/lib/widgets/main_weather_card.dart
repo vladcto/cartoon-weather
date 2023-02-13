@@ -147,7 +147,7 @@ class CardInfoDisplay extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Icon(icon, size: 32),
+            Icon(icon, size: 32, color: Theme.of(context).colorScheme.onPrimary),
             const SizedBox(width: 4),
             StrokeText(
               text: mainText,

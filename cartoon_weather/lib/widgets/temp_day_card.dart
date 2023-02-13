@@ -25,7 +25,7 @@ class TempDayCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       width: 128,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
             color: Colors.black,
@@ -66,7 +66,8 @@ class TempDayCard extends StatelessWidget {
                 _buildIconLabel(temperature.average.toInt().toString(),
                     CustomAppIcons.thermometer, context),
                 const SizedBox(height: 8),
-                const Text("feels like"),
+                Text("feels like",
+                    style: TextStyle(color: theme.colorScheme.onPrimary)),
                 const SizedBox(height: 4),
                 _buildIconLabel(temperature.feelsLike.toInt().toString(),
                     CustomAppIcons.thermometer, context),
@@ -80,16 +81,19 @@ class TempDayCard extends StatelessWidget {
 
   Widget _buildIconLabel(String text, IconData icon, BuildContext context) {
     var textStyle = Theme.of(context).textTheme.labelMedium;
+    var colorTheme = Theme.of(context).colorScheme;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(
           icon,
           size: 32,
+          color: colorTheme.onPrimary,
         ),
         StrokeText(
           text: text,
-          style: textStyle!.copyWith(color: Colors.white),
+          style: textStyle!.copyWith(color: colorTheme.surface),
           strokeWidth: 3,
         ),
       ],
