@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'theme_images.dart';
@@ -7,6 +8,7 @@ abstract class MainTheme {
   static const String themeKey = "theme";
   static const String lightThemeKey = "light";
   static const String darkThemeKey = "dark";
+  static final Logger _logger = Logger("MainTheme");
 
   static ThemeData lightTheme = ThemeData(
     colorScheme: const ColorScheme.light(
@@ -74,5 +76,14 @@ abstract class MainTheme {
       prefs.setString(themeKey, lightThemeKey);
       return lightTheme;
     }
+  }
+
+  static void saveTheme(bool isLight) {
+    SharedPreferences.getInstance().then(
+      (value) => value.setString(MainTheme.themeKey,
+          isLight ? MainTheme.lightThemeKey : MainTheme.darkThemeKey),
+      onError: (error, stackTrace) =>
+          _logger.severe("Theme prefs save failed.", error, stackTrace),
+    );
   }
 }
