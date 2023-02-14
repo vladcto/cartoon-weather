@@ -2,6 +2,7 @@ import 'package:cartoon_weather/models/weather_daily_forecast.dart';
 import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'detail_page.dart';
 import 'main_page.dart';
@@ -13,6 +14,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+        ),
         title: Row(
           mainAxisSize: MainAxisSize.max,
           children: const [
