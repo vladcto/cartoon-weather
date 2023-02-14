@@ -150,11 +150,13 @@ class MainPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Center(
-                child: Text(
-                  "Saint-Petersburg",
-                  overflow: TextOverflow.visible,
-                  style: nowTheme.textTheme.labelLarge,
-                  textAlign: TextAlign.center,
+                child: Consumer(
+                  builder: (context, ref, child) => Text(
+                    ref.watch(forecastProvider).location.name,
+                    overflow: TextOverflow.visible,
+                    style: nowTheme.textTheme.labelLarge,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),

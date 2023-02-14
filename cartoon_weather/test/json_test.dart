@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cartoon_weather/models/geolocation.dart';
 import 'package:cartoon_weather/models/weather_forecast.dart';
 import 'package:cartoon_weather/models/weather_temperature.dart';
 import 'package:cartoon_weather/models/weather_model.dart';
@@ -45,8 +46,10 @@ void main() {
   String weatherForecastJson =
       File("test/assets/json_tests/weather_api_response_full.json")
           .readAsStringSync();
-  WeatherForecast weatherForecast =
-      WeatherForecast.fromApiJson(jsonDecode(weatherForecastJson));
+  WeatherForecast weatherForecast = WeatherForecast.fromApiJson(
+    const Geolocation(lat: 1, lon: 1, name: "test"),
+    jsonDecode(weatherForecastJson),
+  );
 
   group(
     "Json Encode and decode test:",

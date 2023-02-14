@@ -3,19 +3,26 @@ import 'package:cartoon_weather/models/weather_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import 'geolocation.dart';
+
 part "weather_forecast.g.dart";
 
 @JsonSerializable(explicitToJson: true)
 class WeatherForecast extends Equatable {
+  static const locationKey = "location";
+
+  @JsonKey(name: locationKey)
+  final Geolocation location;
   final List<WeatherDailyForecast> dailyForecast;
 
-  const WeatherForecast(this.dailyForecast);
+  const WeatherForecast(this.location, this.dailyForecast);
 
   factory WeatherForecast.fromJson(Map<String, dynamic> json) =>
       _$WeatherForecastFromJson(json);
   Map<String, dynamic> toJson() => _$WeatherForecastToJson(this);
 
-  factory WeatherForecast.fromApiJson(Map<String, dynamic> json) {
+  factory WeatherForecast.fromApiJson(
+      Geolocation geolocation, Map<String, dynamic> json) {
     final int sunrise, sunset;
     final List<WeatherDailyForecast> dailyForecast = [];
     // city json object
@@ -63,9 +70,9 @@ class WeatherForecast extends Equatable {
       }
     }
 
-    return WeatherForecast(dailyForecast);
+    return WeatherForecast(geolocation, dailyForecast);
   }
 
   @override
-  List<Object?> get props => [dailyForecast];
+  List<Object?> get props => [location, dailyForecast];
 }
