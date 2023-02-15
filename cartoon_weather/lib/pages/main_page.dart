@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/pages/location_picker_page.dart';
 import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
 import 'package:cartoon_weather/themes/weather_icons_icons.dart';
@@ -130,6 +131,7 @@ class MainPage extends StatelessWidget {
 
   Widget _buildLocationPicker(BuildContext context) {
     var nowTheme = Theme.of(context);
+
     return SizedBox(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -147,15 +149,21 @@ class MainPage extends StatelessWidget {
                 width: 2,
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Center(
-                child: Consumer(
-                  builder: (context, ref, child) => Text(
-                    ref.watch(forecastProvider).location.name,
-                    overflow: TextOverflow.visible,
-                    style: nowTheme.textTheme.labelLarge,
-                    textAlign: TextAlign.center,
+            child: GestureDetector(
+              onTap: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (_) => LocationPickerPage())),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Center(
+                  child: Consumer(
+                    builder: (context, ref, child) => InkWell(
+                      child: Text(
+                        ref.watch(forecastProvider).location.name,
+                        overflow: TextOverflow.visible,
+                        style: nowTheme.textTheme.labelLarge,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
                 ),
               ),
