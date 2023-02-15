@@ -1,3 +1,4 @@
+import 'package:cartoon_weather/models/weather_forecast.dart';
 import 'package:cartoon_weather/pages/location_picker_page.dart';
 import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
@@ -6,6 +7,7 @@ import 'package:cartoon_weather/widgets/custom_switch.dart';
 import 'package:charts_painter/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 import '../themes/theme_images.dart';
 import '../widgets/bottom_bar.dart';
 import '../widgets/main_page_separator.dart';
@@ -149,24 +151,34 @@ class MainPage extends StatelessWidget {
                 width: 2,
               ),
             ),
-            child: GestureDetector(
-              onTap: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => LocationPickerPage())),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Center(
-                  child: Consumer(
-                    builder: (context, ref, child) => InkWell(
+            // Location picker button
+            child: Consumer(
+              builder: (context, ref, _) {
+                WeatherForecast forecast = ref.watch(forecastProvider);
+                return GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => LocationPickerPage(
+                        startPoint: Point(
+                          latitude: forecast.location.lat,
+                          longitude: forecast.location.lon,
+                        ),
+                      ),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Center(
                       child: Text(
-                        ref.watch(forecastProvider).location.name,
+                        forecast.location.name,
                         overflow: TextOverflow.visible,
                         style: nowTheme.textTheme.labelLarge,
                         textAlign: TextAlign.center,
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ),
         ],

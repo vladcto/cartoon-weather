@@ -7,7 +7,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class LocationPickerPage extends StatefulWidget {
-  const LocationPickerPage({super.key});
+  static const Point spbLocation = Point(latitude: 59.937500, longitude: 30.308611);
+
+  final Point startPoint;
+  const LocationPickerPage({
+    super.key,
+    this.startPoint = spbLocation,
+  });
 
   @override
   State<LocationPickerPage> createState() {
@@ -49,6 +55,11 @@ class _LocationPickerPageState extends State<LocationPickerPage>
                   logoAlignment: const MapAlignment(
                     horizontal: HorizontalAlignment.center,
                     vertical: VerticalAlignment.bottom,
+                  ),
+                  onMapCreated: (controller) => controller.moveCamera(
+                    CameraUpdate.newCameraPosition(
+                      CameraPosition(target: widget.startPoint),
+                    ),
                   ),
                   onCameraPositionChanged: (cameraPosition, reason, finished) {
                     _coord = cameraPosition.target;
@@ -162,5 +173,11 @@ class _LocationPickerPageState extends State<LocationPickerPage>
       forecastStateNotifier.setupForecast(value);
       Navigator.of(context).pop();
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController.dispose();
   }
 }
