@@ -1,4 +1,9 @@
+import 'package:cartoon_weather/controlers/weather_forecast_controler.dart';
+import 'package:cartoon_weather/models/weather_forecast.dart';
+import 'package:cartoon_weather/providers/main_providers.dart';
+import 'package:cartoon_weather/providers/weather_forecast_state_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class LocationPickerPage extends StatefulWidget {
@@ -28,6 +33,8 @@ class _LocationPickerPageState extends State<LocationPickerPage>
 
   @override
   Widget build(BuildContext context) {
+    var colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -54,20 +61,32 @@ class _LocationPickerPageState extends State<LocationPickerPage>
                     right: 0,
                     bottom: constraints.maxHeight / 2 + _animationMark.value,
                     left: 0,
-                    child: const Icon(
+                    child: Icon(
                       Icons.online_prediction_outlined,
                       size: 64,
+                      color: colorScheme.onPrimary,
                     ),
                   ),
                 ),
                 Positioned(
-                  top: constraints.maxHeight / 2,
+                  top: constraints.maxHeight / 2 + 32,
                   width: 200,
                   height: 96,
                   child: Container(
                     width: 250,
                     height: 96,
-                    child: Placeholder(),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary,
+                      border: Border.all(color: Colors.black, width: 2),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 4),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Positioned(
@@ -75,14 +94,49 @@ class _LocationPickerPageState extends State<LocationPickerPage>
                   bottom: 24,
                   width: 96,
                   height: 96,
-                  child: Placeholder(),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(colorScheme.secondary),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: const BorderSide(color: Colors.black, width: 2),
+                        ),
+                      ),
+                    ),
+                    onPressed: () => changeForecast(
+                        ProviderScope.containerOf(context)
+                            .read(forecastProvider.notifier),
+                        context),
+                    child: Icon(
+                      Icons.navigate_next_rounded,
+                      size: 64,
+                    ),
+                  ),
                 ),
                 Positioned(
                   left: 24,
                   bottom: 24,
                   width: 96,
                   height: 96,
-                  child: Placeholder(),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(colorScheme.secondary),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: const BorderSide(color: Colors.black, width: 2),
+                        ),
+                      ),
+                    ),
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Icon(
+                      Icons.not_interested_sharp,
+                      size: 64,
+                    ),
+                  ),
                 ),
               ],
             );
@@ -98,5 +152,15 @@ class _LocationPickerPageState extends State<LocationPickerPage>
     } else if (_animationController.status != AnimationStatus.forward) {
       _animationController.forward();
     }
+  }
+
+  void changeForecast(
+      WeatherForecastStateNotifier forecastStateNotifier, BuildContext context) {
+    WeatherForecastControler.getForecastFromApi(_coord.latitude, _coord.longitude)
+        .then((value) {
+      // TODO: Сделать сохранение выбранной геолокации.
+      forecastStateNotifier.setupForecast(value);
+      Navigator.of(context).pop();
+    });
   }
 }
