@@ -44,8 +44,7 @@ abstract class WeatherForecastControler {
     WeatherForecast forecast =
         await getForecastFromApi(geolocation.lat, geolocation.lon);
 
-    await prefs.setString(forecastKey, json.encode(forecast.toJson()));
-    await prefs.setInt(timeKey, forecast.dailyForecast[0].firstPeriodTime);
+    saveForecast(forecast);
     return forecast;
   }
 
@@ -89,5 +88,11 @@ abstract class WeatherForecastControler {
         lon: 30.308611,
       );
     }
+  }
+
+  static Future<void> saveForecast(WeatherForecast forecast) async {
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.setString(forecastKey, json.encode(forecast.toJson()));
+    await prefs.setInt(timeKey, forecast.dailyForecast[0].firstPeriodTime);
   }
 }

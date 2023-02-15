@@ -1,10 +1,11 @@
 import 'package:cartoon_weather/controlers/weather_forecast_controler.dart';
-import 'package:cartoon_weather/models/weather_forecast.dart';
 import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:cartoon_weather/providers/weather_forecast_state_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
+
+import '../themes/custom_app_icons.dart';
 
 class LocationPickerPage extends StatefulWidget {
   static const Point spbLocation = Point(latitude: 59.937500, longitude: 30.308611);
@@ -45,114 +46,101 @@ class _LocationPickerPageState extends State<LocationPickerPage>
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
-          child: LayoutBuilder(builder: (context, constraints) {
-            return Stack(
-              alignment: Alignment.center,
-              children: [
-                YandexMap(
-                  rotateGesturesEnabled: false,
-                  tiltGesturesEnabled: false,
-                  logoAlignment: const MapAlignment(
-                    horizontal: HorizontalAlignment.center,
-                    vertical: VerticalAlignment.bottom,
-                  ),
-                  onMapCreated: (controller) => controller.moveCamera(
-                    CameraUpdate.newCameraPosition(
-                      CameraPosition(target: widget.startPoint),
-                    ),
-                  ),
-                  onCameraPositionChanged: (cameraPosition, reason, finished) {
-                    _coord = cameraPosition.target;
-                    updateMarkState(finished);
-                  },
+            child: Stack(
+          alignment: Alignment.center,
+          children: [
+            YandexMap(
+              rotateGesturesEnabled: false,
+              tiltGesturesEnabled: false,
+              logoAlignment: const MapAlignment(
+                horizontal: HorizontalAlignment.center,
+                vertical: VerticalAlignment.bottom,
+              ),
+              onMapCreated: (controller) => controller.moveCamera(
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(target: widget.startPoint),
                 ),
-                AnimatedBuilder(
-                  animation: _animationMark,
-                  builder: (context, _) => Positioned(
-                    right: 0,
-                    bottom: constraints.maxHeight / 2 + _animationMark.value,
-                    left: 0,
-                    child: Icon(
-                      Icons.online_prediction_outlined,
-                      size: 64,
-                      color: colorScheme.onPrimary,
-                    ),
-                  ),
+              ),
+              onCameraPositionChanged: (cameraPosition, reason, finished) {
+                _coord = cameraPosition.target;
+                updateMarkState(finished);
+              },
+            ),
+            // pointer shadow
+            Container(
+              height: 12,
+              width: 16,
+              decoration: BoxDecoration(
+                color: Colors.black26,
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            // pointer
+            AnimatedBuilder(
+              animation: _animationMark,
+              builder: (context, _) => Positioned(
+                right: 0,
+                bottom: 102 / 2 + _animationMark.value,
+                left: 0,
+                top: 0,
+                child: _Mark(
+                  fillColor: colorScheme.primary,
+                  outlineColor: colorScheme.onPrimary,
+                  size: 64,
                 ),
-                Positioned(
-                  top: constraints.maxHeight / 2 + 32,
-                  width: 200,
-                  height: 96,
-                  child: Container(
-                    width: 250,
-                    height: 96,
-                    decoration: BoxDecoration(
-                      color: colorScheme.primary,
-                      border: Border.all(color: Colors.black, width: 2),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 4),
-                          blurRadius: 4,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 24,
-                  bottom: 24,
-                  width: 96,
-                  height: 96,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(colorScheme.secondary),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Colors.black, width: 2),
-                        ),
-                      ),
-                    ),
-                    onPressed: () => changeForecast(
-                        ProviderScope.containerOf(context)
-                            .read(forecastProvider.notifier),
-                        context),
-                    child: Icon(
-                      Icons.navigate_next_rounded,
-                      size: 64,
+              ),
+            ),
+            Positioned(
+              right: 24,
+              bottom: 24,
+              width: 96,
+              height: 96,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(colorScheme.secondary),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: const BorderSide(color: Colors.black, width: 2),
                     ),
                   ),
                 ),
-                Positioned(
-                  left: 24,
-                  bottom: 24,
-                  width: 96,
-                  height: 96,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(colorScheme.secondary),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Colors.black, width: 2),
-                        ),
-                      ),
-                    ),
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: Icon(
-                      Icons.not_interested_sharp,
-                      size: 64,
+                onPressed: () => changeForecast(
+                    ProviderScope.containerOf(context)
+                        .read(forecastProvider.notifier),
+                    context),
+                child: const Icon(
+                  CustomAppIcons.done,
+                  size: 64,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 24,
+              bottom: 24,
+              width: 96,
+              height: 96,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(colorScheme.secondary),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: const BorderSide(color: Colors.black, width: 2),
                     ),
                   ),
                 ),
-              ],
-            );
-          }),
-        ),
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Icon(
+                  CustomAppIcons.close,
+                  size: 64,
+                ),
+              ),
+            ),
+          ],
+        )),
       ],
     );
   }
@@ -169,7 +157,7 @@ class _LocationPickerPageState extends State<LocationPickerPage>
       WeatherForecastStateNotifier forecastStateNotifier, BuildContext context) {
     WeatherForecastControler.getForecastFromApi(_coord.latitude, _coord.longitude)
         .then((value) {
-      // TODO: Сделать сохранение выбранной геолокации.
+      WeatherForecastControler.saveForecast(value);
       forecastStateNotifier.setupForecast(value);
       Navigator.of(context).pop();
     });
@@ -179,5 +167,32 @@ class _LocationPickerPageState extends State<LocationPickerPage>
   void dispose() {
     super.dispose();
     _animationController.dispose();
+  }
+}
+
+class _Mark extends StatelessWidget {
+  final Color fillColor, outlineColor;
+  final double size;
+
+  const _Mark(
+      {required this.fillColor, required this.outlineColor, required this.size});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Icon(
+          CustomAppIcons.location_filled,
+          size: size,
+          color: fillColor,
+        ),
+        Icon(
+          CustomAppIcons.location,
+          size: size,
+          color: outlineColor,
+        ),
+      ],
+    );
   }
 }
