@@ -142,30 +142,31 @@ class MainPage extends StatelessWidget {
             "Location: ",
             style: nowTheme.textTheme.labelLarge,
           ),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
-              borderRadius: BorderRadius.circular(10000),
-              border: Border.all(
-                color: Colors.black,
-                width: 2,
-              ),
-            ),
-            // Location picker button
-            child: Consumer(
-              builder: (context, ref, _) {
-                WeatherForecast forecast = ref.watch(forecastProvider);
-                return GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => LocationPickerPage(
-                        startPoint: Point(
-                          latitude: forecast.location.lat,
-                          longitude: forecast.location.lon,
-                        ),
+          Consumer(
+            builder: (context, ref, _) {
+              WeatherForecast forecast = ref.watch(forecastProvider);
+
+              return GestureDetector(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => LocationPickerPage(
+                      startPoint: Point(
+                        latitude: forecast.location.lat,
+                        longitude: forecast.location.lon,
                       ),
                     ),
                   ),
+                ),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondary,
+                    borderRadius: BorderRadius.circular(10000),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 2,
+                    ),
+                  ),
+                  // Location picker button
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Center(
@@ -177,9 +178,9 @@ class MainPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
         ],
       ),
