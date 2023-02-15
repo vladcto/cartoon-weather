@@ -247,7 +247,6 @@ class DetailPage extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 
   Widget _buildSunriseWidget(String text, bool sunrise, ThemeData theme) {

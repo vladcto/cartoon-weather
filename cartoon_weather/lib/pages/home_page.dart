@@ -4,6 +4,7 @@ import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../widgets/YandexMap.dart';
 import 'detail_page.dart';
 import 'main_page.dart';
 
@@ -12,6 +13,17 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(
+      Duration(seconds: 1),
+      () => Overlay.of(context).insert(
+        OverlayEntry(
+          builder: (context) => SizedBox.expand(
+            child: MyYandexMap(),
+          ),
+        ),
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
