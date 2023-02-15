@@ -95,17 +95,8 @@ class _LocationPickerPageState extends State<LocationPickerPage>
               bottom: 24,
               width: 96,
               height: 96,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(colorScheme.secondary),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                      side: const BorderSide(color: Colors.black, width: 2),
-                    ),
-                  ),
-                ),
+              child: _ControlButton(
+                colorScheme: colorScheme,
                 onPressed: () => changeForecast(
                     ProviderScope.containerOf(context)
                         .read(forecastProvider.notifier),
@@ -121,17 +112,8 @@ class _LocationPickerPageState extends State<LocationPickerPage>
               bottom: 24,
               width: 96,
               height: 96,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(colorScheme.secondary),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                      side: const BorderSide(color: Colors.black, width: 2),
-                    ),
-                  ),
-                ),
+              child: _ControlButton(
+                colorScheme: colorScheme,
                 onPressed: () => Navigator.of(context).pop(),
                 child: const Icon(
                   CustomAppIcons.close,
@@ -195,4 +177,23 @@ class _Mark extends StatelessWidget {
       ],
     );
   }
+}
+
+class _ControlButton extends ElevatedButton {
+  _ControlButton(
+      {required super.onPressed,
+      required super.child,
+      required ColorScheme colorScheme})
+      : super(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(colorScheme.secondary),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+                side: const BorderSide(color: Colors.black, width: 3),
+              ),
+            ),
+            elevation: MaterialStateProperty.all(8),
+          ),
+        );
 }
