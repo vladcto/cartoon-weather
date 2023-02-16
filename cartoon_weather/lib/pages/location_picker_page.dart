@@ -56,11 +56,10 @@ class _LocationPickerPageState extends State<LocationPickerPage>
                 horizontal: HorizontalAlignment.center,
                 vertical: VerticalAlignment.bottom,
               ),
-              onMapCreated: (controller) => controller.moveCamera(
-                CameraUpdate.newCameraPosition(
+              onMapCreated: (controller) => controller
+                ..moveCamera(CameraUpdate.newCameraPosition(
                   CameraPosition(target: widget.startPoint),
-                ),
-              ),
+                )),
               onCameraPositionChanged: (cameraPosition, reason, finished) {
                 _coord = cameraPosition.target;
                 updateMarkState(finished);
