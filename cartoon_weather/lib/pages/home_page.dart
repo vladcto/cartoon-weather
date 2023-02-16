@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: YandexLogo(),
+              child: ApiLogo(),
             ),
           ],
         ),
@@ -70,8 +70,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class YandexLogo extends StatelessWidget {
-  const YandexLogo({super.key});
+class ApiLogo extends StatelessWidget {
+  const ApiLogo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -80,15 +80,19 @@ class YandexLogo extends StatelessWidget {
       height: 36,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+        children: const [
           Expanded(
-            child: Image.asset(
-              "assets/images/yandex_logo.png",
-              fit: BoxFit.fitHeight,
+              child: Text(
+            "OpenWeatherMap",
+            style: TextStyle(
+              fontWeight: FontWeight.w800,
+              fontFamily: "Inter",
+              fontSize: 17,
             ),
-          ),
-          const Text(
-            "Источник данных.",
+            textAlign: TextAlign.center,
+          )),
+          Text(
+            "API provider.",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontFamily: "Inter",
