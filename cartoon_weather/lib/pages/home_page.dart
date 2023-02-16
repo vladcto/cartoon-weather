@@ -9,26 +9,14 @@ import 'detail_page.dart';
 import 'main_page.dart';
 
 class HomePage extends StatelessWidget {
-  final bool initializedWithError;
-  const HomePage({super.key, this.initializedWithError = false});
+  final Function(BuildContext homeContext)? buildCallback;
+  const HomePage({super.key, this.buildCallback});
 
   @override
   @override
   Widget build(BuildContext context) {
-    //TODO: Вынести из StatelessWidget.
-    if (initializedWithError) {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (timeStamp) => ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              "Forecast update error. Check your internet contection\nNow showed old forecast.",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      );
-    }
+    buildCallback?.call(context);
+
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle:

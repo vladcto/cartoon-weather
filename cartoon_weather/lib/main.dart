@@ -15,7 +15,7 @@ import 'themes/main_theme.dart';
 
 void main() async {
   LoggerHelper.init();
-  final Logger _logger = Logger("main.dart");
+  final Logger logger = Logger("main.dart");
   bool forecastOutdated = false;
   bool forecastInitFailed = false;
 
@@ -33,7 +33,7 @@ void main() async {
       if (await WeatherForecastControler.existCachedForecast()) {
         forecast = await WeatherForecastControler.getForecastFromCahce();
       } else {
-        _logger.info("Forecast initialization failed");
+        logger.info("Forecast initialization failed");
         forecastInitFailed = true;
       }
     },
@@ -56,7 +56,22 @@ void main() async {
           builder: (context, ref, child) => MaterialApp(
             theme: ref.watch(themeProvider),
             home: HomePage(
-              initializedWithError: forecastOutdated,
+              buildCallback: (homeContext) {
+                if (forecastOutdated) {
+                  forecastOutdated = false;
+                  WidgetsBinding.instance.addPostFrameCallback(
+                    (_) => ScaffoldMessenger.of(homeContext).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text(
+                          "Forecast update error. Check your internet contection\nNow showed old forecast.",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
           ),
         ),
