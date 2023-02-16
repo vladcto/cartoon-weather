@@ -4,6 +4,7 @@ import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'location_picker_page.dart';
 import 'detail_page.dart';
 import 'main_page.dart';
 

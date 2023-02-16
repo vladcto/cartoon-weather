@@ -21,7 +21,7 @@ abstract class WeatherForecastControler {
         : null;
 
     if (time != null &&
-        DateTime.now().toUtc().difference(time).inHours > 3 &&
+        time.difference(DateTime.now().toUtc()).inHours < 3 &&
         prefs.containsKey(forecastKey)) {
       // Should be initialized from cache.
       try {
@@ -44,8 +44,7 @@ abstract class WeatherForecastControler {
     WeatherForecast forecast =
         await getForecastFromApi(geolocation.lat, geolocation.lon);
 
-    await prefs.setString(forecastKey, json.encode(forecast.toJson()));
-    await prefs.setInt(timeKey, forecast.dailyForecast[0].firstPeriodTime);
+    saveForecast(forecast);
     return forecast;
   }
 
@@ -59,7 +58,9 @@ abstract class WeatherForecastControler {
     )));
     var locationsMark = await geocoding.placemarkFromCoordinates(lat, lon);
     var geolocation = Geolocation(
-      name: locationsMark[0].locality.toString(),
+      name: locationsMark[0].locality.toString().isEmpty
+          ? "lat: ${lat.toStringAsFixed(1)}, lon: ${lon.toStringAsFixed(1)}"
+          : locationsMark[0].locality.toString(),
       lat: lat,
       lon: lon,
     );
@@ -89,5 +90,11 @@ abstract class WeatherForecastControler {
         lon: 30.308611,
       );
     }
+  }
+
+  static Future<void> saveForecast(WeatherForecast forecast) async {
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.setString(forecastKey, json.encode(forecast.toJson()));
+    await prefs.setInt(timeKey, forecast.dailyForecast[0].firstPeriodTime);
   }
 }

@@ -1,3 +1,5 @@
+import 'package:cartoon_weather/models/weather_forecast.dart';
+import 'package:cartoon_weather/pages/location_picker_page.dart';
 import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
 import 'package:cartoon_weather/themes/weather_icons_icons.dart';
@@ -5,6 +7,7 @@ import 'package:cartoon_weather/widgets/custom_switch.dart';
 import 'package:charts_painter/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 import '../themes/theme_images.dart';
 import '../widgets/bottom_bar.dart';
 import '../widgets/main_page_separator.dart';
@@ -130,6 +133,7 @@ class MainPage extends StatelessWidget {
 
   Widget _buildLocationPicker(BuildContext context) {
     var nowTheme = Theme.of(context);
+
     return SizedBox(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -138,28 +142,45 @@ class MainPage extends StatelessWidget {
             "Location: ",
             style: nowTheme.textTheme.labelLarge,
           ),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
-              borderRadius: BorderRadius.circular(10000),
-              border: Border.all(
-                color: Colors.black,
-                width: 2,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Center(
-                child: Consumer(
-                  builder: (context, ref, child) => Text(
-                    ref.watch(forecastProvider).location.name,
-                    overflow: TextOverflow.visible,
-                    style: nowTheme.textTheme.labelLarge,
-                    textAlign: TextAlign.center,
+          Consumer(
+            builder: (context, ref, _) {
+              WeatherForecast forecast = ref.watch(forecastProvider);
+
+              return GestureDetector(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => LocationPickerPage(
+                      startPoint: Point(
+                        latitude: forecast.location.lat,
+                        longitude: forecast.location.lon,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondary,
+                    borderRadius: BorderRadius.circular(10000),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 2,
+                    ),
+                  ),
+                  // Location picker button
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Center(
+                      child: Text(
+                        forecast.location.name,
+                        overflow: TextOverflow.visible,
+                        style: nowTheme.textTheme.labelLarge,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
