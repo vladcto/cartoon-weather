@@ -2,19 +2,23 @@ import 'package:cartoon_weather/controlers/weather_forecast_controler.dart';
 import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:cartoon_weather/providers/weather_forecast_state_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
+import 'package:logging/logging.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import '../themes/custom_app_icons.dart';
 
 class LocationPickerPage extends StatefulWidget {
-  static const Point spbLocation = Point(latitude: 59.937500, longitude: 30.308611);
+  static final Logger _logger = Logger("LocationPickerPage");
+  static const Point _kSpbLocation =
+      Point(latitude: 59.937500, longitude: 30.308611);
 
   final Point startPoint;
   const LocationPickerPage({
     super.key,
-    this.startPoint = spbLocation,
+    this.startPoint = _kSpbLocation,
   });
 
   @override
@@ -144,20 +148,25 @@ class _LocationPickerPageState extends State<LocationPickerPage>
         forecastStateNotifier.setupForecast(value);
         Navigator.of(context).pop();
       },
-    ).onError((error, stackTrace) {
-      Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.red,
-          content: Text(
-            "Internet problems. \nCheck your internet connection and try again.",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+    ).onError<Exception>(
+      (error, stackTrace) {
+        LocationPickerPage._logger.info("Internet error handle.");
+
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              "Internet problems. \nCheck your internet connection and try again.",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-      );
-    }, test: (e) => e is ClientException);
+        );
+      },
+      test: (e) => e is ClientException || e is PlatformException,
+    );
   }
 
   @override
