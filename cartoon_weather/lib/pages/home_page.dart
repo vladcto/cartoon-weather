@@ -9,10 +9,14 @@ import 'detail_page.dart';
 import 'main_page.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final Function(BuildContext homeContext)? buildCallback;
+  const HomePage({super.key, this.buildCallback});
 
   @override
+  @override
   Widget build(BuildContext context) {
+    buildCallback?.call(context);
+
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle:

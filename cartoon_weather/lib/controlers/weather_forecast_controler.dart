@@ -14,6 +14,7 @@ abstract class WeatherForecastControler {
   static const String timeKey = "time";
   static const String forecastKey = "forecast";
 
+  /// Get forecast from API if cache forecast empty or too old.
   static Future<WeatherForecast> initializeForecast() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     DateTime? time = prefs.containsKey(timeKey)
@@ -96,5 +97,10 @@ abstract class WeatherForecastControler {
     var prefs = await SharedPreferences.getInstance();
     await prefs.setString(forecastKey, json.encode(forecast.toJson()));
     await prefs.setInt(timeKey, forecast.dailyForecast[0].firstPeriodTime);
+  }
+
+  static Future<bool> existCachedForecast() async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.containsKey(forecastKey) && prefs.containsKey(timeKey);
   }
 }
