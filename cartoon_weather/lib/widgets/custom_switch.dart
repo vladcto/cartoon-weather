@@ -65,7 +65,7 @@ class _CustomSwitchState extends State<CustomSwitch>
           onTap: () {
             value = !value;
             value ? _animationController.forward() : _animationController.reverse();
-            value ? widget.onChanged(true) : widget.onChanged(false);
+            widget.onChanged(value);
           },
           child: Container(
             width: widget.width,

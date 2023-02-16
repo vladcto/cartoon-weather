@@ -111,8 +111,8 @@ class MainPage extends StatelessWidget {
                 ),
                 Consumer(
                   builder: (context, ref, child) => CustomSwitch(
-                    onChanged: (active) {
-                      ref.watch(themeProvider.notifier).changeTheme(active);
+                    onChanged: (darkMode) {
+                      ref.watch(themeProvider.notifier).changeTheme(!darkMode);
                     },
                     height: 35,
                     width: 70,
