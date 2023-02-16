@@ -15,9 +15,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-        ),
+        systemOverlayStyle:
+            SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
         title: Row(
           mainAxisSize: MainAxisSize.max,
           children: const [
