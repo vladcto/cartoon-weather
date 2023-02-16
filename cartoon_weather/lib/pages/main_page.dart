@@ -201,6 +201,8 @@ class MainPage extends StatelessWidget {
           [
             rains.take(8).map((e) => ChartItem(e * 100)).toList(),
           ],
+          axisMax: 100,
+          axisMin: 0,
         ),
         itemOptions: BarItemOptions(
           padding: const EdgeInsets.symmetric(
