@@ -76,7 +76,7 @@ class DetailPage extends StatelessWidget {
                         const SizedBox(width: 8),
                         Expanded(
                           child: CustomPaint(
-                            painter: ArrowPainer(),
+                            painter: _ArrowPainer(),
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -85,28 +85,10 @@ class DetailPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // List of temp cards
                   Flexible(
                     flex: 2,
-                    child: SizedBox(
-                      height: 196,
-                      child: ListView.separated(
-                        itemCount: daysPeriods.length + 2,
-                        scrollDirection: Axis.horizontal,
-                        separatorBuilder: (_, __) => const SizedBox(width: 16),
-                        itemBuilder: (_, index) {
-                          if (index == 0 || index == daysPeriods.length + 1) {
-                            return const SizedBox(width: 4);
-                          }
-                          String name = daysPeriods[index - 1]
-                                  .dayPeriod
-                                  .name[0]
-                                  .toUpperCase() +
-                              daysPeriods[index - 1].dayPeriod.name.substring(1);
-                          return TempDayCard(name,
-                              temperature: daysPeriods[index - 1].temp);
-                        },
-                      ),
+                    child: _TempCardsContext(
+                      days: daysPeriods,
                     ),
                   ),
                   // ? - Должен быть способ сделать это поменьше
@@ -393,7 +375,7 @@ class DetailPage extends StatelessWidget {
   }
 }
 
-class ArrowPainer extends CustomPainter {
+class _ArrowPainer extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     const double arrowHeightPerc = .2;
@@ -425,4 +407,40 @@ class ArrowPainer extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class _TempCardsContext extends StatelessWidget {
+  final List<WeatherModel> days;
+
+  const _TempCardsContext({super.key, required this.days});
+
+  @override
+  Widget build(BuildContext context) {
+    return days.length > 2
+        ? ListView.separated(
+            itemCount: days.length + 2,
+            scrollDirection: Axis.horizontal,
+            separatorBuilder: (_, __) => const SizedBox(width: 16),
+            itemBuilder: (_, index) {
+              if (index == 0 || index == days.length + 1) {
+                return const SizedBox(width: 4);
+              }
+              String name = days[index - 1].dayPeriod.name[0].toUpperCase() +
+                  days[index - 1].dayPeriod.name.substring(1);
+              return TempDayCard(name, temperature: days[index - 1].temp);
+            },
+          )
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ...days.map(
+                (e) => TempDayCard(
+                    e.dayPeriod.name[0].toUpperCase() +
+                        e.dayPeriod.name.substring(1),
+                    temperature: e.temp),
+              ),
+            ],
+          );
+  }
 }
