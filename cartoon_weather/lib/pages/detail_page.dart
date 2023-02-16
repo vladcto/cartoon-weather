@@ -112,7 +112,7 @@ class DetailPage extends StatelessWidget {
                                           subtext: "rain %",
                                           icon: CustomAppIcons.rain),
                                       LineInfoCard(
-                                          text: "${forecast.pressure} lbs",
+                                          text: "${forecast.pressure} hPa",
                                           subtext: "pressure",
                                           icon: CustomAppIcons.pressure),
                                     ],

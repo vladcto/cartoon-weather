@@ -61,7 +61,7 @@ class MainWeatherCard extends StatelessWidget {
                             ),
                             CardInfoDisplay(
                               CustomAppIcons.pressure,
-                              "${dailyForecast.pressure} lbs",
+                              "${dailyForecast.pressure} hPa",
                               subText: "pressure",
                             ),
                           ],
