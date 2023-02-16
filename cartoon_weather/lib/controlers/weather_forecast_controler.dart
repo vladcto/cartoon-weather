@@ -58,7 +58,9 @@ abstract class WeatherForecastControler {
     )));
     var locationsMark = await geocoding.placemarkFromCoordinates(lat, lon);
     var geolocation = Geolocation(
-      name: locationsMark[0].locality.toString(),
+      name: locationsMark[0].locality.toString().isEmpty
+          ? "lat: ${lat.toStringAsFixed(1)}, lon: ${lon.toStringAsFixed(1)}"
+          : locationsMark[0].locality.toString(),
       lat: lat,
       lon: lon,
     );

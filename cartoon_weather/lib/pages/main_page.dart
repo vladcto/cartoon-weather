@@ -168,7 +168,7 @@ class MainPage extends StatelessWidget {
                   ),
                   // Location picker button
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Center(
                       child: Text(
                         forecast.location.name,
