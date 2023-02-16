@@ -42,8 +42,8 @@ class WeatherDailyForecast extends Equatable {
       this.night});
 
   double get rainPropabilityAverage {
-    return rainPropabilitys
-        .reduce((value, element) => value + element / rainPropabilitys.length);
+    return rainPropabilitys.reduce((value, element) => value + element) /
+        rainPropabilitys.length;
   }
 
   List<double> get rainPropabilitys {
