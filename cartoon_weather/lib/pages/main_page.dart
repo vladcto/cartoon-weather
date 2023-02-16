@@ -2,6 +2,7 @@ import 'package:cartoon_weather/models/weather_forecast.dart';
 import 'package:cartoon_weather/pages/location_picker_page.dart';
 import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
+import 'package:cartoon_weather/themes/main_theme.dart';
 import 'package:cartoon_weather/themes/weather_icons_icons.dart';
 import 'package:cartoon_weather/widgets/custom_switch.dart';
 import 'package:charts_painter/chart.dart';
@@ -125,6 +126,7 @@ class MainPage extends StatelessWidget {
                       CustomAppIcons.sunset,
                       color: colorScheme.onPrimary,
                     ),
+                    startValue: ref.watch(themeProvider) == MainTheme.darkTheme,
                   ),
                 ),
               ],

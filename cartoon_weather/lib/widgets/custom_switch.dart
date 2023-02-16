@@ -34,9 +34,10 @@ class _CustomSwitchState extends State<CustomSwitch>
   static const double startScale = .1;
   static const double endScale = 1.0;
 
+  // 0 - when false value, 1 - true value.
+  late AnimationController _animationController;
   late Animation _circleAnimation;
   late Animation _rotateActiveAnimation;
-  late AnimationController _animationController;
   bool value = false;
 
   @override
@@ -47,7 +48,7 @@ class _CustomSwitchState extends State<CustomSwitch>
         vsync: this, duration: Duration(milliseconds: widget.duration));
     _animationController.value = value ? 1 : 0;
     _circleAnimation = AlignmentTween(
-            begin: Alignment.centerRight, end: Alignment.centerLeft)
+            begin: Alignment.centerLeft, end: Alignment.centerRight)
         .animate(
             CurvedAnimation(parent: _animationController, curve: Curves.easeInOut));
     _rotateActiveAnimation = Tween<double>(begin: startScale, end: endScale).animate(
@@ -80,7 +81,7 @@ class _CustomSwitchState extends State<CustomSwitch>
                   top: 0,
                   bottom: 0,
                   child: Transform.scale(
-                      scale: _rotateActiveAnimation.value,
+                      scale: (startScale + endScale) - _rotateActiveAnimation.value,
                       child: widget.activeChild),
                 ),
                 Positioned(
@@ -88,7 +89,7 @@ class _CustomSwitchState extends State<CustomSwitch>
                   top: 0,
                   bottom: 0,
                   child: Transform.scale(
-                      scale: (startScale + endScale) - _rotateActiveAnimation.value,
+                      scale: _rotateActiveAnimation.value,
                       child: widget.inactiveChild),
                 ),
                 // slider
