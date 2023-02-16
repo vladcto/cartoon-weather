@@ -3,6 +3,7 @@ import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:cartoon_weather/providers/weather_forecast_state_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import '../themes/custom_app_icons.dart';
@@ -137,11 +138,26 @@ class _LocationPickerPageState extends State<LocationPickerPage>
   void changeForecast(
       WeatherForecastStateNotifier forecastStateNotifier, BuildContext context) {
     WeatherForecastControler.getForecastFromApi(_coord.latitude, _coord.longitude)
-        .then((value) {
-      WeatherForecastControler.saveForecast(value);
-      forecastStateNotifier.setupForecast(value);
+        .then(
+      (value) {
+        WeatherForecastControler.saveForecast(value);
+        forecastStateNotifier.setupForecast(value);
+        Navigator.of(context).pop();
+      },
+    ).onError((error, stackTrace) {
       Navigator.of(context).pop();
-    });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(
+            "Internet problems. \nCheck your internet connection and try again.",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      );
+    }, test: (e) => e is ClientException);
   }
 
   @override
