@@ -63,13 +63,13 @@ class TempDayCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 // average temp
-                _buildIconLabel(temperature.average.toInt().toString(),
+                _buildTempLabel("${temperature.average.toInt()}°C",
                     CustomAppIcons.thermometer, context),
                 const SizedBox(height: 8),
                 Text("feels like",
                     style: TextStyle(color: theme.colorScheme.onPrimary)),
                 const SizedBox(height: 4),
-                _buildIconLabel(temperature.feelsLike.toInt().toString(),
+                _buildTempLabel("${temperature.feelsLike.toInt()}°C",
                     CustomAppIcons.thermometer, context),
               ],
             ),
@@ -79,7 +79,7 @@ class TempDayCard extends StatelessWidget {
     );
   }
 
-  Widget _buildIconLabel(String text, IconData icon, BuildContext context) {
+  Widget _buildTempLabel(String text, IconData icon, BuildContext context) {
     var textStyle = Theme.of(context).textTheme.labelMedium;
     var colorTheme = Theme.of(context).colorScheme;
 

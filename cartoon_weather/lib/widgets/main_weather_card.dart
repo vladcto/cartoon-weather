@@ -51,7 +51,7 @@ class MainWeatherCard extends StatelessWidget {
                           children: [
                             CardInfoDisplay(
                               CustomAppIcons.thermometer,
-                              "${dailyForecast.averageTemp.min.toInt()}/${dailyForecast.averageTemp.max.toInt()} C",
+                              "${dailyForecast.averageTemp.min.toInt()}/${dailyForecast.averageTemp.max.toInt()} °C",
                               subText: "temperature",
                             ),
                             CardInfoDisplay(

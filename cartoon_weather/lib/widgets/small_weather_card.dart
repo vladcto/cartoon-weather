@@ -103,7 +103,7 @@ class SmallWeatherCard extends StatelessWidget {
             // Temp
             child: Center(
               child: Text(
-                "${forecast.averageTemp.max.toInt()}/${forecast.averageTemp.min.toInt()} C",
+                "${forecast.averageTemp.max.toInt()}/${forecast.averageTemp.min.toInt()} °C",
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
                       fontSize: 19,
                     ),
