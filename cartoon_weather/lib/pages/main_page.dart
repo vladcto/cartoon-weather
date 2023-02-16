@@ -71,26 +71,30 @@ class MainPage extends StatelessWidget {
               ),
               const Padding(
                 padding: EdgeInsets.all(8),
-                child: MainPageSeparator("Rain"),
+                child: MainPageSeparator("Rain 24h"),
               ),
               Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.only(
-                        right: 48,
-                        left: 48,
-                        bottom: 64,
-                        top: 0,
-                      ),
-                      child: Consumer(
-                        builder:
-                            (BuildContext context, WidgetRef ref, Widget? child) {
-                          List<double> rains = ref
-                              .watch(forecastProvider)
-                              .dailyForecast[0]
-                              .rainPropabilitys;
-                          return _buildWeatherChart(context, rains);
-                        },
-                      ))),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    right: 48,
+                    left: 48,
+                    bottom: 64,
+                    top: 0,
+                  ),
+                  child: Consumer(
+                    builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                      var forecasts = ref.watch(forecastProvider).dailyForecast;
+                      return _buildWeatherChart(
+                        context,
+                        [
+                          ...forecasts[0].rainPropabilitys,
+                          ...forecasts[1].rainPropabilitys
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -193,7 +197,7 @@ class MainPage extends StatelessWidget {
       state: ChartState<void>(
         data: ChartData(
           [
-            rains.map((e) => ChartItem(e * 100)).toList(),
+            rains.take(8).map((e) => ChartItem(e * 100)).toList(),
           ],
         ),
         itemOptions: BarItemOptions(
