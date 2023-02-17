@@ -56,6 +56,7 @@ void main() async {
           builder: (context, ref, child) => MaterialApp(
             theme: ref.watch(themeProvider),
             home: HomePage(
+              // Show once error label if forecast outdated.
               buildCallback: (homeContext) {
                 if (forecastOutdated) {
                   forecastOutdated = false;

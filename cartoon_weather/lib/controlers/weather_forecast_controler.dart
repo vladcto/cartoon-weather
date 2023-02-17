@@ -6,6 +6,7 @@ import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:http/http.dart' as http;
 import 'package:cartoon_weather/helpers/open_weather_helper.dart' as weather_helper;
 
+import '../env/envi.dart';
 import '../models/geolocation.dart';
 import '../models/weather_forecast.dart';
 
@@ -55,7 +56,7 @@ abstract class WeatherForecastControler {
     var apiResponse = await http.get(Uri.parse(weather_helper.createRequest(
       lat: lat,
       lon: lon,
-      apiKey: "a7444ccaae8c1c644ca456ddd17cda66",
+      apiKey: Envi.openWeatherMapKey,
     )));
     var locationsMark = await geocoding.placemarkFromCoordinates(lat, lon);
     var geolocation = Geolocation(
