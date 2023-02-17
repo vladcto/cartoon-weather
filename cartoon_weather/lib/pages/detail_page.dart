@@ -33,6 +33,15 @@ class DetailPage extends StatelessWidget {
       time = DateTime.fromMillisecondsSinceEpoch(forecast.sunset);
       sunsetTime = "${time.hour}:${time.minute}";
     }
+    final String cloudyType;
+    if (forecast.cloudy < 20) {
+      cloudyType = "Cloudless";
+    } else if (forecast.cloudy < 60) {
+      cloudyType = "Partly cloudy";
+    } else {
+      cloudyType = "Cloudy";
+    }
+    print(forecast.cloudy);
 
     List<WeatherModel> daysPeriods = [
       forecast.morning,
@@ -127,9 +136,9 @@ class DetailPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const Flexible(
+                          Flexible(
                             child: LineInfoCard(
-                              text: "Mainly Cloudy",
+                              text: cloudyType,
                               subtext: "clouds",
                               icon: CustomAppIcons.cloudy,
                             ),

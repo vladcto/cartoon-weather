@@ -79,6 +79,14 @@ class WeatherDailyForecast extends Equatable {
         _notNullPeriods;
   }
 
+  double get cloudy {
+    return ((morning?.cloudy ?? 0) +
+            (day?.cloudy ?? 0) +
+            (evening?.cloudy ?? 0) +
+            (night?.cloudy ?? 0)) /
+        _notNullPeriods;
+  }
+
   int get firstPeriodTime {
     return morning?.time ?? day?.time ?? evening?.time ?? night!.time;
   }
