@@ -154,8 +154,18 @@ class MainPage extends StatelessWidget {
             builder: (context, ref, _) {
               WeatherForecast forecast = ref.watch(forecastProvider);
 
-              return GestureDetector(
-                onTap: () => Navigator.of(context).push(
+              return ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(
+                      Theme.of(context).colorScheme.secondary),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10000),
+                      side: const BorderSide(color: Colors.black, width: 2),
+                    ),
+                  ),
+                ),
+                onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (_) => LocationPickerPage(
                       startPoint: Point(
@@ -165,25 +175,14 @@ class MainPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondary,
-                    borderRadius: BorderRadius.circular(10000),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 2,
-                    ),
-                  ),
-                  // Location picker button
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 4),
-                    child: Text(
-                      forecast.location.name,
-                      overflow: TextOverflow.ellipsis,
-                      style: nowTheme.textTheme.labelLarge,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Text(
+                    forecast.location.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: nowTheme.textTheme.labelLarge,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
                   ),
                 ),
               );
