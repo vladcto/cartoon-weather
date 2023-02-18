@@ -10,10 +10,11 @@ import 'dart:math';
 
 import '../widgets/stroke_text.dart';
 
+// Page with detailed forecast view.
 class DetailPage extends StatelessWidget {
-  static const String routeName = "details";
-  static const double cardBorderWidth = 4;
-  static const double headerHeight = 124;
+  static const String kRouteName = "details";
+  static const double kCardBorderWidth = 4;
+  static const double kHeaderHeight = 124;
 
   final WeatherDailyForecast forecast;
 
@@ -41,7 +42,6 @@ class DetailPage extends StatelessWidget {
     } else {
       cloudyType = "Cloudy";
     }
-    print(forecast.cloudy);
 
     List<WeatherModel> daysPeriods = [
       forecast.morning,
@@ -64,14 +64,14 @@ class DetailPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(32),
                 border: Border.all(
                   color: Colors.black,
-                  width: cardBorderWidth,
+                  width: kCardBorderWidth,
                 ),
               ),
               // * main content.
               child: Column(
                 children: [
                   const SizedBox(
-                    height: headerHeight,
+                    height: kHeaderHeight,
                   ),
                   SizedBox(
                     height: 64,
@@ -96,7 +96,7 @@ class DetailPage extends StatelessWidget {
                   ),
                   Flexible(
                     flex: 2,
-                    child: _TempCardsContext(
+                    child: _TempDaysCards(
                       days: daysPeriods,
                     ),
                   ),
@@ -128,10 +128,11 @@ class DetailPage extends StatelessWidget {
                                   ),
                                 ),
                                 Expanded(
-                                  child: _buildWindRoseWidget(
-                                      "${forecast.windSpeed.toStringAsFixed(1)} m/s",
-                                      forecast.windDegrees,
-                                      theme),
+                                  child: _WindRoseWidget(
+                                    speed:
+                                        "${forecast.windSpeed.toStringAsFixed(1)} m/s",
+                                    direction: forecast.windDegrees,
+                                  ),
                                 ),
                               ],
                             ),
@@ -157,12 +158,12 @@ class DetailPage extends StatelessWidget {
             left: 0,
             // * top green card
             child: SizedBox(
-              height: headerHeight,
+              height: kHeaderHeight,
               child: Stack(
                 children: [
                   Container(
                     alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.all(cardBorderWidth),
+                    margin: const EdgeInsets.all(kCardBorderWidth),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 32,
                     ),
@@ -170,7 +171,7 @@ class DetailPage extends StatelessWidget {
                       color: theme.colorScheme.primary,
                       image: themeImages.backgroundPrimaryImage,
                       borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(32 - cardBorderWidth),
+                        top: Radius.circular(32 - kCardBorderWidth),
                       ),
                       boxShadow: const [
                         BoxShadow(
@@ -204,7 +205,7 @@ class DetailPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: headerHeight - 4,
+            top: kHeaderHeight - 4,
             left: 0,
             right: 0,
             child: Container(height: 2, color: Colors.black),
@@ -225,7 +226,7 @@ class DetailPage extends StatelessWidget {
                   ),
                   border: Border.all(
                     color: Colors.black,
-                    width: cardBorderWidth,
+                    width: kCardBorderWidth,
                   ),
                 ),
                 child: const FittedBox(
@@ -288,11 +289,91 @@ class DetailPage extends StatelessWidget {
       ),
     );
   }
+}
 
-  // Card that display wind speed and direction in compas-like style
-  Widget _buildWindRoseWidget(String speed, int direction, ThemeData theme) {
-    const double strokeWeatherCardWidth = 2;
+class _ArrowPainer extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    const double arrowHeightPerc = .2;
+    const double arrowWidthPerc = .9;
+    final double height = size.height;
+    final double widgth = size.width;
 
+    final Paint paint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 4
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawLine(
+      Offset(0, height / 2),
+      Offset(widgth, height / 2),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(widgth, height / 2),
+      Offset(widgth * arrowWidthPerc, height / 2 + height * arrowHeightPerc),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(widgth, height / 2),
+      Offset(widgth * arrowWidthPerc, height / 2 - height * arrowHeightPerc),
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+/// [ListView] of days average/feelLike temperatures.
+class _TempDaysCards extends StatelessWidget {
+  final List<WeatherModel> days;
+
+  const _TempDaysCards({super.key, required this.days});
+
+  @override
+  Widget build(BuildContext context) {
+    return days.length > 2
+        ? ListView.separated(
+            itemCount: days.length + 2,
+            scrollDirection: Axis.horizontal,
+            separatorBuilder: (_, __) => const SizedBox(width: 16),
+            itemBuilder: (_, index) {
+              if (index == 0 || index == days.length + 1) {
+                return const SizedBox(width: 4);
+              }
+              String name = days[index - 1].dayPeriod.name[0].toUpperCase() +
+                  days[index - 1].dayPeriod.name.substring(1);
+              return TempDayCard(name, temperature: days[index - 1].temp);
+            },
+          )
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ...days.map(
+                (e) => TempDayCard(
+                    e.dayPeriod.name[0].toUpperCase() +
+                        e.dayPeriod.name.substring(1),
+                    temperature: e.temp),
+              ),
+            ],
+          );
+  }
+}
+
+/// Card that displays wind speed and direction in compas-like style
+class _WindRoseWidget extends StatelessWidget {
+  static const double kStrokeWeatherCardWidth = 2;
+
+  final String speed;
+  final int direction;
+
+  const _WindRoseWidget({super.key, required this.speed, required this.direction});
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     double N = cos(pi / 180 * direction);
     double E = sin(pi / 180 * direction);
     String ns = N.abs() >= (.38) ? (N.sign == 1 ? "N" : "S") : "";
@@ -303,7 +384,7 @@ class DetailPage extends StatelessWidget {
     return Container(
       height: double.infinity,
       margin: const EdgeInsets.fromLTRB(
-          strokeWeatherCardWidth + 16, 8, strokeWeatherCardWidth + 16, 24),
+          kStrokeWeatherCardWidth + 16, 8, kStrokeWeatherCardWidth + 16, 24),
       clipBehavior: Clip.hardEdge,
       width: 128,
       decoration: BoxDecoration(
@@ -311,7 +392,7 @@ class DetailPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
             color: Colors.black,
-            width: strokeWeatherCardWidth,
+            width: kStrokeWeatherCardWidth,
             strokeAlign: BorderSide.strokeAlignOutside),
         boxShadow: const [
           BoxShadow(
@@ -333,7 +414,7 @@ class DetailPage extends StatelessWidget {
               color: theme.colorScheme.primary,
               border: const Border(
                 bottom:
-                    BorderSide(color: Colors.black, width: strokeWeatherCardWidth),
+                    BorderSide(color: Colors.black, width: kStrokeWeatherCardWidth),
               ),
             ),
             child: Row(
@@ -381,75 +462,5 @@ class DetailPage extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class _ArrowPainer extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    const double arrowHeightPerc = .2;
-    const double arrowWidthPerc = .9;
-    final double height = size.height;
-    final double widgth = size.width;
-
-    final Paint paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 4
-      ..strokeCap = StrokeCap.round;
-
-    canvas.drawLine(
-      Offset(0, height / 2),
-      Offset(widgth, height / 2),
-      paint,
-    );
-    canvas.drawLine(
-      Offset(widgth, height / 2),
-      Offset(widgth * arrowWidthPerc, height / 2 + height * arrowHeightPerc),
-      paint,
-    );
-    canvas.drawLine(
-      Offset(widgth, height / 2),
-      Offset(widgth * arrowWidthPerc, height / 2 - height * arrowHeightPerc),
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class _TempCardsContext extends StatelessWidget {
-  final List<WeatherModel> days;
-
-  const _TempCardsContext({super.key, required this.days});
-
-  @override
-  Widget build(BuildContext context) {
-    return days.length > 2
-        ? ListView.separated(
-            itemCount: days.length + 2,
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (_, __) => const SizedBox(width: 16),
-            itemBuilder: (_, index) {
-              if (index == 0 || index == days.length + 1) {
-                return const SizedBox(width: 4);
-              }
-              String name = days[index - 1].dayPeriod.name[0].toUpperCase() +
-                  days[index - 1].dayPeriod.name.substring(1);
-              return TempDayCard(name, temperature: days[index - 1].temp);
-            },
-          )
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ...days.map(
-                (e) => TempDayCard(
-                    e.dayPeriod.name[0].toUpperCase() +
-                        e.dayPeriod.name.substring(1),
-                    temperature: e.temp),
-              ),
-            ],
-          );
   }
 }

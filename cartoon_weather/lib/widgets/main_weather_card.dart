@@ -6,6 +6,9 @@ import 'package:cartoon_weather/widgets/stroke_text.dart';
 import 'package:flutter/material.dart';
 import "package:cartoon_weather/helpers/open_weather_helper.dart" as weather_helper;
 
+/// Clickable card that displays basic information of [WeatherDailyForecast].
+///
+/// On click shown [DetailPage] of [WeatherDailyForecast].
 class MainWeatherCard extends StatelessWidget {
   final WeatherDailyForecast dailyForecast;
   const MainWeatherCard(this.dailyForecast, {super.key});
@@ -16,114 +19,102 @@ class MainWeatherCard extends StatelessWidget {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return SizedBox(
-      height: 200,
+      height: 195,
       child: GestureDetector(
         onTap: () {
           Navigator.of(context)
-              .pushNamed(DetailPage.routeName, arguments: dailyForecast);
+              .pushNamed(DetailPage.kRouteName, arguments: dailyForecast);
         },
         child: Stack(
           alignment: Alignment.centerLeft,
           children: [
-            Hero(
-              tag: "main_card",
-              child: Card(
-                margin: const EdgeInsets.symmetric(vertical: 8),
-                elevation: 4,
-                color: Theme.of(context).colorScheme.secondary,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                  side: BorderSide(color: Colors.black, width: 2),
-                ),
-                clipBehavior: Clip.hardEdge,
-                child: Row(children: [
-                  const SizedBox(
-                    width: 164,
-                  ),
-                  Expanded(
-                    // * lists content
-                    child: Center(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        width: 150,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CardInfoDisplay(
-                              CustomAppIcons.thermometer,
-                              "${dailyForecast.averageTemp.min.toInt()}/${dailyForecast.averageTemp.max.toInt()} °C",
-                              subText: "temperature",
-                            ),
-                            CardInfoDisplay(
-                              CustomAppIcons.wind,
-                              "${dailyForecast.windSpeed.toStringAsFixed(1)} m/s",
-                              subText: "wind speed",
-                            ),
-                            CardInfoDisplay(
-                              CustomAppIcons.pressure,
-                              "${dailyForecast.pressure} hPa",
-                              subText: "pressure",
-                            ),
-                          ],
+            // * Main info.
+            Card(
+              elevation: 4,
+              color: Theme.of(context).colorScheme.secondary,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+                side: BorderSide(color: Colors.black, width: 2),
+              ),
+              clipBehavior: Clip.hardEdge,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 164, top: 8, bottom: 8),
+                // * lists content
+                child: Center(
+                  child: SizedBox(
+                    width: 150,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CardInfoDisplay(
+                          CustomAppIcons.thermometer,
+                          "${dailyForecast.temp.min.toInt()}/${dailyForecast.temp.max.toInt()} °C",
+                          subText: "temperature",
                         ),
-                      ),
+                        CardInfoDisplay(
+                          CustomAppIcons.wind,
+                          "${dailyForecast.windSpeed.toStringAsFixed(1)} m/s",
+                          subText: "wind speed",
+                        ),
+                        CardInfoDisplay(
+                          CustomAppIcons.pressure,
+                          "${dailyForecast.pressure} hPa",
+                          subText: "pressure",
+                        ),
+                      ],
                     ),
-                  )
-                ]),
+                  ),
+                ),
               ),
             ),
-            Hero(
-              tag: "main_card/green",
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                  vertical: 8,
+            // if insert this container in row, he didnt take all height.
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 4),
+              width: 164,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                image: themeImages.backgroundPrimaryImage,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(0),
+                  bottomLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(64),
                 ),
-                width: 164,
-                height: double.infinity,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  image: themeImages.backgroundPrimaryImage,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(0),
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(64),
+                border: const Border.fromBorderSide(
+                  BorderSide(
+                    strokeAlign: BorderSide.strokeAlignInside,
+                    color: Colors.black,
+                    width: 4,
                   ),
-                  border: const Border.fromBorderSide(
-                    BorderSide(
-                      strokeAlign: BorderSide.strokeAlignInside,
-                      color: Colors.black,
-                      width: 4,
-                    ),
+                ),
+                boxShadow: const [
+                  BoxShadow(
+                    offset: Offset(4, 0),
+                    color: Colors.black12,
+                    blurRadius: 8,
+                  )
+                ],
+              ),
+              // * left container
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    weather_helper.getWeatherIcon(dailyForecast.weatherType),
+                    size: 84,
+                    color: Colors.black,
                   ),
-                  boxShadow: const [
-                    BoxShadow(
-                      offset: Offset(4, 0),
-                      color: Colors.black12,
-                      blurRadius: 8,
-                    )
-                  ],
-                ),
-                // * green content
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      weather_helper.getWeatherIcon(dailyForecast.weatherType),
-                      size: 84,
-                      color: Colors.black,
-                    ),
-                    const SizedBox(height: 4),
-                    StrokeText(
-                      text: weather_helper.getWeatherName(dailyForecast.weatherType),
-                      style: Theme.of(context)
-                          .textTheme
-                          .labelMedium!
-                          .copyWith(color: colorScheme.primary),
-                    ),
-                  ],
-                ),
+                  const SizedBox(height: 4),
+                  StrokeText(
+                    text: weather_helper.getWeatherName(dailyForecast.weatherType),
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelMedium!
+                        .copyWith(color: colorScheme.primary),
+                  ),
+                ],
               ),
             ),
           ],
@@ -133,6 +124,7 @@ class MainWeatherCard extends StatelessWidget {
   }
 }
 
+/// Widget that shows icon with main texts and under them small sub text.
 class CardInfoDisplay extends StatelessWidget {
   final IconData icon;
   final String mainText, subText;

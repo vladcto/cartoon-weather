@@ -7,6 +7,7 @@ import 'geolocation.dart';
 
 part "weather_forecast.g.dart";
 
+/// Container of days forecast [WeatherDailyForecast].
 @JsonSerializable(explicitToJson: true)
 class WeatherForecast extends Equatable {
   static const locationKey = "location";

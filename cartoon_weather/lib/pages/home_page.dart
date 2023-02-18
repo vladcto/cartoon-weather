@@ -1,14 +1,13 @@
 import 'package:cartoon_weather/models/weather_daily_forecast.dart';
-import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'location_picker_page.dart';
 import 'detail_page.dart';
 import 'main_page.dart';
 
+/// Start page for app with Scaffold.
 class HomePage extends StatelessWidget {
+  /// Callback that calls when widget is building.
   final Function(BuildContext homeContext)? buildCallback;
   const HomePage({super.key, this.buildCallback});
 
@@ -57,7 +56,7 @@ class HomePage extends StatelessWidget {
               case MainPage.routeName:
                 page = const MainPage();
                 break;
-              case DetailPage.routeName:
+              case DetailPage.kRouteName:
                 page = DetailPage(settings.arguments as WeatherDailyForecast);
                 break;
               default:

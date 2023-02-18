@@ -4,26 +4,36 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' show immutable;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart' as logger;
+import 'iweather_forecast.dart';
 import 'weather_temperature.dart';
 
 part 'weather_model.g.dart';
 
-enum WeatherType { sunny, cloudy, rain, thunderstorm, foggy, drizzle, snow }
-
 enum DayPeriod { morning, day, evening, night }
 
+/// Model that represents weather state in current time.
+///
+/// Main model for weather forecasts.
 @JsonSerializable(explicitToJson: true)
 @immutable
-class WeatherModel extends Equatable {
+class WeatherModel extends Equatable implements IWeatherForecastModel {
   static final _log = logger.Logger("WeatherModel");
 
+  @override
   final int time;
+  @override
   final WeatherTemperature temp;
+  @override
   final int pressure;
+  @override
   final double windSpeed;
+  @override
   final int windDegrees;
+  @override
   final int cloudy;
+  @override
   final List<double> rainPropability;
+  @override
   final WeatherType weatherType;
 
   const WeatherModel(

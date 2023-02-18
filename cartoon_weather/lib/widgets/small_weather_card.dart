@@ -4,6 +4,9 @@ import 'package:cartoon_weather/themes/theme_images.dart';
 import 'package:flutter/material.dart';
 import 'package:cartoon_weather/helpers/open_weather_helper.dart' as weather_helper;
 
+/// Clickable card that displays date and temperature of [WeatherDailyForecast].
+///
+/// On click shown [DetailPage] of [WeatherDailyForecast].
 class SmallWeatherCard extends StatelessWidget {
   final WeatherDailyForecast forecast;
   const SmallWeatherCard(this.forecast, {Key? key}) : super(key: key);
@@ -20,12 +23,12 @@ class SmallWeatherCard extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () => Navigator.of(context)
-                  .pushNamed(DetailPage.routeName, arguments: forecast),
-              // main card
+                  .pushNamed(DetailPage.kRouteName, arguments: forecast),
               child: Stack(
                 clipBehavior: Clip.none,
                 alignment: AlignmentDirectional.bottomCenter,
                 children: [
+                  // backgound
                   Container(
                     width: double.maxFinite,
                     height: double.maxFinite,
@@ -41,6 +44,7 @@ class SmallWeatherCard extends StatelessWidget {
                   Container(
                     width: double.maxFinite,
                     height: 28,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       border: Border.all(
@@ -58,13 +62,10 @@ class SmallWeatherCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // Date
-                    child: Center(
-                      child: Text(
-                        weather_helper.getForecastDate(forecast),
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.labelLarge,
-                      ),
+                    child: Text(
+                      weather_helper.getForecastDate(forecast),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.labelLarge,
                     ),
                   ),
                   Positioned(
@@ -91,6 +92,7 @@ class SmallWeatherCard extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 4),
             height: 26,
             width: double.infinity,
+            alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
               image: themeImages.backgroundPrimaryImage,
@@ -100,14 +102,11 @@ class SmallWeatherCard extends StatelessWidget {
                 width: 2,
               ),
             ),
-            // Temp
-            child: Center(
-              child: Text(
-                "${forecast.averageTemp.max.toInt()}/${forecast.averageTemp.min.toInt()} °C",
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      fontSize: 19,
-                    ),
-              ),
+            child: Text(
+              "${forecast.temp.max.toInt()}/${forecast.temp.min.toInt()} °C",
+              style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    fontSize: 19,
+                  ),
             ),
           )
         ],

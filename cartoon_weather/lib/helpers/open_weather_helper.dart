@@ -1,8 +1,9 @@
-import 'package:cartoon_weather/models/weather_daily_forecast.dart';
-import 'package:cartoon_weather/models/weather_model.dart';
 import 'package:cartoon_weather/themes/weather_icons_icons.dart';
 import 'package:flutter/material.dart';
 
+import '../models/iweather_forecast.dart';
+
+/// Returns [IconData] associated to [type].
 IconData getWeatherIcon(WeatherType type) {
   switch (type) {
     case WeatherType.cloudy:
@@ -22,6 +23,7 @@ IconData getWeatherIcon(WeatherType type) {
   }
 }
 
+/// Returns weather name of [type].
 String getWeatherName(WeatherType type) {
   switch (type) {
     case WeatherType.cloudy:
@@ -41,7 +43,8 @@ String getWeatherName(WeatherType type) {
   }
 }
 
-String getForecastDate(WeatherDailyForecast forecast) {
+/// Returns formated [String] that represents date of [forecast].
+String getForecastDate(IWeatherForecastModel forecast) {
   const List months = [
     "Jan",
     "Feb",
@@ -57,10 +60,11 @@ String getForecastDate(WeatherDailyForecast forecast) {
     "Dec"
   ];
 
-  DateTime time = DateTime.fromMillisecondsSinceEpoch(forecast.firstPeriodTime);
+  DateTime time = DateTime.fromMillisecondsSinceEpoch(forecast.time);
   return "${months[time.month - 1]} ${time.day}";
 }
 
+/// Shortcut for requests to OpenWeatherMap API.
 String createRequest(
     {required double lon, required double lat, required String apiKey}) {
   return "http://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&appid=$apiKey&units=metric";

@@ -10,6 +10,7 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import '../themes/custom_app_icons.dart';
 
+// Page that can update user forecast location using YandexMap.
 class LocationPickerPage extends StatefulWidget {
   static final Logger _logger = Logger("LocationPickerPage");
   static const Point _kSpbLocation =

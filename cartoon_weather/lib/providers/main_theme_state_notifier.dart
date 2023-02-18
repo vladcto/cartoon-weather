@@ -6,9 +6,9 @@ class MainThemeStateNotifier extends StateNotifier<ThemeData> {
   MainThemeStateNotifier(super._state);
 
   void changeTheme(bool isLight) {
-    state = isLight ? MainTheme.lightTheme : MainTheme.darkTheme;
+    state = isLight ? MainTheme.light : MainTheme.dark;
     MainTheme.saveTheme(isLight);
   }
 
-  bool get isLight => state == MainTheme.lightTheme;
+  bool get isLight => state == MainTheme.light;
 }

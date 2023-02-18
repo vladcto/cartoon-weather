@@ -15,6 +15,7 @@ import '../widgets/main_page_separator.dart';
 import '../widgets/main_weather_card.dart';
 import '../widgets/small_weather_card.dart';
 
+/// Page for forecast preview.
 class MainPage extends StatelessWidget {
   static const String routeName = "main";
 
@@ -57,6 +58,7 @@ class MainPage extends StatelessWidget {
                   builder: (BuildContext context, WidgetRef ref, Widget? child) {
                     List forecasts =
                         ref.watch(forecastProvider).dailyForecast.sublist(1);
+                    // build ListView with separated elements in start, btw and end.
                     return ListView.separated(
                       padding:
                           const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -72,7 +74,7 @@ class MainPage extends StatelessWidget {
                 ),
               ),
               const Padding(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: MainPageSeparator("Rain 24h"),
               ),
               Expanded(
@@ -81,7 +83,6 @@ class MainPage extends StatelessWidget {
                     right: 48,
                     left: 48,
                     bottom: 64,
-                    top: 0,
                   ),
                   child: Consumer(
                     builder: (BuildContext context, WidgetRef ref, Widget? child) {
@@ -89,8 +90,8 @@ class MainPage extends StatelessWidget {
                       return _buildWeatherChart(
                         context,
                         [
-                          ...forecasts[0].rainPropabilitys,
-                          ...forecasts[1].rainPropabilitys
+                          ...forecasts[0].rainPropability,
+                          ...forecasts[1].rainPropability
                         ],
                       );
                     },
@@ -127,7 +128,7 @@ class MainPage extends StatelessWidget {
                       CustomAppIcons.sunset,
                       color: colorScheme.onPrimary,
                     ),
-                    startValue: ref.watch(themeProvider) == MainTheme.darkTheme,
+                    startValue: ref.watch(themeProvider) == MainTheme.dark,
                   ),
                 ),
               ],
@@ -176,7 +177,7 @@ class MainPage extends StatelessWidget {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   child: Text(
                     forecast.location.name,
                     overflow: TextOverflow.ellipsis,
@@ -193,6 +194,7 @@ class MainPage extends StatelessWidget {
     );
   }
 
+  /// Build Weather graphics for first 8 rains propabilitys.
   Widget _buildWeatherChart(BuildContext context, List<double> rains) {
     return Chart(
       height: 15,

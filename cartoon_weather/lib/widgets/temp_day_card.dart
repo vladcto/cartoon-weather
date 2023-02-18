@@ -3,6 +3,7 @@ import 'package:cartoon_weather/themes/custom_app_icons.dart';
 import 'package:cartoon_weather/widgets/stroke_text.dart';
 import 'package:flutter/material.dart';
 
+/// Widget thats shown the average and feel like temperature of [WeatherTemperature].
 class TempDayCard extends StatelessWidget {
   final String headerText;
   final WeatherTemperature temperature;
@@ -42,6 +43,7 @@ class TempDayCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // * header
           Container(
             height: 36,
             width: double.infinity,
@@ -57,20 +59,18 @@ class TempDayCard extends StatelessWidget {
               style: Theme.of(context).textTheme.labelLarge,
             ),
           ),
+          // * temperatures
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                // average temp
-                _buildTempLabel("${temperature.average.toInt()} °C",
-                    CustomAppIcons.thermometer, context),
+                _TempLabel(temperature.average.toInt()),
                 const SizedBox(height: 8),
                 Text("feels like",
                     style: TextStyle(color: theme.colorScheme.onPrimary)),
                 const SizedBox(height: 4),
-                _buildTempLabel("${temperature.feelsLike.toInt()} °C",
-                    CustomAppIcons.thermometer, context),
+                _TempLabel(temperature.feelsLike.toInt()),
               ],
             ),
           )
@@ -78,8 +78,15 @@ class TempDayCard extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildTempLabel(String text, IconData icon, BuildContext context) {
+class _TempLabel extends StatelessWidget {
+  final int temp;
+
+  const _TempLabel(this.temp, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
     var textStyle = Theme.of(context).textTheme.labelMedium;
     var colorTheme = Theme.of(context).colorScheme;
 
@@ -87,12 +94,12 @@ class TempDayCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(
-          icon,
+          CustomAppIcons.thermometer,
           size: 32,
           color: colorTheme.onPrimary,
         ),
         StrokeText(
-          text: text,
+          text: "${temp.toInt()} °C",
           style: textStyle!.copyWith(color: colorTheme.surface),
           strokeWidth: 3,
         ),

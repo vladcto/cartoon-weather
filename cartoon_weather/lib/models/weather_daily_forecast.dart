@@ -5,14 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:math' as math show max, min;
 
+import 'iweather_forecast.dart';
+
 part 'weather_daily_forecast.g.dart';
 
+/// A container that contains the weather forecast for 4 periods of the day [WeatherModel].
+///
+/// Contains getters of average value of day periods.
 @JsonSerializable(explicitToJson: true)
 @immutable
-class WeatherDailyForecast extends Equatable {
+class WeatherDailyForecast extends Equatable implements IWeatherForecastModel {
   // Решил не выносить sunrise и sunset в WeatherForecast, чтоб в случае чего
   // не переписывать много кода и не усложнять использование моделей.
+  /// Sunrise UNIX time in UTC.
+  ///
+  /// For some reasons sunrise time are equal for different [WeatherDailyForecast].
   final int sunrise;
+
+  /// Sunset UNIX time in UTC.
+  ///
+  /// For some reasons sunrise time are equal for different [WeatherDailyForecast].
   final int sunset;
   final WeatherModel? morning;
   final WeatherModel? day;
@@ -42,11 +54,12 @@ class WeatherDailyForecast extends Equatable {
       this.night});
 
   double get rainPropabilityAverage {
-    return rainPropabilitys.reduce((value, element) => value + element) /
-        rainPropabilitys.length;
+    return rainPropability.reduce((value, element) => value + element) /
+        rainPropability.length;
   }
 
-  List<double> get rainPropabilitys {
+  @override
+  List<double> get rainPropability {
     return [
       ...day?.rainPropability ?? [],
       ...morning?.rainPropability ?? [],
@@ -55,6 +68,7 @@ class WeatherDailyForecast extends Equatable {
     ];
   }
 
+  @override
   int get pressure {
     return ((morning?.pressure ?? 0) +
             (day?.pressure ?? 0) +
@@ -63,6 +77,7 @@ class WeatherDailyForecast extends Equatable {
         _notNullPeriods;
   }
 
+  @override
   int get windDegrees {
     return ((morning?.windDegrees ?? 0) +
             (day?.windDegrees ?? 0) +
@@ -71,6 +86,7 @@ class WeatherDailyForecast extends Equatable {
         _notNullPeriods;
   }
 
+  @override
   double get windSpeed {
     return ((morning?.windSpeed ?? 0) +
             (day?.windSpeed ?? 0) +
@@ -79,24 +95,28 @@ class WeatherDailyForecast extends Equatable {
         _notNullPeriods;
   }
 
-  double get cloudy {
+  @override
+  int get cloudy {
     return ((morning?.cloudy ?? 0) +
             (day?.cloudy ?? 0) +
             (evening?.cloudy ?? 0) +
-            (night?.cloudy ?? 0)) /
+            (night?.cloudy ?? 0)) ~/
         _notNullPeriods;
   }
 
-  int get firstPeriodTime {
+  @override
+  int get time {
     return morning?.time ?? day?.time ?? evening?.time ?? night!.time;
   }
 
+  @override
   WeatherType get weatherType {
     return evening?.weatherType ?? morning?.weatherType ?? night!.weatherType;
   }
 
   /// Temperature from all day periods
-  WeatherTemperature get averageTemp {
+  @override
+  WeatherTemperature get temp {
     double max = [
       (morning?.temp.max ?? double.negativeInfinity),
       (day?.temp.max ?? double.negativeInfinity),

@@ -10,24 +10,24 @@ class MainPageSeparator extends StatelessWidget {
       height: 32,
       child: Row(
         children: [
-          buildSeparatorLine(context),
+          buildSeparatorLine(Theme.of(context).colorScheme.primary),
           Text(
             text,
             style: Theme.of(context).textTheme.labelLarge,
           ),
-          buildSeparatorLine(context),
+          buildSeparatorLine(Theme.of(context).colorScheme.primary),
         ],
       ),
     );
   }
 
-  Widget buildSeparatorLine(BuildContext context) {
+  Widget buildSeparatorLine(Color color) {
     return Flexible(
       child: Container(
         height: 5,
         margin: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
+          color: color,
           borderRadius: BorderRadius.circular(10000),
           border: Border.all(
             color: Colors.black,

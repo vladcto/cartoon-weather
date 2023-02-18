@@ -12,5 +12,5 @@ final forecastProvider =
 );
 
 final themeProvider = StateNotifierProvider<MainThemeStateNotifier, ThemeData>(
-  (ref) => MainThemeStateNotifier(MainTheme.lightTheme),
+  (ref) => MainThemeStateNotifier(MainTheme.light),
 );

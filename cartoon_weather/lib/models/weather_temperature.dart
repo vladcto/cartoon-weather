@@ -4,6 +4,7 @@ import 'dart:math' as math;
 
 part 'weather_temperature.g.dart';
 
+/// Model that contains temperature information.
 @JsonSerializable(fieldRename: FieldRename.snake)
 class WeatherTemperature extends Equatable {
   @JsonKey(name: 'temp')

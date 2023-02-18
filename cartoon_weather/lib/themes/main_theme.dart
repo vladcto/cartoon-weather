@@ -10,7 +10,7 @@ abstract class MainTheme {
   static const String darkThemeKey = "dark";
   static final Logger _logger = Logger("MainTheme");
 
-  static ThemeData lightTheme = ThemeData(
+  static ThemeData light = ThemeData(
     colorScheme: const ColorScheme.light(
       primary: Color.fromARGB(255, 82, 222, 154),
       onPrimary: Colors.black,
@@ -36,7 +36,7 @@ abstract class MainTheme {
     ],
   );
 
-  static ThemeData darkTheme = ThemeData(
+  static ThemeData dark = ThemeData(
     colorScheme: const ColorScheme.dark(
       primary: Color.fromRGBO(193, 213, 216, 1),
       onPrimary: Colors.black,
@@ -66,18 +66,24 @@ abstract class MainTheme {
     ],
   );
 
+  /// Reruns current saved [ThemeData].
+  ///
+  /// Default theme is light.
   static Future<ThemeData> getTheme() async {
     var prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(themeKey)) {
       // there is a selected theme
-      return prefs.getString(themeKey) == lightThemeKey ? lightTheme : darkTheme;
+      return prefs.getString(themeKey) == lightThemeKey ? light : dark;
     } else {
       // not selected theme
       prefs.setString(themeKey, lightThemeKey);
-      return lightTheme;
+      return light;
     }
   }
 
+  /// Saves theme in [SharedPreferences].
+  ///
+  /// This method didnt set theme for app.
   static void saveTheme(bool isLight) {
     SharedPreferences.getInstance().then(
       (value) => value.setString(MainTheme.themeKey,

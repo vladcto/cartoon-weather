@@ -9,6 +9,7 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
+  /// Value for open/close bottom bar.
   double _bottom = 0;
 
   @override
@@ -25,61 +26,56 @@ class _BottomBarState extends State<BottomBar> {
       bottom: _bottom - barHeight + sliderSize,
       right: 0,
       left: 0,
-      child: SizedBox(
+      child: Container(
         height: barHeight,
         width: double.infinity,
-        child: Container(
-          height: barHeight,
-          width: 400,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
-            border: Border.all(
-              color: Colors.black,
-              width: barStroke,
-            ),
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(24),
-            ),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black12,
-                offset: Offset(0, -6),
-                blurRadius: 6,
-              ),
-            ],
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface,
+          border: Border.all(
+            color: Colors.black,
+            width: barStroke,
           ),
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Positioned(
-                top: topSliderMargin,
-                child: GestureDetector(
-                  onPanUpdate: (details) {
-                    _bottom -= details.delta.dy;
-                    _bottom =
-                        min(barHeight - sliderSize - barStroke, max(0, _bottom));
-                    setState(() {});
-                  },
-                  child: Container(
-                    width: 128,
-                    height: sliderHeight,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondary,
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(10000),
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(24),
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              offset: Offset(0, -6),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Positioned(
+              top: topSliderMargin,
+              child: GestureDetector(
+                onPanUpdate: (details) {
+                  _bottom -= details.delta.dy;
+                  _bottom = min(barHeight - sliderSize - barStroke, max(0, _bottom));
+                  setState(() {});
+                },
+                child: Container(
+                  width: 128,
+                  height: sliderHeight,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondary,
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 2,
                     ),
+                    borderRadius: BorderRadius.circular(10000),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: sliderSize),
-                child: widget.child,
-              ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: sliderSize),
+              child: widget.child,
+            ),
+          ],
         ),
       ),
     );

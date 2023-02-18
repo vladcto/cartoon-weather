@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cartoon_weather/models/IWeatherForecast.dart';
 import 'package:cartoon_weather/models/geolocation.dart';
 import 'package:cartoon_weather/models/weather_forecast.dart';
 import 'package:cartoon_weather/models/weather_temperature.dart';
