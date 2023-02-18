@@ -190,7 +190,7 @@ class _Mark extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Icon(
-          CustomAppIcons.location_filled,
+          CustomAppIcons.locationFilled,
           size: size,
           color: fillColor,
         ),

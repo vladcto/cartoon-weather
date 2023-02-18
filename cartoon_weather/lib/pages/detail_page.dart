@@ -329,7 +329,7 @@ class _ArrowPainer extends CustomPainter {
 class _TempDaysCards extends StatelessWidget {
   final List<WeatherModel> days;
 
-  const _TempDaysCards({super.key, required this.days});
+  const _TempDaysCards({Key? key, required this.days}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -369,7 +369,8 @@ class _WindRoseWidget extends StatelessWidget {
   final String speed;
   final int direction;
 
-  const _WindRoseWidget({super.key, required this.speed, required this.direction});
+  const _WindRoseWidget({Key? key, required this.speed, required this.direction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,4 @@
-import 'package:cartoon_weather/themes/weather_icons_icons.dart';
+import 'package:cartoon_weather/themes/weather_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../models/iweather_forecast.dart';

@@ -24,7 +24,7 @@ class WeatherDailyForecast extends Equatable implements IWeatherForecastModel {
 
   /// Sunset UNIX time in UTC.
   ///
-  /// For some reasons sunrise time are equal for different [WeatherDailyForecast].
+  /// For some reasons sunset time are equal for different [WeatherDailyForecast].
   final int sunset;
   final WeatherModel? morning;
   final WeatherModel? day;

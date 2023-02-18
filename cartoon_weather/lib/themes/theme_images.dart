@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemeImages extends ThemeExtension<ThemeImages> {
-  static const List<double> blackWhiteColorMatrix = [
+  static const List<double> _blackWhiteColorMatrix = [
     ...[0.21, 0.71, 0.06, 0, 150],
     ...[0.21, 0.71, 0.06, 0, 150],
     ...[0.21, 0.71, 0.06, 0, 150],
@@ -12,7 +12,7 @@ class ThemeImages extends ThemeExtension<ThemeImages> {
     backgroundMenuImage: DecorationImage(
       image: AssetImage("assets/images/background.jpg"),
       fit: BoxFit.fill,
-      colorFilter: ColorFilter.matrix(blackWhiteColorMatrix),
+      colorFilter: ColorFilter.matrix(_blackWhiteColorMatrix),
       opacity: 0.15,
     ),
     backgroundPrimaryImage: DecorationImage(

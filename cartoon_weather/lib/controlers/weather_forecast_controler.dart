@@ -47,7 +47,6 @@ abstract class WeatherForecastControler {
   /// Throws [ClientException] and [PlatformException] if app lost internet conection.
   static Future<WeatherForecast> initializeForecastFromApi() async {
     logger.info("Initialize forecast from API.");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     Geolocation geolocation = await getCurrentGeolocation();
     WeatherForecast forecast =
         await getForecastFromApi(geolocation.lat, geolocation.lon);

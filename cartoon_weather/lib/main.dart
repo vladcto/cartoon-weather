@@ -81,6 +81,7 @@ void main() async {
   }
 }
 
+/// Widget that is shown on initialization error on first run.
 class _ErrorInitPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

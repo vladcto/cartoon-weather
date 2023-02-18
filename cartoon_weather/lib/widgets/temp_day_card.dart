@@ -83,7 +83,7 @@ class TempDayCard extends StatelessWidget {
 class _TempLabel extends StatelessWidget {
   final int temp;
 
-  const _TempLabel(this.temp, {super.key});
+  const _TempLabel(this.temp, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

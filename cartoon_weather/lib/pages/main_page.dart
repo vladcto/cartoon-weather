@@ -3,7 +3,7 @@ import 'package:cartoon_weather/pages/location_picker_page.dart';
 import 'package:cartoon_weather/providers/main_providers.dart';
 import 'package:cartoon_weather/themes/custom_app_icons.dart';
 import 'package:cartoon_weather/themes/main_theme.dart';
-import 'package:cartoon_weather/themes/weather_icons_icons.dart';
+import 'package:cartoon_weather/themes/weather_icons.dart';
 import 'package:cartoon_weather/widgets/custom_switch.dart';
 import 'package:charts_painter/chart.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class MainPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                 child: Column(
                   children: [
                     _buildLocationPicker(context),
