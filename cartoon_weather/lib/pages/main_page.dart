@@ -33,6 +33,7 @@ class MainPage extends StatelessWidget {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -140,15 +141,16 @@ class MainPage extends StatelessWidget {
   Widget _buildLocationPicker(BuildContext context) {
     var nowTheme = Theme.of(context);
 
-    return SizedBox(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Location: ",
-            style: nowTheme.textTheme.labelLarge,
-          ),
-          Consumer(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "Location: ",
+          style: nowTheme.textTheme.labelLarge,
+        ),
+        Flexible(
+          child: Consumer(
             builder: (context, ref, _) {
               WeatherForecast forecast = ref.watch(forecastProvider);
 
@@ -174,22 +176,21 @@ class MainPage extends StatelessWidget {
                   ),
                   // Location picker button
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Center(
-                      child: Text(
-                        forecast.location.name,
-                        overflow: TextOverflow.visible,
-                        style: nowTheme.textTheme.labelLarge,
-                        textAlign: TextAlign.center,
-                      ),
+                    padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 4),
+                    child: Text(
+                      forecast.location.name,
+                      overflow: TextOverflow.ellipsis,
+                      style: nowTheme.textTheme.labelLarge,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
                     ),
                   ),
                 ),
               );
             },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
