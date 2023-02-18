@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:http/http.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
@@ -73,7 +74,13 @@ abstract class WeatherForecastControler {
       lat: lat,
       lon: lon,
     );
-    return WeatherForecast.fromApiJson(geolocation, jsonDecode(apiResponse.body));
+    try {
+      return WeatherForecast.fromApiJson(geolocation, jsonDecode(apiResponse.body));
+    } on TypeError catch (e, trace) {
+      // Я не использовал статус кода ответа, но для простоты использую try..catch.
+      logger.severe("API didn't response.", e, trace);
+      throw ClientException("API didn't response.");
+    }
   }
 
   /// Returns [WeatherForecast] from cache.
