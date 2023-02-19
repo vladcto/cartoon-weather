@@ -5,8 +5,12 @@ Flutter-проект для отображения погоды в милом с
 В проекте используется: ```REST API (OpenWeatherMap), YandexMapKit, Riverpod``` 
 
 ## How to start
+Для начала обновите зависимости, для этого введите в терминале:
+```
+flutter pub get
+```
 
-Для начала нужно установить API ключи:
+Затем нужно установить API ключи:
 - Создайте файл ApiKeys.kt в ```\android\app\src\main\kotlin\com\example\cartoon_weather\ApiKeys.kt``` и добавьте в него указанный код с введеным API ключем **YandexMapKit`а**.
 
 	**ApiKeys.kt**
