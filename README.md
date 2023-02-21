@@ -4,6 +4,8 @@ Flutter-проект для отображения погоды в милом с
 
 В проекте используется: ```REST API (OpenWeatherMap), YandexMapKit, Riverpod``` 
 
+[**Figma**](https://www.figma.com/file/theet6lFyJo5bDvDNUgp9F/WeatherProject?node-id=0%3A1&t=QsEc2bCrt1KFMDn2-1)
+
 ## How to start
 Для начала обновите зависимости, для этого введите в терминале:
 ```
