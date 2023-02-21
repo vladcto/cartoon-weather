@@ -28,7 +28,7 @@ abstract class WeatherForecastControler {
         : null;
 
     if (time != null &&
-        time.difference(DateTime.now().toUtc()).inHours < 3 &&
+        time.difference(DateTime.now().toUtc()).inHours > 3 &&
         prefs.containsKey(forecastKey)) {
       // Should be initialized from cache.
       try {
